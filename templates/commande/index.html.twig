@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommandeController!{% endblock %}
+{% block title %}Liste des commandes{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<h1>Liste des commandes</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp/www/Renaud_Laenger/CadreDePlaque/src/Controller/CommandeController.php</code></li>
-        <li>Your template at <code>C:/wamp/www/Renaud_Laenger/CadreDePlaque/templates/commande/index.html.twig</code></li>
-    </ul>
-</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Numéro Commande</th>
+            <th>Date de commande</th>
+            <th>Date de commande</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exemplaire in exemplaires %}
+        <tr>
+            <td>{{ exemplaire.id }}</td>
+            <td>{{ exemplaire.nomExemplaire }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 {% endblock %}

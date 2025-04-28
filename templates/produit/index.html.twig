@@ -6,21 +6,8 @@
 
 <h1>Liste des produits</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Produit</th>
-            <th>Descriptif</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for produit in produits %}
-        <tr>
-            <td>{{ produit.nomProduit }}</td>
-            <td>{{ produit.descriptif }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% for produit in produits %}
+    <a href="{{ path('show_produit', {'id': produit.id}) }}">{{ produit.nomProduit }}</a><br>
+{% endfor %}
 
 {% endblock %}

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ProduitController extends AbstractController
 {
+    // liste des produits
     #[Route('/produit', name: 'app_produit')]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -19,4 +20,15 @@ final class ProduitController extends AbstractController
             'produits' => $produits
         ]);
     }
+
+    // détail d'un produit
+    #[Route('/produit/{id}', name: 'show_produit')]
+    public function show(Produit $produit): Response
+    {
+        return $this->render('produit/show.html.twig', [
+            'produit' => $produit
+        ]);
+    }
+
+
 }

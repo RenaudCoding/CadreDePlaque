@@ -12,14 +12,17 @@
         <tr>
             <th>Numéro Commande</th>
             <th>Date de commande</th>
-            <th>Date de commande</th>
+            <th>Nom client</th>
+            <th>Adresse de livraison</th>
         </tr>
     </thead>
     <tbody>
-        {% for exemplaire in exemplaires %}
+        {% for commande in commandes %}
         <tr>
-            <td>{{ exemplaire.id }}</td>
-            <td>{{ exemplaire.nomExemplaire }}</td>
+            <td>{{ commande.numCommande }}</td>
+            <td>{{ commande.dateCommande | date("d/m/Y") }}</td>
+            <td>{{ commande.nom }} {{ commande.prenom }}</td>
+            <td>{{ commande.adresse }} {{ commande.cp }} {{ commande.ville }}</td>
         </tr>
         {% endfor %}
     </tbody>

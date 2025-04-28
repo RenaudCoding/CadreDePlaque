@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du produit{% endblock %}
+
+{% block body %}
+
+<h1>{{ produit }}</h1>
+
+<p>{{ produit.descriptif }}</p>
+<a type="button" href="">créer un exemplaire</a><br>
+<a type="button" href="{{ path('app_produit') }}">retour</a><br>
+
+{% endblock %}

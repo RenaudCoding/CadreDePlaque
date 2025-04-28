@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ExemplaireController extends AbstractController
 {
+    // liste des exemplaires
     #[Route('/exemplaire', name: 'app_exemplaire')]
     public function index(EntityManagerInterface $entityManager): Response
     {

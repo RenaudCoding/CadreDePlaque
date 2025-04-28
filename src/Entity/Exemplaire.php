@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ExemplaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExemplaireRepository::class)]
@@ -49,6 +50,9 @@ class Exemplaire
 
     #[ORM\Column(length: 100)]
     private ?string $nomExemplaire = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateCreation = null;
 
     public function __construct()
     {
@@ -215,6 +219,18 @@ class Exemplaire
     public function setNomExemplaire(string $nomExemplaire): static
     {
         $this->nomExemplaire = $nomExemplaire;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): static
+    {
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }

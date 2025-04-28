@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Typos{% endblock %}
+
+{% block body %}
+
+<h1>Liste des typos</h1>
+
+{% for typo in typos %}
+    {{ typo.nomTypo }}<br>
+{% endfor %}
+
+{% endblock %}

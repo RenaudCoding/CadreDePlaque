@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des factures{% endblock %}
+
+{% block body %}
+<h1>Liste des factures</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Numéro facture</th>
+            <th>Numéro commande</th>
+            <th>Date facture</th>
+            <th>TVA</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for facture in factures %}
+        <tr>
+            <td>{{ facture.numFacture }}</td>
+            <td>{{ facture.commande.numCommande }}</td>
+            <td>{{ facture.dateFacture | date("d/m/Y") }}</td>
+            <td>{{ facture.tva }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

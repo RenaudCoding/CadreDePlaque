@@ -14,6 +14,7 @@
             <th>Date de commande</th>
             <th>Nom client</th>
             <th>Adresse de livraison</th>
+            <th>Numéro Facture</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,7 @@
             <td>{{ commande.dateCommande | date("d/m/Y") }}</td>
             <td>{{ commande.nom }} {{ commande.prenom }}</td>
             <td>{{ commande.adresse }} {{ commande.cp }} {{ commande.ville }}</td>
+            <td>{{ commande.facture.numFacture }} </td>
         </tr>
         {% endfor %}
     </tbody>

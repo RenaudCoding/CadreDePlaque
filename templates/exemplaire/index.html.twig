@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des exemplaires{% endblock %}
+
+{% block body %}
+
+<h1>Liste des exemplaires</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom exemplaire</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exemplaire in exemplaires %}
+        <tr>
+            <td>{{ exemplaire.id }}</td>
+            <td>{{ exemplaire.nomExemplaire }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

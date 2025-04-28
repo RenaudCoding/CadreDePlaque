@@ -12,6 +12,18 @@
         {% endblock %}
     </head>
     <body>
+
+        <nav>
+            <div>
+                <ul>
+                    <li><a href="{{ path('app_produit') }}">Liste des produits</a></li>
+                    <li><a href="{{ path('app_exemplaire') }}">Liste des exemplaires</a></li>
+                    <li><a href="{{ path('app_user') }}">Liste des utilsateurs</a></li>
+                </ul>           
+            </div>
+        </nav>
+
         {% block body %}{% endblock %}
+
     </body>
 </html>

@@ -20,7 +20,7 @@
     <tbody>
         {% for commande in commandes %}
         <tr>
-            <td>{{ commande.numCommande }}</td>
+            <td><a href="{{ path('show_commande', {'id':commande.id}) }}">{{ commande.numCommande }}</a></td>
             <td>{{ commande.dateCommande | date("d/m/Y") }}</td>
             <td>{{ commande.nom }} {{ commande.prenom }}</td>
             <td>{{ commande.adresse }} {{ commande.cp }} {{ commande.ville }}</td>

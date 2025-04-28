@@ -20,4 +20,15 @@ final class CommandeController extends AbstractController
             'commandes' => $commandes,
         ]);
     }
+
+    // détail d'une commande
+    #[Route('/commande/{id}', name: 'show_commande')]
+    public function show(Commande $commande): Response
+    {
+
+        return $this->render('commande/show.html.twig', [
+            'commande' => $commande
+        ]);
+    }
+
 }

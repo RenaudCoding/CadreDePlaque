@@ -19,7 +19,7 @@
         {% for facture in factures %}
         <tr>
             <td>{{ facture.numFacture }}</td>
-            <td>{{ facture.commande.numCommande }}</td>
+            <td><a href="{{ path('show_commande', {'id':facture.commande.id}) }}">{{ facture.commande.numCommande }}</a></td>
             <td>{{ facture.dateFacture | date("d/m/Y") }}</td>
             <td>{{ facture.tva }}</td>
         </tr>

@@ -7,7 +7,8 @@
 <h1>Liste des produits</h1>
 
 {% for produit in produits %}
-    <a href="{{ path('show_produit', {'id': produit.id}) }}">{{ produit.nomProduit }}</a><br>
+    <a href="{{ path('show_produit', {'id': produit.id}) }}">{{ produit.nomProduit }}</a>
+    <a href="{{ path('delete_produit', {'id': produit.id}) }}">Supprimer</a><br>
 {% endfor %}
 
 <h2>Ajouter un produit</h2>

@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ProduitController extends AbstractController
 {
-    // liste des produits
+    // liste des produits + formulaire d'ajout d'un produit
     #[Route('/produit', name: 'app_produit')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,6 +49,15 @@ final class ProduitController extends AbstractController
         ]);
     }
 
+    //suppression d'un produit
+    #[Route('/delete_produit/{id}/delete', name: 'delete_produit')]
+    public function deleteProduit(Produit $produit, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($produit);
+        $entityManager->flush();
 
+        return $this->redirectToRoute('app_produit');
+
+    }
 }
 

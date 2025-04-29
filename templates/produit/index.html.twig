@@ -10,4 +10,6 @@
     <a href="{{ path('show_produit', {'id': produit.id}) }}">{{ produit.nomProduit }}</a><br>
 {% endfor %}
 
+<h2>Ajouter un produit</h2>
+{{ form(formAddProduit) }}
 {% endblock %}

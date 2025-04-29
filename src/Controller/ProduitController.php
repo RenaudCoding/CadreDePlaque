@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,12 +14,29 @@ final class ProduitController extends AbstractController
 {
     // liste des produits
     #[Route('/produit', name: 'app_produit')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // récupération des produits
         $produits = $entityManager->getRepository(Produit::class)->findAll();
 
+        // formulaire d'jout d'un produit
+        $produit = new Produit();
+        $formAddProduit = $this->createForm(ProduitType::class, $produit);
+
+        $formAddProduit->handleRequest($request);
+
+        if ($formAddProduit->isSubmitted() && $formAddProduit->isValid()) {
+
+            $produit = $formAddProduit->getData();
+            $entityManager->persist($produit);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_produit');
+        }
+
         return $this->render('produit/index.html.twig', [
-            'produits' => $produits
+            'produits' => $produits,
+            'formAddProduit' => $formAddProduit
         ]);
     }
 
@@ -32,3 +51,4 @@ final class ProduitController extends AbstractController
 
 
 }
+

@@ -22,7 +22,7 @@ final class ExemplaireController extends AbstractController
 {
     // liste des exemplaires
     #[Route('/exemplaires', name: 'app_exemplaire')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function listExemplaires(EntityManagerInterface $entityManager): Response
     {
         $exemplaires = $entityManager->getRepository(Exemplaire::class)->findAll();
 
@@ -30,6 +30,23 @@ final class ExemplaireController extends AbstractController
             'exemplaires' => $exemplaires,
         ]);
     }
+
+    // liste des exemplaires d'un user
+    #[Route('/exemplaires/user', name: 'user_exemplaire')]
+    public function listUserExemplaires(EntityManagerInterface $entityManager): Response
+    {
+        if($this->getUser()) {
+        $id = $this->getUser()->getId();
+        $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id]);
+        }
+        else {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('exemplaire/index.html.twig', [
+            'exemplaires' => $exemplaires,
+        ]);
+    }
+
 
     //création d'un exemplaire
     #[Route('/create_exemplaire/{id}', name: 'create_exemplaire')]

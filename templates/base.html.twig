@@ -17,10 +17,16 @@
 
         <header>
         <nav>
-            <img src="img\cropped-logo-cadre-de-plaque 1.png" alt="logo">
+            <a href="../"><img src="img\cropped-logo-cadre-de-plaque 1.png" alt="logo"></a>
             <a href="">Outils de création</a>
             <a href="">Blibliothèque</a>
-            <a href="">Mon compte</a>
+            {% if app.user %}
+                <a href="">Mon compte</a>
+                <a href="{{path('app_logout')}}">Me déconnecter</a>
+            {% else %}
+                <a href="{{path('app_register')}}">M'inscrire</a>
+                <a href="{{path('app_login')}}">Me connecter</a>
+            {% endif %}
             <a href=""><i class="fa-solid fa-basket-shopping"></i></a>
             <a href="">FR</a>
             {# <a href="{{ path('app_produit') }}">Liste des produits</a>
@@ -30,6 +36,8 @@
             <a href="{{ path('app_facture') }}">Liste des factures</a>
             <a href="{{ path('app_options') }}">Liste des options</a> #}
         </nav>
+        <div class="ligne">
+        </div>
         </header>
 
         {% block body %}{% endblock %}

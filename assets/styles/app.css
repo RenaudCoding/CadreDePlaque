@@ -27,5 +27,31 @@ body {
                 color: black;
             }
         }
+        .ligne{
+            height: 5px;
+            background: linear-gradient(90deg,rgba(210, 0, 0, 1) 0%, rgba(34, 69, 143, 1) 100%);
+        }
+    }
+    /* pour mettre du texte en blanc */
+    .textBlanc{
+        color: white;
+    }
+    .titleHome{
+        height: 50vh;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        .sousTitre{
+            width: 100%;
+            position: absolute;
+            top: 0px; left: 0px;
+            z-index: -1;
+        }
+    }
+    .btn-bleu{
+        background-color: var(--bleu);
+        padding: 5px 10px;
+        border-radius: 15%;
+        color: white;
     }
 }

@@ -13,13 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class ProduitController extends AbstractController
 {
     // liste des produits + formulaire d'ajout d'un produit
-    #[Route('/produit', name: 'app_produit')]
+    #[Route('/produits', name: 'app_produit')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // récupération des produits
         $produits = $entityManager->getRepository(Produit::class)->findAll();
 
-        // formulaire d'jout d'un produit
+        // formulaire d'ajout d'un produit
         $produit = new Produit();
         $formAddProduit = $this->createForm(ProduitType::class, $produit);
 

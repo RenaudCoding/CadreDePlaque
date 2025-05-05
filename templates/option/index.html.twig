@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Liste des options{% endblock %}
+
+{% block body %}
+
+<h1>Liste des options</h1>
+
+
+<h2>Liste des fonds</h2>
+
+{% for fond in fonds %}
+    {{ fond.couleurFond }}<br>
+{% endfor %}
+
+
+<h2>Liste des logos</h2>
+
+{% for logo in logos %}
+    {{ logo.nomLogo }}<br>
+{% endfor %}
+
+
+<h2>Liste des typos</h2>
+
+{% for typo in typos %}
+    {{ typo.nomTypo }}<br>
+{% endfor %}
+
+
+
+{% endblock %}
+

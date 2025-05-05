@@ -25,23 +25,23 @@ class Exemplaire
     /**
      * @var Collection<int, Base>
      */
-    #[ORM\OneToMany(targetEntity: Base::class, mappedBy: 'exemplaire', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Base::class, mappedBy: 'exemplaire', orphanRemoval: true, cascade: ["persist"])]
     private Collection $bases;
 
     /**
      * @var Collection<int, Decoration>
      */
-    #[ORM\OneToMany(targetEntity: Decoration::class, mappedBy: 'exemplaire', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Decoration::class, mappedBy: 'exemplaire', orphanRemoval: true, cascade: ["persist"])]
     private Collection $decorations;
 
     /**
      * @var Collection<int, Marquage>
      */
-    #[ORM\OneToMany(targetEntity: Marquage::class, mappedBy: 'exemplaire', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Marquage::class, mappedBy: 'exemplaire', orphanRemoval: true, cascade: ["persist"])]
     private Collection $marquages;
 
     #[ORM\ManyToOne(inversedBy: 'exemplaires')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'exemplaires')]

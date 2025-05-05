@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Facture;
 use App\Entity\Commande;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,7 @@ final class CommandeController extends AbstractController
 {
     //liste des commandes
     #[Route('/commande', name: 'app_commande')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function listeCommandes(EntityManagerInterface $entityManager): Response
     {
         $commandes = $entityManager->getRepository(Commande::class)->findAll();
 
@@ -23,11 +24,22 @@ final class CommandeController extends AbstractController
 
     // détail d'une commande
     #[Route('/commande/{id}', name: 'show_commande')]
-    public function show(Commande $commande): Response
+    public function showCommande(Commande $commande): Response
     {
 
         return $this->render('commande/show.html.twig', [
             'commande' => $commande
+        ]);
+    }
+
+    //liste des factures
+    #[Route('/facture', name: 'app_facture')]
+    public function listeFactures(EntityManagerInterface $entityManager): Response
+    {
+        $factures = $entityManager->getRepository(Facture::class)->findAll();
+
+        return $this->render('facture/index.html.twig', [
+            'factures' => $factures,
         ]);
     }
 

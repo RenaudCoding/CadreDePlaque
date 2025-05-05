@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'un exemplaire{% endblock %}
+
+{% block body %}
+
+<h1>Création d'un exemplaire</h1>
+
+{# {{ form_row(form) }} #}
+
+{{ form_start(form) }}
+
+    {{ form_row(form.nomExemplaire) }}
+    {{ form_row(form.bases) }}
+    {{ form_row(form.decorations) }}
+    {{ form_row(form.marquages) }}
+
+{{ form_end(form) }}
+
+{% endblock %}

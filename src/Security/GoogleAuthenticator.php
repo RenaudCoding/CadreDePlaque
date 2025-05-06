@@ -16,8 +16,6 @@ use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
-// use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
-//  implements AuthenticationEntrypointInterface (je ne sais pas pourquoi il n'est pas a mettre)
 class GoogleAuthenticator extends OAuth2Authenticator 
 {
     private $clientRegistry;
@@ -46,20 +44,13 @@ class GoogleAuthenticator extends OAuth2Authenticator
             new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
                 /** @var GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
-
-                $email = $googleUser->getEmail();
-                
-
-                // 1) have they logged in with Facebook before? Easy!
-                // $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['googleId' => $googleUser->getId()]);
-
-                // if ($existingUser) {
-                //     return $existingUser;
-                // }
-
-                // 2) do we have a matching user by email?
+                // dd($googleUser);
+                $email = $googleUser->getEmail(); //on récupère l'email du user
+            
+                // si l'email est déjà en BDD on récupère le user
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
+                // si le user n'a pas été récupéré on l'ajoute à la BDD
                 if (!$user) {
                     $user = new User();
                     $user->setEmail($email);
@@ -68,8 +59,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $this->entityManager->persist($user);
                     $this->entityManager->flush();
                 }
-                // 3) Maybe you just want to "register" them by creating
-                // a User object
+                
                 return $user;
             })
         );

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <section class="profil">
+        <h1>Mon compte</h1>
+
+        <ul class="containeurG">
+            <h3>Informations</h3>
+            <ol class="mail">Mail : {{user.email}}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</ol>
+
+            {% if (user.password)==null  %}
+                <ol>Mot de passe :  
+                    <b style="color:red">Aucun mot de passe !!</b> <a href="">Ajouter un mot de passe</a> 
+                </ol>
+            {% endif %}
+            <h3>Factures</h3>
+            <h3>Exemplaires</h3>
+            <p>Modifier mon mot de passe </p>
+            <p>Supprimer mon compte</p>
+        </ul>
+    </section>
+{% endblock %}

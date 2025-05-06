@@ -20,4 +20,13 @@ final class UserController extends AbstractController
             'users' => $users,
         ]);
     }
+
+    // Pour la page de profil
+    #[Route('/profil', name:'app_profil')]
+    public function profil (): Response{
+        // je récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        return $this->render('user/profil.html.twig', ['user' => $user]);
+    }
 }

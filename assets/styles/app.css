@@ -14,9 +14,12 @@
 }
 
 body {
-    background-color: rgb(245, 245, 245);
     width: 100%;
     /* ceci est l'en-tete */
+    a{
+        text-decoration: none;
+        color: black;
+    }
     header{
         width: 100%;
         height: 30px;
@@ -30,10 +33,7 @@ body {
                 height: 23px;
             }
             /* cela représente les liens */
-            a{
-                text-decoration: none;
-                color: black;
-            }
+            
         }
         .ligne{
             height: 5px;
@@ -45,13 +45,12 @@ body {
         color: white;
     }
     .titleHome{
-        height: 85vh;
+        height: 90vh;
         width: 100%;
         overflow: hidden;
         position: relative;
         display: flex;
-        align-items: center;
-        background:linear-gradient( transparent 70%, rgb(74, 74, 74),  #ffffff);
+        background:linear-gradient( transparent 70%, rgb(74, 74, 74), #ffffff,  #ffffff);
         .sousTitre{
             width: 100%;
             height: 100%;
@@ -63,16 +62,34 @@ body {
         }
         h1{
             width: 25%;
-            margin-left: 50px;
+            height: fit-content;
+            margin: 150px 50px;
             backdrop-filter: blur(2px); /* pour mettre le fond d'ecran en "fondu" */
         }
         .produits{
             display: flex;
+            width: 1000px;
+            height: 300px;
             flex-direction: row;
+            position: absolute;
+            bottom: 0px; left: 25%;
             .produit{
-                width: 20px;
+                border-radius: 15%;
+                width: 300px;
+                margin: 10px;
+                padding: 5px;
+                background-color: white;
+                display: flex;
+                text-align: center;
+                align-items: center;
+                flex-direction: column;
+                justify-content: space-around;
+                box-shadow: rgb(101, 101, 101) 1px 3px ;
                 img{
-                    width: 50%;
+                    width: 80%;
+                }
+                button{
+                    width: fit-content;
                 }
             }
         }
@@ -82,5 +99,25 @@ body {
         padding: 5px 10px;
         border-radius: 15%;
         color: white;
+    }
+
+    /* pour la page de profil */
+    .profil{
+        width: 100%;
+        h1{
+            text-align: center;
+        }
+        .containeurG{
+            width: 30%;
+            height: fit-content;
+            border-radius: 5%;
+            background-color: var(--gris);
+
+            /* .mail{
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            } */
+        }
     }
 }

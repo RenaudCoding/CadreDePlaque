@@ -1,3 +1,10 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 :root{
     /* ce sont les couleurs du site */
     --gris: #D9D9D9;
@@ -15,11 +22,12 @@ body {
         height: 30px;
         nav{
             width: 100%;
+            height: 25px;
             display: flex;
             justify-content: space-around;
             /* cela représente le logo */
             img{
-                height: 1em;
+                height: 23px;
             }
             /* cela représente les liens */
             a{
@@ -37,15 +45,36 @@ body {
         color: white;
     }
     .titleHome{
-        height: 50vh;
+        height: 85vh;
         width: 100%;
         overflow: hidden;
         position: relative;
+        display: flex;
+        align-items: center;
+        background:linear-gradient( transparent 70%, rgb(74, 74, 74),  #ffffff);
         .sousTitre{
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: bottom;
             position: absolute;
             top: 0px; left: 0px;
-            z-index: -1;
+            z-index: -1; /* je met l'image en arriere plan */
+        }
+        h1{
+            width: 25%;
+            margin-left: 50px;
+            backdrop-filter: blur(2px); /* pour mettre le fond d'ecran en "fondu" */
+        }
+        .produits{
+            display: flex;
+            flex-direction: row;
+            .produit{
+                width: 20px;
+                img{
+                    width: 50%;
+                }
+            }
         }
     }
     .btn-bleu{

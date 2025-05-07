@@ -33,7 +33,7 @@ final class ExemplaireController extends AbstractController
 
     // liste des exemplaires d'un user
     #[Route('/exemplaires/user', name: 'user_exemplaire')]
-    public function listUserExemplaires(EntityManagerInterface $entityManager): Response
+    public function listExemplairesUser(EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
         $id = $this->getUser()->getId();

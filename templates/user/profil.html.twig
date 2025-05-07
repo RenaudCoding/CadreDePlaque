@@ -3,22 +3,58 @@
 {% block title %}Mon compte{% endblock %}
 
 {% block body %}
-    <section class="profil">
+    <section id="profil">
         <h1>Mon compte</h1>
 
-        <ul class="containeurG">
+        <ol class="containeurTop">
             <h3>Informations</h3>
-            <ol class="mail">Mail : {{user.email}}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</ol>
-
-            {% if (user.password)==null  %}
-                <ol>Mot de passe :  
-                    <b style="color:red">Aucun mot de passe !!</b> <a href="">Ajouter un mot de passe</a> 
-                </ol>
+            <li class="mail">
+                <u>Mail :</u> {{app.user.email}} 
+                {% if app.user.isVerified == true %}
+                    <i class="fa-solid fa-check"></i>
+                {% else %}
+                    <i class="fa-solid fa-xmark"></i>
+                {% endif %}
+            </li>
+            
+            {% if (app.user.password)==null  %}
+                <li>Connexion via Google <a href="">Ajouter un mot de passe</a></li>
+            {% else %}
+                <li><a href="">Modifier mon mot de passe</a></li>
             {% endif %}
-            <h3>Factures</h3>
-            <h3>Exemplaires</h3>
-            <p>Modifier mon mot de passe </p>
-            <p>Supprimer mon compte</p>
-        </ul>
+            <li><a href="" style="color:red">Supprimer mon compte</a></li>
+        </ol>
+        <div class="btns">
+            <h3>Commandes</h3>
+        </div>
+        <section id="commandes">
+           {% if app.user.commandes | length >=1  %}
+                <table class="commande">
+                    <thead>
+                        <tr>
+                            <th>Numéro de commande </th>
+                            <th>Commandé le</th>
+                            <th>Prix</th>
+                            <th>Facture</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for commande in app.user.commandes %}
+                        <tr>
+                            <td>{{commande.numCommande}}</td>
+                            <td>{{commande.dateCommande | date("d/m/Y")}}</td>
+                            <td>{{commande.prixTotal}} CHF</td>
+                            <td><i class="fa-solid fa-download"></i></td>
+                            <td><a href="{{ path('show_commande', {'id':commande.id}) }}">Voir plus <i class="fa-solid fa-arrow-right"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+           {% else %}
+                <p>Aucune commandes</p>
+           {% endif %}
+        </section>
     </section>
+
 {% endblock %}

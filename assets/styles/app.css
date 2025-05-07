@@ -16,10 +16,6 @@
 body {
     width: 100%;
     /* ceci est l'en-tete */
-    a{
-        text-decoration: none;
-        color: black;
-    }
     header{
         width: 100%;
         height: 30px;
@@ -44,111 +40,132 @@ body {
             background: linear-gradient(90deg,rgba(210, 0, 0, 1) 0%, rgba(34, 69, 143, 1) 100%);
         }
     }
-    /* pour mettre du texte en blanc */
-    .textBlanc{
-        color: white;
-    }
-    /* ceci est pour l'acceuil*/
-    #acceuil{
-        /* ceci est la tete de l'acceuil*/
-        .titleHome{
-            height: 90vh;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            background:linear-gradient( transparent 70%, rgb(74, 74, 74), #ffffff,  #ffffff);
-            /* ceci est l'image de voiture*/
-            .sousTitre{
+    .wrapper{
+        min-height: 78vh;
+        /* ceci est pour l'acceuil*/
+        #acceuil{
+            /* ceci est la tete de l'acceuil*/
+            .titleHome{
+                height: 90vh;
                 width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: bottom;
-                position: absolute;
-                top: 0px; left: 0px;
-                z-index: -1; /* je met l'image en arriere plan */
-            }
-            /* ceci est le titre*/
-            h1{
-                width: 25%;
-                height: fit-content;
-                margin: 150px 50px;
-                backdrop-filter: blur(2px); /* pour mettre le fond d'ecran en "fondu" */
-            }
-            /* ceci est les 4 types de services */
-            .produits{
+                overflow: hidden;
+                position: relative;
                 display: flex;
-                width: 1000px;
-                height: 300px;
-                flex-direction: row;
-                position: absolute;
-                bottom: 0px; left: 25%;
-                /* ceci est pour un service */
-                .produit{
-                    border-radius: 15%;
-                    width: 300px;
-                    margin: 10px;
-                    padding: 5px;
-                    background-color: white;
+                background:linear-gradient( transparent 70%, rgb(74, 74, 74), #ffffff,  #ffffff);
+                /* ceci est l'image de voiture*/
+                .sousTitre{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: bottom;
+                    position: absolute;
+                    top: 0px; left: 0px;
+                    z-index: -1; /* je met l'image en arriere plan */
+                }
+                /* ceci est le titre*/
+                h1{
+                    width: 25%;
+                    height: fit-content;
+                    margin: 150px 50px;
+                    backdrop-filter: blur(2px); /* pour mettre le fond d'ecran en "fondu" */
+                }
+                /* ceci est les 4 types de services */
+                .produits{
                     display: flex;
-                    text-align: center;
-                    align-items: center;
-                    flex-direction: column;
-                    justify-content: space-around;
-                    box-shadow: rgb(101, 101, 101) 1px 3px ;
-                    img{
-                        width: 80%;
+                    width: 1000px;
+                    height: 300px;
+                    flex-direction: row;
+                    position: absolute;
+                    bottom: 0px; left: 25%;
+                    /* ceci est pour un service */
+                    .produit{
+                        border-radius: 15%;
+                        width: 300px;
+                        margin: 10px;
+                        padding: 5px;
+                        background-color: white;
+                        display: flex;
+                        text-align: center;
+                        align-items: center;
+                        flex-direction: column;
+                        justify-content: space-around;
+                        box-shadow: rgb(101, 101, 101) 1px 3px ;
+                        img{
+                            width: 80%;
+                        }
+                    }
+                }
+            }
+        }
+        .btn-bleu{
+            background-color: var(--bleu);
+            padding: 5px 10px;
+            border-radius: 15%;
+            color: white;
+        }
+    
+        /* pour la page de profil */
+        #profil{
+            width: 100%;
+            h1{
+                margin: 15px 0 ;
+                text-align: center;
+                font-size: x-large ;
+            }
+            .containeurTop{
+                width: 100%;
+                height: fit-content;
+                border-radius: 0  0 5% 5%; /* top-left top-right bottom-right bottom-left*/
+                background-color: var(--gris);
+            }
+            .btns{
+                width: 100%;
+                background-color: var(--gris);
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                margin-top: 10px;
+            }
+            /* c'est le tableau des comandes */
+            #commandes{
+                width: 80%;
+                margin: 5px auto;
+                .commande{
+                    th, td{
+                        width: 20%;
+                        text-align: center;
                     }
                 }
             }
         }
     }
-    .btn-bleu{
-        background-color: var(--bleu);
-        padding: 5px 10px;
-        border-radius: 15%;
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    /* pour mettre du texte en blanc */
+    .textBlanc{
         color: white;
     }
-
-    /* pour la page de profil */
-    #profil{
-        width: 100%;
-        h1{
-            margin: 15px 0 ;
-            text-align: center;
-            font-size: x-large ;
-        }
-        .containeurTop{
-            width: 100%;
-            height: fit-content;
-            border-radius: 0  0 5% 5%; /* top-left top-right bottom-right bottom-left*/
-            background-color: var(--gris);
-        }
-        .btns{
-            width: 100%;
-            background-color: var(--gris);
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            margin-top: 10px;
-        }
-        /* c'est le tableau des comandes */
-        #commandes{
-            width: 80%;
-            margin: 5px auto;
-            .commande{
-                th, td{
-                    width: 20%;
-                    text-align: center;
-                }
-            }
-        }
+    .ligne{
+        height: 5px;
+        background: linear-gradient(90deg,rgba(210, 0, 0, 1) 0%, rgba(34, 69, 143, 1) 100%);
     }
     footer{
         background-color: var(--gris);
-        .ligne{
-            height: 5px;
-            background: linear-gradient(90deg,rgba(210, 0, 0, 1) 0%, rgba(34, 69, 143, 1) 100%);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .colonne{
+            width: 25%;
+            height: fit-content;
+            text-align: center;
+            img{
+                width: 50%;
+            }
+            p{
+                font-size: smaller;
+            }
         }
     }
 }

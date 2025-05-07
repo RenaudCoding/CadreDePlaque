@@ -3,13 +3,21 @@
 {% block title %}Mon compte{% endblock %}
 
 {% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <section id="profil">
         <h1>Mon compte</h1>
 
         <ol class="containeurTop">
             <h3>Informations</h3>
             <li class="mail">
-                <u>Mail :</u> {{app.user.email}} 
+                <u>Mail :</u> {{app.user.email}} <a href="{{ path('change_email') }}"><i class="fa-solid fa-pen"></i></a>
                 {% if app.user.isVerified == true %}
                     <i class="fa-solid fa-check"></i>
                 {% else %}
@@ -20,7 +28,7 @@
             {% if (app.user.password)==null  %}
                 <li>Connexion via Google <a href="">Ajouter un mot de passe</a></li>
             {% else %}
-                <li><a href="">Modifier mon mot de passe</a></li>
+                <li><a href="{{ path('change_password') }}">Modifier mon mot de passe</a></li>
             {% endif %}
             <li><a href="" style="color:red">Supprimer mon compte</a></li>
         </ol>

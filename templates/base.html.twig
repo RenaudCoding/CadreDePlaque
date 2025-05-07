@@ -40,16 +40,17 @@
         </div>
         </header>
 
-        {% block body %}{% endblock %}
+        <div class="wrapper">
+            {% block body %}{% endblock %}
+        </div>
+        <div class="ligne">
+        </div>
         <footer>
-            <div class="ligne">
-            </div>
-            <section>
                 <div class="colonne one">
                     <a href="../"><img src="img\cropped-logo-cadre-de-plaque 1.png" alt="logo"></a>
                 </div>
                 <div class="colonne two">
-                    <p>Mode paiement</p>
+                    <h5>Mode paiement</h5>
                     <img src="img/Paiement.svg" alt="GB Mastercard Visa">
                     <p>100% sécurisée</p>
                 </div>
@@ -63,7 +64,6 @@
                     <p>Conditions générales de vente</p>
                     <p>Données personnels</p>
                 </div>
-            </section>
         </footer>
     </body>
 </html>

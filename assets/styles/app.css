@@ -100,7 +100,7 @@ body {
         .btn-bleu{
             background-color: var(--bleu);
             padding: 5px 10px;
-            border-radius: 15%;
+            border-radius: 5px;
             color: white;
         }
     

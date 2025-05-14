@@ -42,9 +42,9 @@ body {
     }
     .wrapper{
         min-height: 78vh;
-        /* ceci est pour l'acceuil*/
-        #acceuil{
-            /* ceci est la tete de l'acceuil*/
+        /* ceci est pour l'accueil*/
+        #accueil{
+            /* ceci est la tete de l'accueil*/
             .titleHome{
                 height: 90vh;
                 width: 100%;

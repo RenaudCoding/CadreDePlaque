@@ -19,13 +19,17 @@
         <nav>
             <a href="../"><img src="{{ asset('img/cropped-logo-cadre-de-plaque_1.png') }}" alt="logo"></a>
             <a href="">Outils de création</a>
-            <a href="">Blibliothèque</a>
-            {% if app.user %}
-                <a href="{{path('app_profil')}}">Mon compte</a>
-                <a href="{{path('app_logout')}}">Me déconnecter</a>
+            {% if app.user and app.user.roles == ['ROLE_ADMIN'] %}
+                <a href="{{ path('admin') }}">Administration</a>
             {% else %}
-                <a href="{{path('app_register')}}">M'inscrire</a>
-                <a href="{{path('app_login')}}">Me connecter</a>
+                <a href="">Bibliothèque</a>
+            {% endif %}
+            {% if app.user %}
+                <a href="{{ path('app_profil') }}">Mon compte</a>
+                <a href="{{ path('app_logout') }}">Me déconnecter</a>
+            {% else %}
+                <a href="{{ path('app_register') }}">M'inscrire</a>
+                <a href="{{ path('app_login') }}">Me connecter</a>
             {% endif %}
             <a href=""><i class="fa-solid fa-basket-shopping"></i></a>
             <a href="">FR</a>

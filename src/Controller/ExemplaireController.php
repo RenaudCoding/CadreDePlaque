@@ -36,12 +36,13 @@ final class ExemplaireController extends AbstractController
     public function listExemplairesUser(EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
-        $id = $this->getUser()->getId();
-        $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id]);
+            $id = $this->getUser()->getId();
+            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
         }
         else {
             return $this->redirectToRoute('app_login');
         }
+        
         return $this->render('exemplaire/index.html.twig', [
             'exemplaires' => $exemplaires,
         ]);

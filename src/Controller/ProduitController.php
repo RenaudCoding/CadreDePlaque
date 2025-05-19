@@ -14,7 +14,7 @@ final class ProduitController extends AbstractController
 {
     // liste des produits + formulaire d'ajout d'un produit
     #[Route('/produits', name: 'app_produit')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function listeProduits(Request $request, EntityManagerInterface $entityManager): Response
     {
         // récupération des produits
         $produits = $entityManager->getRepository(Produit::class)->findAll();
@@ -42,7 +42,7 @@ final class ProduitController extends AbstractController
 
     // détail d'un produit
     #[Route('/produit/{id}', name: 'show_produit')]
-    public function show(Produit $produit): Response
+    public function showProduits(Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
             'produit' => $produit
@@ -59,5 +59,14 @@ final class ProduitController extends AbstractController
         return $this->redirectToRoute('app_produit');
 
     }
+
+    // détail forfait
+    #[Route('/forfait', name: 'app_forfait')]
+    public function produitForfait(): Response
+    {
+        return $this->render('forfait/index.html.twig');
+    }
+
+
 }
 

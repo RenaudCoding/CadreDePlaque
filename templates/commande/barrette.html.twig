@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commander des barrettes{% endblock %}
+
+{% block body %}
+
+
+    <div class="disposition-commande">
+        <section class="choix-decoration">
+            <h2>Choisissez la décoration de vos barrettes</h2>
+
+            <div class="choix-menu">
+                <div class="choix-menu-option">
+                    <p>Créer une nouvelle décoration</p>
+                    <a href="" class="btn-bleu">Outil de création</a>
+                </div>
+                <div class="choix-menu-option">
+                    <p>Modifier ou supprimer une décoration</p>
+                    <a href="" class="btn-bleu">Bibliothèque</a>
+                </div>
+            </div>
+            <div class="liste-exemplaire">
+                {% for exemplaire in exemplaires %}
+                    <div class="exemplaire">
+                        <div class="exemplaire-info">
+                            {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
+                            <div class="barrette">
+                                {%for marquages in exemplaire.marquages %}
+                                    {{ marquages.texteTypo }}
+                                {% endfor %}
+                            </div>
+                            <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
+                            </div>
+                        <div class="exemplaire-choix">
+                            <a href="" class="btn-blanc">Choisir cette décoration</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+        <section class="commande-barrette">
+            <h2>Votre commande de barrettes</h2>
+
+           
+        </section>
+    
+        
+
+    
+</div>
+
+{% endblock %} 

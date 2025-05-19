@@ -12,6 +12,11 @@
         <tr>
             <th>Id</th>
             <th>Nom exemplaire</th>
+            <th>Date Création</th>
+            <th>Fond</th>
+            <th>Logo</th>
+            <th>Marquage</th>
+            <th>Typo</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +24,20 @@
         <tr>
             <td>{{ exemplaire.id }}</td>
             <td>{{ exemplaire.nomExemplaire }}</td>
+            <td>{{ exemplaire.dateCreation | date("d/m/Y") }}</td>
+            <td>{%for fonds in exemplaire.bases %}
+                    {{ fonds.fond.couleurFond }}
+                {% endfor %} </td>
+            <td>{%for logos in exemplaire.decorations %}
+                    {{ logos.logo.nomLogo }}
+                {% endfor %} </td>
+            <td>{%for marquages in exemplaire.marquages %}
+                    {{ marquages.texteTypo }}
+                {% endfor %} </td>
+            <td>{%for marquages in exemplaire.marquages %}
+                    {{ marquages.typo.nomTypo }}
+                {% endfor %} </td>
+
         </tr>
         {% endfor %}
     </tbody>

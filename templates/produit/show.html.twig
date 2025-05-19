@@ -7,7 +7,7 @@
 <h1>{{ produit }}</h1>
 
 <p>{{ produit.descriptif }}</p>
-<a type="button" href="{{ path('create_exemplaire', {'id': produit.id}) }}">créer un exemplaire</a><br>
-<a type="button" href="{{ path('app_produit') }}">retour</a><br>
+<a class="btn-bleu" href="{{ path('create_exemplaire', {'id': produit.id}) }}">Personnaliser</a><br>
+<a class="btn-bleu" href="{{ path('app_produit') }}">Retour</a><br>
 
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Facture;
 use App\Entity\Commande;
+use App\Entity\Exemplaire;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,7 +24,7 @@ final class CommandeController extends AbstractController
     }
 
     // détail d'une commande
-    #[Route('/commande/{id}', name: 'show_commande')]
+    #[Route('/commande/{id}', name: 'show_commande', requirements: ['id' => '\d+'])]
     public function showCommande(Commande $commande): Response
     {
 
@@ -43,4 +44,21 @@ final class CommandeController extends AbstractController
         ]);
     }
 
+    //commander un exemplaire de barette
+    #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]
+    public function commandeBarrette(EntityManagerInterface $entityManager): Response
+    {
+        if($this->getUser()) {
+            $id = $this->getUser()->getId();
+            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
+        }
+        else {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        return $this->render('commande/barrette.html.twig', [
+            'exemplaires' => $exemplaires,
+        ]);
+
+    }
 }

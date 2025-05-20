@@ -44,7 +44,7 @@ final class CommandeController extends AbstractController
         ]);
     }
 
-    //commander un exemplaire de barette
+    //commander un exemplaire de barrette
     #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]
     public function commandeBarrette(EntityManagerInterface $entityManager): Response
     {

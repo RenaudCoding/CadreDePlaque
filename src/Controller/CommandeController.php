@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Facture;
 use App\Entity\Commande;
+use App\Form\PanierType;
 use App\Entity\Exemplaire;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,11 +48,24 @@ final class CommandeController extends AbstractController
 
     //commander un exemplaire de barrette
     #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]
-    public function commandeBarrette(EntityManagerInterface $entityManager): Response
+    public function commandeBarrette(Request $request, EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
             $id = $this->getUser()->getId();
             $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
+        
+            $formAddPanier = $this->createForm(PanierType::class);
+            $formAddPanier->handleRequest($request);
+
+            if ($formAddPanier->isSubmitted() && $formAddPanier->isValid()) {
+
+                $panier = $formAddPanier->getData();
+                // $entityManager->persist($panier);
+                // $entityManager->flush();
+
+                return $this->redirectToRoute('app_produit');
+
+            }
         }
         else {
             return $this->redirectToRoute('app_login');
@@ -58,6 +73,7 @@ final class CommandeController extends AbstractController
         
         return $this->render('commande/barrette.html.twig', [
             'exemplaires' => $exemplaires,
+            'formAddPanier' => $formAddPanier
         ]);
 
     }

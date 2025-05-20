@@ -21,7 +21,7 @@
             </div>
             <div class="liste-exemplaire">
                 {% for exemplaire in exemplaires %}
-                    <div class="exemplaire">
+                    <div class="exemplaire" data-id="{{ exemplaire.id }}">
                         <div class="exemplaire-info">
                             {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
                             <div class="barrette">
@@ -30,9 +30,9 @@
                                 {% endfor %}
                             </div>
                             <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
-                            </div>
+                        </div>
                         <div class="exemplaire-choix">
-                            <a href="" class="btn-blanc">Choisir cette décoration</a>
+                            <button type="button" class="btn-blanc choisir-exemplaire">Choisir cette décoration</button>
                         </div>
                     </div>
                 {% endfor %}
@@ -41,12 +41,42 @@
         <section class="commande-barrette">
             <h2>Votre commande de barrettes</h2>
 
+            {{ form_start(formAddPanier) }}
+                {{ form_widget(formAddPanier.exemplaire) }}
+                {{ form_row(formAddPanier.quantite) }}
+                {{ form_row(formAddPanier.submit) }}
+            {{ form_end(formAddPanier) }}
            
-        </section>
+        </section>    
     
-        
+    </div>
 
-    
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.choisir-exemplaire');
+            const exemplaireField = document.querySelector('#{{ formAddPanier.exemplaire.vars.id }}');
+
+            // Pour afficher le nom sélectionné (optionnel, si tu veux ajouter ça visuellement)
+            const selectedDisplay = document.createElement('div');
+            exemplaireField.closest('form').prepend(selectedDisplay); 
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const exemplaireDiv = button.closest('.exemplaire');
+                    const id = exemplaireDiv.dataset.id;
+                    // Remplir le champ caché avec l'ID de l'exemplaire
+                    exemplaireField.value = id;
+
+                    // Cloner le contenu de .exemplaire-info pour l'afficher
+                    const info = exemplaireDiv.querySelector('.exemplaire-info');
+                    selectedDisplay.innerHTML = info.outerHTML;
+                    selectedDisplay.style.border = '1px solid #ccc';
+                    selectedDisplay.style.padding = '1rem';
+                    selectedDisplay.style.marginBottom = '1rem';
+                    console.log('ID lu depuis data-id :', id);
+                });
+            });
+        });
+    </script>
 
 {% endblock %} 

@@ -49,6 +49,32 @@ final class ExemplaireController extends AbstractController
     }
 
 
+    // liste des exemplaires de barrettes d'un user
+    #[Route('/exemplaires/user/barrette', name: 'user_exemplaire_barrette')]
+    public function listExemplairesBarretteUser(EntityManagerInterface $entityManager): Response
+    {
+        if($this->getUser()) {
+            $id = $this->getUser()->getId();
+            // on récupère le produit 'barrette'
+            $produit = $entityManager->getRepository(Produit::class)->findOneBy(
+                ['nomProduit' => 'barrette']);
+            // on récupère les exemplaires de barrette de l'utilisateur    
+            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy([
+                'user' => $id, 
+                'produit' => $produit], 
+                ['dateCreation' => 'DESC']);
+        }
+        else {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        return $this->render('exemplaire/index.html.twig', [
+            'exemplaires' => $exemplaires,
+        ]);
+    }
+
+
+
     //création d'un exemplaire
     #[Route('/create_exemplaire/{id}', name: 'create_exemplaire')]
     public function createExemplaire(Produit $produit, Request $request, EntityManagerInterface $entityManager): Response

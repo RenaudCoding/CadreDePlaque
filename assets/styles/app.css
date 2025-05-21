@@ -226,7 +226,7 @@ body {
 
 
 .disposition-commande {
-    background-image: url('/img/Z4_site_FR.jpg');
+    background-image: url('../images/Z4_site_FR.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     height: 85vh;

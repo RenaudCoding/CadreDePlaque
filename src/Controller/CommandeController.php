@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Facture;
+use App\Entity\Produit;
 use App\Entity\Commande;
 use App\Form\PanierType;
 use App\Entity\Exemplaire;
@@ -52,8 +53,16 @@ final class CommandeController extends AbstractController
     {
         if($this->getUser()) {
             $id = $this->getUser()->getId();
-            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
-        
+            // on récupère le produit 'barrette'
+            $produit = $entityManager->getRepository(Produit::class)->findOneBy(
+                ['nomProduit' => 'barrette']);
+            // on récupère les exemplaires de barrette de l'utilisateur    
+            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy([
+                'user' => $id, 
+                'produit' => $produit], 
+                ['dateCreation' => 'DESC']);
+    
+            // création du formulaire
             $formAddPanier = $this->createForm(PanierType::class);
             $formAddPanier->handleRequest($request);
 

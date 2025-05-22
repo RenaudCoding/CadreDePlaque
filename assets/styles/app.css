@@ -221,8 +221,15 @@ body {
 }
 
 
-
-
+/* pour simuler le visuel d'une barrette  */
+.barrette {
+                    height: 28px;
+                    width: 95%;
+                    margin-top: 8px;
+                    margin-bottom: 8px;
+                    background-color: black;
+                    color: white;
+                }
 
 
 .disposition-commande {
@@ -268,14 +275,6 @@ body {
                     /* display: flex; */
                     width: 75%;
                 }
-                    .barrette {
-                        height: 28px;
-                        width: 95%;
-                        margin-top: 8px;
-                        margin-bottom: 8px;
-                        background-color: black;
-                        color: white;
-                    }
                 .exemplaire-choix {
                     width:25%;
                     text-align: center;
@@ -285,6 +284,7 @@ body {
             }
         }
     }
+
 
 
 .commande-barrette {

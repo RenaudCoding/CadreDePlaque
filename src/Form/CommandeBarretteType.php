@@ -12,12 +12,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class PanierType extends AbstractType
+class CommandeBarretteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('exemplaire', HiddenType::class)
+            ->add('exemplaire',HiddenType::class, [
+                'mapped' => false // car en JS on récupère une id et non une entité
+                ])
             ->add('quantite')
             ->add('submit', SubmitType::class);
     }

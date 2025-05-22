@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Facture;
 use App\Entity\Produit;
 use App\Entity\Commande;
-use App\Form\PanierType;
 use App\Entity\Exemplaire;
+use App\Form\CommandeBarretteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,12 +63,20 @@ final class CommandeController extends AbstractController
                 ['dateCreation' => 'DESC']);
     
             // création du formulaire
-            $formAddPanier = $this->createForm(PanierType::class);
+            $formAddPanier = $this->createForm(CommandeBarretteType::class);
             $formAddPanier->handleRequest($request);
 
+                
             if ($formAddPanier->isSubmitted() && $formAddPanier->isValid()) {
 
+                // on récupère l'id du champ exemplaire
+                $exemplaireId = $formAddPanier->get('exemplaire')->getData();
+                //on va chercher l'exemplaire correspondant à l'id
+                $exemplaireChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireId);
+
                 $panier = $formAddPanier->getData();
+                $panier->setExemplaire($exemplaireChoisi);
+
                 // $entityManager->persist($panier);
                 // $entityManager->flush();
 

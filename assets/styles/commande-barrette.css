@@ -1,0 +1,77 @@
+
+/* CSS pour la page de commande de barrette */
+
+/* pour simuler le visuel d'une barrette  */
+.barrette {
+                    height: 28px;
+                    width: 95%;
+                    margin-top: 8px;
+                    margin-bottom: 8px;
+                    background-color: black;
+                    color: white;
+                }
+
+
+.disposition-commande {
+    background-image: url('../images/Z4_site_FR.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.choix-decoration {
+    background-color: var(--gris);
+    border-radius: 30px  0 0 30px; /* top-left top-right bottom-right bottom-left*/
+    padding: 1em;
+    height: 75vh;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+        .choix-menu{
+            width: 100%;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+            .choix-menu-option{
+                text-align: center;
+            }
+        }
+        .liste-exemplaire{
+            overflow-y: auto;
+            flex-grow: 1; /*prend l’espace restant */
+            justify-items: center;
+            .exemplaire {
+                display:flex;
+                background-color: white;
+                border-radius: 10px;
+                height: 110px;
+                width: 95%;
+                padding: 1em;
+                margin: 1em 0;
+                .exemplaire-info {
+                    /* display: flex; */
+                    width: 75%;
+                }
+                .exemplaire-choix {
+                    width:25%;
+                    text-align: center;
+                    align-self: center;
+                    
+                }
+            }
+        }
+    }
+
+
+
+.commande-barrette {
+    background-color: white;
+    border-radius: 0 30px 30px 0; /* top-left top-right bottom-right bottom-left*/
+    padding: 1em;
+    height: 75vh;
+    width: 45%;
+    
+}

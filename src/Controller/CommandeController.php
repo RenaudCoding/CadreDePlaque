@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Panier;
 use App\Entity\Facture;
 use App\Entity\Produit;
 use App\Entity\Commande;
@@ -47,6 +48,37 @@ final class CommandeController extends AbstractController
         ]);
     }
 
+    //affichage du panier
+    #[Route('/panier', name: 'app_panier')]
+    public function Panier(EntityManagerInterface $entityManager): Response
+    {
+        if($this->getUser()) {
+            // on récupère la liste des exemplaires de l'utilisateur
+            $exemplaires = $this->getUser()->getExemplaires();
+            // on récupère les ids de ces exemplaires
+            foreach ($exemplaires as $exemplaire) {
+                $listeExemplairesId[] = $exemplaire->getId();
+            }
+            
+            // on récupère les articles qui n'ont pas encore été commandés par l'utilisateur
+            // en s'assurant que ces articles sont des exemplaires de l'utilisateur   
+            $panier = $entityManager->getRepository(Panier::class)->findBy([
+                'commande' => null,
+                'exemplaire' => $listeExemplairesId] 
+                );
+        }
+        else {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('commande/panier.html.twig', [
+            'panier' => $panier,
+        ]);
+    }
+
+
+
+
     //commander un exemplaire de barrette
     #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]
     public function commandeBarrette(Request $request, EntityManagerInterface $entityManager): Response
@@ -74,11 +106,14 @@ final class CommandeController extends AbstractController
                 //on va chercher l'exemplaire correspondant à l'id
                 $exemplaireChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireId);
 
+                // on mets les infos saisies dans le formulaire dans le panier (ici uniquement la quantité)
                 $panier = $formAddPanier->getData();
+                // on rajoute l'id de l'exemplaire choisi dans le panier
                 $panier->setExemplaire($exemplaireChoisi);
 
-                // $entityManager->persist($panier);
-                // $entityManager->flush();
+                // on persiste dans la BDD
+                $entityManager->persist($panier);
+                $entityManager->flush();
 
                 return $this->redirectToRoute('app_produit');
 

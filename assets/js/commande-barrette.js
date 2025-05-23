@@ -1,7 +1,11 @@
 console.log("JS choix de l'exemplaire de barrette chargé !");
 
+// on importe le fichier CSS pour la page de commande de barrette
+import '../styles/commande-barrette.css';
+
 document.addEventListener('DOMContentLoaded', initChoixExemplaire);
 
+// fonction de mise en place des élements nécessaires au fonctionnement JS
 function initChoixExemplaire() {
     // on récupère tous les boutons avec la classe "choisir-exemplaire"
     const buttons = document.querySelectorAll('.choisir-exemplaire');

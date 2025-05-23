@@ -14,7 +14,7 @@ class Panier
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'paniers')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Commande $commande = null;
 
     #[ORM\ManyToOne(inversedBy: 'paniers')]

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre panier{% endblock %}
+
+{% block body %}
+
+<h1>Votre panier</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Id Commande</th>
+            <th>Id Exemplaire</th>
+            <th>Quantité</th>
+            <th>Client</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for article in panier %}
+        <tr>
+            <td>{{ article.id }}</td>
+            <td>{{ article.commande }}</td>
+            <td>{{ article.exemplaire }}</td>
+            <td>{{ article.quantite }}</td>
+            <td>{{ article.exemplaire.user }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

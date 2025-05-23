@@ -1,8 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{# chargement CSS et JS dédier à cette page #} 
+{% block stylesheets %}
+    {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
+    {{ encore_entry_link_tags('commande-barrette') }}
+{% endblock %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('choix-barrette') }}
+    {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
+    {{ encore_entry_script_tags('commande-barrette') }}
 {% endblock %}
 
 

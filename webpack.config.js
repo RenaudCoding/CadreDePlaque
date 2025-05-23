@@ -35,7 +35,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('choix-barrette', './assets/js/choix-barrette.js')
+    .addEntry('commande-barrette', './assets/js/commande-barrette.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

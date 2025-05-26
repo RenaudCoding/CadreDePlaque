@@ -1,34 +1,72 @@
 {% extends 'base.html.twig' %}
 
+
+{# chargement CSS et JS dédier à cette page #} 
+{% block stylesheets %}
+    {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
+    {{ encore_entry_link_tags('panier') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
+    {{ encore_entry_script_tags('panier') }}
+{% endblock %}
+
 {% block title %}Votre panier{% endblock %}
 
 {% block body %}
 
-<h1>Votre panier</h1>
 
 
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Id Commande</th>
-            <th>Id Exemplaire</th>
-            <th>Quantité</th>
-            <th>Client</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for article in panier %}
-        <tr>
-            <td>{{ article.id }}</td>
-            <td>{{ article.commande }}</td>
-            <td>{{ article.exemplaire }}</td>
-            <td>{{ article.quantite }}</td>
-            <td>{{ article.exemplaire.user }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="disposition-panier">
+
+    <div class="recap-panier">
+        <h2>Votre panier</h2>
+        <div class="panier">
+
+            <section class="liste-article">        
+                {% for article in panier %}
+                    <div class="article">
+                        <div class="article-info">
+                            {{ article.id }} {{ article.exemplaire }}
+                            <div class="barrette">
+                                {%for marquages in article.exemplaire.marquages %}
+                                    {{ marquages.texteTypo }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="article-quantite">
+                            <p>Quantité</p>
+                            {{ article.quantite }}
+                            <small>Prix unitaire</small>
+                        </div>
+                        <div class="article-total">
+                            <p>Prix</p>
+                        </div>
+                        <div class="article-supprimer">
+                            <a href=""><i class="fa-solid fa-xmark"></i></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </section>
+
+            <section class="total-commande">
+                <h2>Total</h2>
+                <button type="button" class="btn-vert choisir-exemplaire">Valider la commande</button>
+
+            </section>
+        </div>
+            
+
+
+    </div>
+        
+
+
+
+
+
+
 
 
 {% endblock %}

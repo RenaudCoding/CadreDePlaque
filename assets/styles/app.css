@@ -124,6 +124,7 @@ body {
                 }
             }
         }
+
         .btn-bleu{
             display: inline-block;
             background-color: var(--bleu);
@@ -140,10 +141,26 @@ body {
             color: black; 
         }
 
+        .btn-vert{
+            display: inline-block;
+            background-color: var(--vert);
+            border: 2px solid var(--vert);
+            margin-top: 2px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-align: center;
+            transition-duration: 0.2s;
+            color: white;              
+        }
+        .btn-vert:hover{
+            background-color:white;
+            color: black; 
+        }
+
         .btn-blanc{
             display: inline-block;
             background-color: white;
-            border: 2px solid var(--bleu);
+            border: 2px solid var(--vert);
             margin-top: 2px;
             padding: 5px 10px;
             border-radius: 5px;

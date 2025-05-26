@@ -36,6 +36,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('commande-barrette', './assets/js/commande-barrette.js')
+    .addEntry('panier', './assets/js/panier.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

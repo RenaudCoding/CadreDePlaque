@@ -60,12 +60,12 @@ final class CommandeController extends AbstractController
                 $listeExemplairesId[] = $exemplaire->getId();
             }
             
-            // on récupère les articles qui n'ont pas encore été commandés par l'utilisateur
+            // on récupère les articles qui n'ont pas encore été commandés par l'utilisateur (id_commande = null)
             // en s'assurant que ces articles sont des exemplaires de l'utilisateur   
             $panier = $entityManager->getRepository(Panier::class)->findBy([
                 'commande' => null,
-                'exemplaire' => $listeExemplairesId] 
-                );
+                'exemplaire' => $listeExemplairesId
+                ]);
         }
         else {
             return $this->redirectToRoute('app_login');

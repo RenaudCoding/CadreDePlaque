@@ -3,24 +3,24 @@
 {# chargement CSS et JS dédier à cette page #} 
 {% block stylesheets %}
     {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
-    {{ encore_entry_link_tags('commande-barrette') }}
+    {{ encore_entry_link_tags('commande-cacheplaque') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
-    {# {{ encore_entry_script_tags('commande-barrette') }} #}
-    {{ encore_entry_script_tags('commande-barrette') }}
+    {# {{ encore_entry_script_tags('commande-cacheplaque') }} #}
+    {{ encore_entry_script_tags('commande-cacheplaque') }}
 {% endblock %}
 
 
-{% block title %}Commander des barrettes{% endblock %}
+{% block title %}Commander des Caches plaque{% endblock %}
 
 {% block body %}
 
 
     <div class="disposition-commande">
         <section class="choix-decoration">
-            <h2>Choisissez la décoration de vos barrettes</h2>
+            <h2>Choisissez la décoration de vos caches plaque</h2>
 
             <div class="choix-menu">
                 <div class="choix-menu-option">
@@ -34,10 +34,10 @@
             </div>
             <div class="liste-exemplaire">
                 {% for exemplaire in exemplaires %}
-                    <div class="exemplaire" data-id="{{ exemplaire.id }}">
+                    <div class="exemplaire" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
                         <div class="exemplaire-info">
                             {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
-                            <div class="barrette">
+                            <div class="cacheplaque">
                                 {%for marquages in exemplaire.marquages %}
                                     {{ marquages.texteTypo }}
                                 {% endfor %}
@@ -51,12 +51,14 @@
                 {% endfor %}
             </div>
         </section>
-        <section class="commande-barrette">
-            <h2>Votre commande de barrettes</h2>
+        <section class="commande-cacheplaque">
+            <h2>Votre commande de caches plaque</h2>
 
             {{ form_start(formAddPanier) }}
-                {{ form_widget(formAddPanier.exemplaire) }}
-                {{ form_row(formAddPanier.quantite) }}
+                {{ form_widget(formAddPanier.exemplaireAvant) }}
+                {{ form_widget(formAddPanier.exemplaireArriere) }}
+                {{ form_row(formAddPanier.quantiteAvant) }}
+                {{ form_row(formAddPanier.quantiteArriere) }}
                 {{ form_row(formAddPanier.submit) }}
             {{ form_end(formAddPanier) }}
            

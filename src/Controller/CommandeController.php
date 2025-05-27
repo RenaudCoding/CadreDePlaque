@@ -8,6 +8,7 @@ use App\Entity\Produit;
 use App\Entity\Commande;
 use App\Entity\Exemplaire;
 use App\Form\CommandeBarretteType;
+use App\Form\CommandeCacheplaqueType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,8 +113,8 @@ final class CommandeController extends AbstractController
                 $panier->setExemplaire($exemplaireChoisi);
 
                 // on persiste dans la BDD
-                $entityManager->persist($panier);
-                $entityManager->flush();
+                // $entityManager->persist($panier);
+                // $entityManager->flush();
 
                 return $this->redirectToRoute('app_produit');
 
@@ -124,6 +125,81 @@ final class CommandeController extends AbstractController
         }
         
         return $this->render('commande/barrette.html.twig', [
+            'exemplaires' => $exemplaires,
+            'formAddPanier' => $formAddPanier
+        ]);
+
+    }
+
+
+    //commander des exemplaires de cache plaque
+    #[Route('/commande/cacheplaque', name: 'commande_exemplaire_cacheplaque')]
+    public function commandeCacheplaque(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if($this->getUser()) {
+            $id = $this->getUser()->getId();
+            // on récupère les produits 'cache plaque avant' et 'cache plaque arrière'
+            $produit = $entityManager->getRepository(Produit::class)->findBy(
+                ['nomProduit' => ['cache plaque avant', 'cache plaque arrière']]);
+            // on récupère les exemplaires de cache plaque de l'utilisateur    
+            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy([
+                'user' => $id, 
+                'produit' => $produit], 
+                ['dateCreation' => 'DESC']);
+    
+            // création du formulaire
+            $formAddPanier = $this->createForm(CommandeCacheplaqueType::class);
+            $formAddPanier->handleRequest($request);
+
+            if ($formAddPanier->isSubmitted() && $formAddPanier->isValid()) {
+                
+                // on récupère l'id des champs exemplaire avant et exemplaire arrière
+                $exemplaireAvantId = $formAddPanier->get('exemplaireAvant')->getData();
+                $exemplaireArriereId = $formAddPanier->get('exemplaireArriere')->getData();
+
+
+                if($exemplaireAvantId) {
+                    //on va chercher l'exemplaire correspondant à l'id
+                    $exemplaireAvantChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireAvantId);
+                    //on récupère la quantité
+                    $exemplaireAvantQuantite = $formAddPanier->get('quantiteAvant')->getData();
+                    
+
+                    $panier = new Panier;
+                    // on mets les infos récupérées dans le formulaire dans le panier
+                    $panier->setExemplaire($exemplaireAvantChoisi);
+                    $panier->setQuantite($exemplaireAvantQuantite);
+
+                    // on persiste dans la BDD
+                    // $entityManager->persist($panier);
+                    // $entityManager->flush();
+                }
+
+                if($exemplaireArriereId) {
+                    //on va chercher l'exemplaire correspondant à l'id
+                    $exemplaireArriereChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireArriereId);
+                    //on récupère la quantité
+                    $exemplaireArriereQuantite = $formAddPanier->get('quantiteArriere')->getData();
+                    
+                    $panier = new Panier;
+                    // on mets les infos récupérées dans le formulaire dans le panier
+                    $panier->setExemplaire($exemplaireArriereChoisi);
+                    $panier->setQuantite($exemplaireArriereQuantite);
+
+                    // on persiste dans la BDD
+                    // $entityManager->persist($panier);
+                    // $entityManager->flush();
+                }
+            
+                return $this->redirectToRoute('app_produit');
+
+            }
+        }
+        else {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        return $this->render('commande/cacheplaque.html.twig', [
             'exemplaires' => $exemplaires,
             'formAddPanier' => $formAddPanier
         ]);

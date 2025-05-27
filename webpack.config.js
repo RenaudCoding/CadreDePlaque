@@ -36,7 +36,10 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('commande-barrette', './assets/js/commande-barrette.js')
+    .addEntry('commande-cacheplaque', './assets/js/commande-cacheplaque.js')
+    // .addEntry('commande', './assets/js/commande.js') pour le script de commande.js qui gère barrette + cache plaque
     .addEntry('panier', './assets/js/panier.js')
+
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

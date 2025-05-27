@@ -3,6 +3,7 @@ console.log("JS choix de l'exemplaire de barrette chargé !");
 // on importe le fichier CSS pour la page de commande de barrette
 import '../styles/commande-barrette.css';
 
+// Quand la page est complètement chargée, on lance l'initialisation
 document.addEventListener('DOMContentLoaded', initChoixExemplaire);
 
 // fonction de mise en place des élements nécessaires au fonctionnement JS
@@ -32,8 +33,6 @@ function initChoixExemplaire() {
 function createSelectedDisplayContainer(exemplaireField) {
     // on créer un conteneur contenant une div
     const container = document.createElement('div');
-    // on insert ce conteneur au début du formulaire contenant le champ "exemplaireField"
-    exemplaireField.closest('form').prepend(container);
 
     container.style.border = '1px solid #ccc';
     container.style.padding = '1em';
@@ -41,6 +40,9 @@ function createSelectedDisplayContainer(exemplaireField) {
     container.style.height = '110px';
     container.innerHTML = '<p style="margin: 0; color: #666;">Aucun exemplaire sélectionné.</p>';
 
+    // on insert ce conteneur au début du formulaire contenant le champ "exemplaireField"
+    exemplaireField.closest('form').prepend(container);
+    
     // on retourne le conteneur pour qu'il soit visible
     return container;
 }
@@ -60,5 +62,4 @@ function handleChoixClick(button, exemplaireField, selectedDisplay) {
     // on l'affiche dans le conteneur créer dans la fonction
     selectedDisplay.innerHTML = info.outerHTML;
 
-    console.log('ID lu depuis data-id :', id);
 }

@@ -34,6 +34,76 @@
     font-size: x-large;
 }
 
+.btn-bleu{
+    display: inline-block;
+    background-color: var(--bleu);
+    border: 2px solid var(--bleu);
+    margin-top: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition-duration: 0.2s;
+    color: white;              
+}
+.btn-bleu:hover{
+    background-color:white;
+    color: black; 
+}
+
+.btn-vert{
+    display: inline-block;
+    background-color: var(--vert);
+    border: 2px solid var(--vert);
+    margin-top: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition-duration: 0.2s;
+    color: white;              
+}
+.btn-vert:hover{
+    background-color:white;
+    color: black; 
+}
+
+.btn-blanc{
+    display: inline-block;
+    background-color: white;
+    border: 2px solid var(--bleu);
+    margin-top: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition-duration: 0.2s;
+    color: black;              
+}
+.btn-blanc:hover{
+    background-color: var(--bleu);
+    color: white; 
+}
+
+/* pour simuler le visuel d'une barrette  */
+.barrette {
+                    height: 28px;
+                    width: 95%;
+                    margin-top: 8px;
+                    margin-bottom: 8px;
+                    background-color: black;
+                    color: white;
+                }
+
+/* pour simuler le visuel d'une barrette  */
+.cacheplaque {
+                    height: 28px;
+                    width: 95%;
+                    margin-top: 8px;
+                    margin-bottom: 8px;
+                    background-color: rgb(255, 235, 120);
+                }
+
+
+
 body {
     width: 100%;
     /* ceci est l'en-tete */
@@ -43,7 +113,7 @@ body {
         /* height: 40px; */
         position: sticky;
         top: 0;
-        /* z-index: 10; */
+        z-index: 10;
         
         nav{
             width: 100%;
@@ -125,54 +195,7 @@ body {
             }
         }
 
-        .btn-bleu{
-            display: inline-block;
-            background-color: var(--bleu);
-            border: 2px solid var(--bleu);
-            margin-top: 2px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-align: center;
-            transition-duration: 0.2s;
-            color: white;              
-        }
-        .btn-bleu:hover{
-            background-color:white;
-            color: black; 
-        }
-
-        .btn-vert{
-            display: inline-block;
-            background-color: var(--vert);
-            border: 2px solid var(--vert);
-            margin-top: 2px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-align: center;
-            transition-duration: 0.2s;
-            color: white;              
-        }
-        .btn-vert:hover{
-            background-color:white;
-            color: black; 
-        }
-
-        .btn-blanc{
-            display: inline-block;
-            background-color: white;
-            border: 2px solid var(--vert);
-            margin-top: 2px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-            transition-duration: 0.2s;
-            color: black;              
-        }
-        .btn-blanc:hover{
-            background-color: var(--bleu);
-            color: white; 
-        }
+        
 
     
         /* pour la page de profil */

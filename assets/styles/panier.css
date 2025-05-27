@@ -37,20 +37,21 @@
     display: flex;
     /* justify-items: center; */
     flex-direction: row;
-
+    height: 65vh;
 }
 
 .liste-article{
     width: 80%;
     /* justify-items: center; */
     margin: 0 1em;
-        
+    overflow-y: auto;
+    flex-grow: 1; /*prend l’espace restant */
     .article {
         display:flex;
         background-color: white;
         border-radius: 10px;
         height: 110px;
-        width: 100%;
+        width: 95%;
         padding: 1em;
         margin: 1em 0;
             

@@ -80,11 +80,13 @@ final class CommandeController extends AbstractController
 
 
 
-    //commander un exemplaire de barrette
+    //ajouter un exemplaire de barrette dans le panier
     #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]
     public function commandeBarrette(Request $request, EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
+
+            // on récupère l'id de l'utilisateur
             $id = $this->getUser()->getId();
             // on récupère le produit 'barrette'
             $produit = $entityManager->getRepository(Produit::class)->findOneBy(
@@ -99,17 +101,26 @@ final class CommandeController extends AbstractController
             $formAddPanier = $this->createForm(CommandeBarretteType::class);
             $formAddPanier->handleRequest($request);
 
-                
+            // validation du formulaire
             if ($formAddPanier->isSubmitted() && $formAddPanier->isValid()) {
-
+                
                 // on récupère l'id du champ exemplaire
                 $exemplaireId = $formAddPanier->get('exemplaire')->getData();
-                //on va chercher l'exemplaire correspondant à l'id
+                //on va chercher l'exemplaire (entité) correspondant à l'id
                 $exemplaireChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireId);
+
+                // en cas de manip malveillante sur l'id de l'exemplaire message d'erreur:
+                // si l'exemplaire n'existe pas OU si ce n'est pas une barrette OU s'il n'appartient pas à l'utilisateur
+                if(!$exemplaireChoisi ||
+                    $exemplaireChoisi->getProduit() !== $produit ||
+                    $exemplaireChoisi->getUser() !== $this->getUser()
+                    ) {
+                    throw $this->createAccessDeniedException("Problème de saisie");
+                }
 
                 // on mets les infos saisies dans le formulaire dans le panier (ici uniquement la quantité)
                 $panier = $formAddPanier->getData();
-                // on rajoute l'id de l'exemplaire choisi dans le panier
+                // on rajoute l'exemplaire (entité) choisi dans le panier 
                 $panier->setExemplaire($exemplaireChoisi);
 
                 // on persiste dans la BDD
@@ -132,7 +143,7 @@ final class CommandeController extends AbstractController
     }
 
 
-    //commander des exemplaires de cache plaque
+    //ajouter des exemplaires de cache plaque dans le panier
     #[Route('/commande/cacheplaque', name: 'commande_exemplaire_cacheplaque')]
     public function commandeCacheplaque(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -205,4 +216,23 @@ final class CommandeController extends AbstractController
         ]);
 
     }
+
+    // supprimer du panier
+      #[Route('/panier/supprimer/{id}', name: 'panier_supprimer')]
+    public function SupprimerPanier(Panier $panier, EntityManagerInterface $entityManager) {
+
+        if($this->getUser()) {
+        
+        $entityManager->remove($panier);
+        $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_panier');
+    }
+
 }
+
+
+  
+
+

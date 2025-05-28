@@ -4,9 +4,15 @@ console.log("JS choix de l'exemplaire de barrette chargé !");
 import '../styles/commande-barrette.css';
 
 // Quand la page est complètement chargée, on lance l'initialisation
-document.addEventListener('DOMContentLoaded', initChoixExemplaire);
+document.addEventListener('DOMContentLoaded', initPage);
 
-// fonction de mise en place des élements nécessaires au fonctionnement JS
+// On appelle les 2 fonctions nécessaires au fonctionnement JS de la page
+function initPage() {
+    initChoixExemplaire();
+    affichagePrix(); 
+}
+
+// Mise en place des élements nécessaires au fonctionnement du choix d'exemplaire
 function initChoixExemplaire() {
     // on récupère tous les boutons avec la classe "choisir-exemplaire"
     const buttons = document.querySelectorAll('.choisir-exemplaire');
@@ -29,7 +35,7 @@ function initChoixExemplaire() {
     });
 }
 
-// fonction de création du conteneur qui sera affiché
+// Création du conteneur qui sera affiché
 function createSelectedDisplayContainer(exemplaireField) {
     // on créer un conteneur contenant une div
     const container = document.createElement('div');
@@ -47,7 +53,7 @@ function createSelectedDisplayContainer(exemplaireField) {
     return container;
 }
 
-// fonction qui défini les actions après un clic
+// Actions après un clic
 function handleChoixClick(button, exemplaireField, selectedDisplay) {
     // on retrouve la div avec la class=exemplaire contenant le bouton sur lequel on a cliqué
     const exemplaireDiv = button.closest('.exemplaire');
@@ -56,10 +62,31 @@ function handleChoixClick(button, exemplaireField, selectedDisplay) {
 
     // on transmet l'id dans le champ exemplaireField du formulaire
     exemplaireField.value = id;
-
+    // on active le boutton de validation du formulaire  
+    document.getElementById('commande_barrette_submit').disabled = false;
+    
     // on récupère la div avec la class=exemplaire-info
     const info = exemplaireDiv.querySelector('.exemplaire-info');
     // on l'affiche dans le conteneur créer dans la fonction
     selectedDisplay.innerHTML = info.outerHTML;
+}
 
+// affichage dynamique du prix
+function affichagePrix() {
+    const quantiteInput = document.getElementById('commande_barrette_quantite');
+    const prixUnitaireEl = document.getElementById('prix-unitaire');
+    const prixTotalDisplay = document.getElementById('prix-total');
+
+    if (!quantiteInput || !prixUnitaireEl || !prixTotalDisplay) return;
+
+    const prixUnitaire = parseFloat(prixUnitaireEl.value);
+
+    function updatePrixTotal() {
+        const quantite = parseInt(quantiteInput.value) || 0;
+        const total = quantite * prixUnitaire;
+        prixTotalDisplay.textContent = total.toFixed(2) + ' €';
+    }
+
+    quantiteInput.addEventListener('input', updatePrixTotal);
+    updatePrixTotal();
 }

@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class CommandeBarretteType extends AbstractType
 {
@@ -21,8 +22,16 @@ class CommandeBarretteType extends AbstractType
             ->add('exemplaire',HiddenType::class, [
                 'mapped' => false // car en JS on récupère une id et non une entité
                 ])
-            ->add('quantite', IntegerType::class)
-            ->add('submit', SubmitType::class);
+            ->add('quantite', IntegerType::class, [
+                'data' => '1',
+                'constraints' => [new GreaterThanOrEqual( 1 , null, "Il faut un nombre positif ou nul")],
+                'attr' => ['min' => 1]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Ajouter au panier',
+                'attr' => ['disabled' => true,
+                            'class' => 'btn-vert']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

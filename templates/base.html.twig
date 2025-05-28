@@ -23,7 +23,7 @@
         <header>
             <nav>
                 <a class="logo-nav" href="../"><img src="{{ asset('img/cropped-logo-cadre-de-plaque_1.png') }}" alt="logo"></a>
-                <a class="lien-nav" href="">Outils de création</a>
+                <a class="lien-nav" href="{{ path('app_produit') }}">Outils de création</a>
                 {% if app.user and app.user.roles == ['ROLE_ADMIN'] %}
                     <a class="lien-nav" href="{{ path('admin') }}">Administration</a>
                 {% else %}

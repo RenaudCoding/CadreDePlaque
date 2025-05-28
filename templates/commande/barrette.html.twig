@@ -60,6 +60,15 @@
                 {{ form_row(formAddPanier.submit) }}
             {{ form_end(formAddPanier) }}
            
+            <div>
+                <p>Prix unitaire : 0.5</p>
+                <p>Total : <span id="prix-total"> €</span></p>
+
+                <!-- Exemple de prix unitaire stocké dans un attribut data -->
+                <input type="hidden" id="prix-unitaire" value="0.5">
+
+            </div>
+            
         </section>    
     
     </div>

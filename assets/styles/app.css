@@ -59,11 +59,16 @@
     border-radius: 5px;
     text-align: center;
     transition-duration: 0.2s;
-    color: white;              
+    color: white;   
+               
+}
+.btn-vert:disabled{
+    pointer-events: none;
+    opacity: 0.6;    
 }
 .btn-vert:hover{
     background-color:white;
-    color: black; 
+    color: black;
 }
 
 .btn-blanc{

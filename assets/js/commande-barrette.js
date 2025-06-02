@@ -33,6 +33,19 @@ function initChoixExemplaire() {
     buttons.forEach(button => {
         button.addEventListener('click', () => handleChoixClick(button, exemplaireField, selectedDisplay));
     });
+
+    // Gestion de la validation du formulaire
+    // on récupère l'élement checkbox
+    const checkbox = document.getElementById('commande_barrette_validation');
+    // on récupère le bouton de validation du formulaire "ajouter au panier"
+    const submitBtn = document.getElementById('commande_barrette_submit');
+
+    // on écoute la checkbox et on change l'état du bonton "ajouter au panier" en fonction de l'état de la checkbox
+    checkbox.addEventListener('change', function () {
+        // le bouton submit est disabled quand la checkbox n'est pas cochée
+        submitBtn.disabled = !this.checked;
+    });
+
 }
 
 // Création du conteneur qui sera affiché
@@ -62,8 +75,8 @@ function handleChoixClick(button, exemplaireField, selectedDisplay) {
 
     // on transmet l'id dans le champ exemplaireField du formulaire
     exemplaireField.value = id;
-    // on active le boutton de validation du formulaire  
-    document.getElementById('commande_barrette_submit').disabled = false;
+    // on active la checkbox du formulaire  
+    document.getElementById('commande_barrette_validation').disabled = false;
     
     // on récupère la div avec la class=exemplaire-info
     const info = exemplaireDiv.querySelector('.exemplaire-info');

@@ -4,7 +4,12 @@ console.log("JS choix de l'exemplaire de cacheplaque chargé !");
 import '../styles/commande-cacheplaque.css';
 
 // Quand la page est complètement chargée, on lance l'initialisation
-document.addEventListener('DOMContentLoaded', initChoixExemplaire);
+document.addEventListener('DOMContentLoaded', initPage);
+
+function initPage(){
+    initChoixExemplaire();
+    affichagePrix();
+}
 
 // Fonction d'initialisation
 function initChoixExemplaire() {
@@ -38,6 +43,18 @@ function initChoixExemplaire() {
                 3: { field: exemplaireFieldArriere, display: displays[3] }
             })
         );
+    });
+
+    // Gestion de la validation du formulaire
+    // on récupère l'élement checkbox
+    const checkbox = document.getElementById('commande_cacheplaque_validation');
+    // on récupère le bouton de validation du formulaire "ajouter au panier"
+    const submitBtn = document.getElementById('commande_cacheplaque_submit');
+
+    // on écoute la checkbox et on change l'état du bonton "ajouter au panier" en fonction de l'état de la checkbox
+    checkbox.addEventListener('change', function () {
+        // le bouton submit est disabled quand la checkbox n'est pas cochée
+        submitBtn.disabled = !this.checked;
     });
 }
 
@@ -75,6 +92,8 @@ function handleChoixClick(button, exemplaireMap) {
 
     // On met à jour la valeur du champ caché avec l'ID sélectionné
     target.field.value = id;
+    // on active la checkbox du formulaire  
+    document.getElementById('commande_cacheplaque_validation').disabled = false;
 
     // On récupère la zone contenant les informations d'affichage de l'exemplaire
     const info = exemplaireDiv.querySelector('.exemplaire-info');

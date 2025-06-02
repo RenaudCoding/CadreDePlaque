@@ -108,29 +108,40 @@ final class CommandeController extends AbstractController
                 $exemplaireId = $formAddPanier->get('exemplaire')->getData();
                 //on va chercher l'exemplaire (entité) correspondant à l'id
                 $exemplaireChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireId);
+                // on récupère la quantité
+                $exemplaireQuantite = $formAddPanier->get('quantite')->getData();
 
-                // en cas de manip malveillante sur l'id de l'exemplaire message d'erreur:
-                // si l'exemplaire n'existe pas OU si ce n'est pas une barrette OU s'il n'appartient pas à l'utilisateur
-                if(!$exemplaireChoisi ||
-                    $exemplaireChoisi->getProduit() !== $produit ||
-                    $exemplaireChoisi->getUser() !== $this->getUser()
-                    ) {
+                // en cas de manip malveillante sur l'id de l'exemplaire on vérifie:
+                if($exemplaireChoisi && // que l'exemplaire existe
+                    $exemplaireChoisi->getProduit() == $produit && // que l'exemplaire est bien une barrette
+                    $exemplaireChoisi->getUser() == $this->getUser()) // que l'exemplaire appartient à l'utilisateur
+                    {
+                        // si la quantité est valide
+                        if ($exemplaireQuantite > 0) {
+                            $panier = new Panier;
+                            // on met l'exemplaire (entité) choisi dans le panier 
+                            $panier->setExemplaire($exemplaireChoisi);
+                            // on met la quantité renseignée dans le panier
+                            $panier->setQuantite($exemplaireQuantite);
+                            
+                            // on persiste dans la BDD
+                            // $entityManager->persist($panier);
+                            // $entityManager->flush();
+                        }
+                        // si la quantité n'est pas renseignée
+                        else { 
+                            throw $this->createAccessDeniedException("Quantité  non renseignée");
+                        }
+       
+                    return $this->redirectToRoute('app_produit');
+                }
+                // exemplaire non valide
+                else {
                     throw $this->createAccessDeniedException("Problème de saisie");
                 }
-
-                // on mets les infos saisies dans le formulaire dans le panier (ici uniquement la quantité)
-                $panier = $formAddPanier->getData();
-                // on rajoute l'exemplaire (entité) choisi dans le panier 
-                $panier->setExemplaire($exemplaireChoisi);
-
-                // on persiste dans la BDD
-                // $entityManager->persist($panier);
-                // $entityManager->flush();
-
-                return $this->redirectToRoute('app_produit');
-
             }
         }
+        // si l'utilisateur n'est pas connecté
         else {
             return $this->redirectToRoute('app_login');
         }
@@ -139,7 +150,6 @@ final class CommandeController extends AbstractController
             'exemplaires' => $exemplaires,
             'formAddPanier' => $formAddPanier
         ]);
-
     }
 
 
@@ -148,7 +158,10 @@ final class CommandeController extends AbstractController
     public function commandeCacheplaque(Request $request, EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
-            $id = $this->getUser()->getId();
+
+            // affichage des caches plaque avant et arrière de l'utilisateur
+            // on récupère l'id de l'utilisateur
+            $id = $this->getUser()->getId();           
             // on récupère les produits 'cache plaque avant' et 'cache plaque arrière'
             $produit = $entityManager->getRepository(Produit::class)->findBy(
                 ['nomProduit' => ['cache plaque avant', 'cache plaque arrière']]);
@@ -162,50 +175,120 @@ final class CommandeController extends AbstractController
             $formAddPanier = $this->createForm(CommandeCacheplaqueType::class);
             $formAddPanier->handleRequest($request);
 
+            // si le formulaire et soumis et validé
             if ($formAddPanier->isSubmitted() && $formAddPanier->isValid()) {
                 
                 // on récupère l'id des champs exemplaire avant et exemplaire arrière
                 $exemplaireAvantId = $formAddPanier->get('exemplaireAvant')->getData();
                 $exemplaireArriereId = $formAddPanier->get('exemplaireArriere')->getData();
 
+                //
+                // Contrôle et validation des exemplaires entrés dans le formulaire
+                //
 
+                // si on a une id dans le champ exemplaire avant
                 if($exemplaireAvantId) {
-                    //on va chercher l'exemplaire correspondant à l'id
+                    // on va chercher l'exemplaire correspondant à l'id
                     $exemplaireAvantChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireAvantId);
-                    //on récupère la quantité
-                    $exemplaireAvantQuantite = $formAddPanier->get('quantiteAvant')->getData();
+                    // on récupère le produit 'cache plaque avant'
+                    $produitAvant = $entityManager->getRepository(Produit::class)->findOneBy(
+                        ['nomProduit' => 'cache plaque avant']);
                     
-
-                    $panier = new Panier;
-                    // on mets les infos récupérées dans le formulaire dans le panier
-                    $panier->setExemplaire($exemplaireAvantChoisi);
-                    $panier->setQuantite($exemplaireAvantQuantite);
-
-                    // on persiste dans la BDD
-                    // $entityManager->persist($panier);
-                    // $entityManager->flush();
+                    // en cas de manip malveillante sur l'id de l'exemplaire on vérifie:
+                    if($exemplaireAvantChoisi && // que l'exemplaire existe
+                        $exemplaireAvantChoisi->getProduit() == $produitAvant && // que l'exemplaire est bien un cache plaque avant
+                        $exemplaireAvantChoisi->getUser() == $this->getUser()) // que l'exemplaire appartient à l'utilisateur
+                        {
+                        // on valide l'entrée de la partie "avant" du fomulaire pour la suite du traitement
+                        $validationAvant = 1;
+                    }
+                    // exemplaire non valide
+                    else {
+                        throw $this->createAccessDeniedException("AVANT PAS VALIDE");
+                    }
+                }
+                // si il n'y a pas d'id dans le champ exemplaire avant, pas de traitement par la suite
+                else { 
+                    $validationAvant = 0;
                 }
 
+                // si on a une id dans le champ exemplaire arrière
                 if($exemplaireArriereId) {
                     //on va chercher l'exemplaire correspondant à l'id
                     $exemplaireArriereChoisi = $entityManager->getRepository(Exemplaire::class)->find($exemplaireArriereId);
-                    //on récupère la quantité
-                    $exemplaireArriereQuantite = $formAddPanier->get('quantiteArriere')->getData();
-                    
-                    $panier = new Panier;
-                    // on mets les infos récupérées dans le formulaire dans le panier
-                    $panier->setExemplaire($exemplaireArriereChoisi);
-                    $panier->setQuantite($exemplaireArriereQuantite);
+                    // on récupère le produit 'cache plaque arrière'
+                    $produitArriere = $entityManager->getRepository(Produit::class)->findOneBy(
+                        ['nomProduit' => 'cache plaque arrière']);
 
-                    // on persiste dans la BDD
-                    // $entityManager->persist($panier);
-                    // $entityManager->flush();
+                    // en cas de manip malveillante sur l'id de l'exemplaire on vérifie:
+                    if($exemplaireArriereChoisi && // que l'exemplaire existe
+                        $exemplaireArriereChoisi->getProduit() == $produitArriere && // que l'exemplaire est bien un cache plaque arrière
+                        $exemplaireArriereChoisi->getUser() == $this->getUser()) // que l'exemplaire appartient à l'utilisateur
+                        {
+                        // on valide l'entrée de la partie "arrière" du fomulaire pour la suite du traitement
+                        $validationArriere = 1;
+                    }
+                    // exemplaire non valide
+                    else {
+                        throw $this->createAccessDeniedException("ARRIERE PAS VALIDE");
+                    }
                 }
-            
+                // si il n'y a pas d'id dans le champ exemplaire arrière, pas de traitement par la suite
+                else { 
+                    $validationArriere = 0;
+                }
+
+                //
+                // Traitement du formulaire après validation
+                //
+
+                // on traite la partie "avant" du formulaire validée précedemment
+                if($validationAvant) {
+                    // on récupère la quantité de l'exemplaire avant
+                    $exemplaireAvantQuantite = $formAddPanier->get('quantiteAvant')->getData();
+                    // si la quantité est valide
+                    if ($exemplaireAvantQuantite > 0) {
+                        // $panierAvant = new Panier;
+                        // on mets les infos récupérées dans le formulaire dans le panier
+                        // $panierAvant->setExemplaire($exemplaireAvantChoisi);
+                        // $panierAvantArriere->setQuantite($exemplaireAvantQuantite);
+
+                        // on persiste dans la BDD
+                        // $entityManager->persist($panierAvantArriere);
+                        // $entityManager->flush();
+                    }
+                    // si la quantité n'est pas renseignée
+                    else { 
+                        throw $this->createAccessDeniedException("Quantité avant non renseignée");
+                    }
+                }
+                
+                // on traite la partie "arrière" du formulaire validée précedemment
+                if($validationArriere) {
+                    //on récupère la quantité de l'exemplaire arrière
+                    $exemplaireArriereQuantite = $formAddPanier->get('quantiteArriere')->getData();
+                    // si la quantité est valide
+                    if($exemplaireArriereQuantite > 0) {
+                        // $panierArriere = new Panier;
+                        // on mets les infos récupérées dans le formulaire dans le panier
+                        // $panierArriere->setExemplaire($exemplaireArriereChoisi);
+                        // $panierArriere->setQuantite($exemplaireArriereQuantite);
+
+                        // on persiste dans la BDD
+                        // $entityManager->persist($panierArriere);
+                        // $entityManager->flush();
+                        }
+                    // si la quantité n'est pas renseignée
+                    else { 
+                        throw $this->createAccessDeniedException("Quantité arrière non renseignée");
+                    }
+                }
+
                 return $this->redirectToRoute('app_produit');
 
             }
         }
+        // si l'utilisateur n'est pas connecté
         else {
             return $this->redirectToRoute('app_login');
         }
@@ -218,7 +301,7 @@ final class CommandeController extends AbstractController
     }
 
     // supprimer du panier
-      #[Route('/panier/supprimer/{id}', name: 'panier_supprimer')]
+    #[Route('/panier/supprimer/{id}', name: 'panier_supprimer')]
     public function SupprimerPanier(Panier $panier, EntityManagerInterface $entityManager) {
 
         if($this->getUser()) {

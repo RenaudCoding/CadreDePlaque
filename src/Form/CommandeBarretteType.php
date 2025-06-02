@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class CommandeBarretteType extends AbstractType
@@ -23,9 +24,15 @@ class CommandeBarretteType extends AbstractType
                 'mapped' => false // car en JS on récupère une id et non une entité
                 ])
             ->add('quantite', IntegerType::class, [
-                'data' => '1',
-                'constraints' => [new GreaterThanOrEqual( 1 , null, "Il faut un nombre positif ou nul")],
-                'attr' => ['min' => 1]
+                'data' => '0',
+                // 'constraints' => [new GreaterThanOrEqual( 0 , null, "Problème de quantité")],
+                'attr' => ['min' => 0]
+            ])
+            ->add('validation', CheckboxType::class, [
+                'mapped' => false,
+                'label'    => 'Après vérification, je valide la décoration qui doit être imprimée sur les barettes',
+                'required' => true, // la case doit être cochée
+                'attr' => ['disabled' => true]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Ajouter au panier',

@@ -24,7 +24,8 @@
         <h2>Votre panier</h2>
         <div class="panier">
 
-            <section class="liste-article">        
+            <section class="liste-article">
+            <form id="form-panier" action="{{ path('panier_valider') }}" method="post">       
                 {% for article in panier %}
                     <div class="article">
                         <div class="article-info">
@@ -37,8 +38,12 @@
                         </div>
                         <div class="article-quantite">
                             <p>Quantité</p>
-                            {{ article.quantite }}
-                            <small>Prix unitaire</small>
+                                <div class="quantite" data-article-id="{{ article.id }}">
+                                    <button type="button" class="btn-moins">−</button>
+                                    <input type="number" class="quantite-input" name="quantites[{{ article.id }}]" value="{{ article.quantite }}" min="1" />
+                                    <button type="button" class="btn-plus">+</button>
+                                </div>
+                            {# <small>Prix unitaire</small> #}
                         </div>
                         <div class="article-total">
                             <p>Prix</p>
@@ -48,12 +53,12 @@
                         </div>
                     </div>
                 {% endfor %}
+            </form>
             </section>
 
             <section class="total-commande">
                 <h2>Total</h2>
-                <button type="button" class="btn-vert choisir-exemplaire">Valider la commande</button>
-
+                <button form="form-panier" type="submit" class="btn-vert choisir-exemplaire">Valider la commande</button>
             </section>
         </div>
             

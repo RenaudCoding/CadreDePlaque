@@ -300,22 +300,28 @@ final class CommandeController extends AbstractController
 
     }
 
-    // supprimer du panier
-    #[Route('/panier/supprimer/{id}', name: 'panier_supprimer')]
-    public function SupprimerPanier(Panier $panier, EntityManagerInterface $entityManager) {
+    // supprimer un article du panier
+    #[Route('/panier/supprimer/{id}', name: 'panier_supprimer', requirements: ['id' => '\d+'])]
+    public function SupprimerPanier(Panier $article, EntityManagerInterface $entityManager) {
 
         if($this->getUser()) {
         
-        $entityManager->remove($panier);
+        $entityManager->remove($article);
         $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_panier');
     }
 
+    // validation du panier - confirmation des quantités des articles
+    #[Route('/panier/valider', name: 'panier_valider', )]
+    public function validationPanier(Request $request) {
+
+        $quantites = $request->request->all('quantites');
+        dd($quantites);
+
+    }
+
+
 }
-
-
-  
-
 

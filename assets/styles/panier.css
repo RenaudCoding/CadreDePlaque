@@ -51,18 +51,18 @@
         background-color: white;
         border-radius: 10px;
         height: 110px;
-        width: 95%;
+        width: 100%;
         padding: 1em;
         margin: 1em 0;
             
         .article-info {
                 /* display: flex; */
-                width: 70%;
+                width: 60%;
         }
         .article-quantite {
             display: flex;
             flex-direction: column;
-            width: 10%;
+            width: 20%;
             align-items: center;
             font-weight: bold;
         }
@@ -90,3 +90,26 @@
         padding: 1em;
         margin: 1em;
         }
+
+
+
+.quantite {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantite button {
+    padding: 0px 6px;
+    font-size: 1.3em;
+}
+
+.quantite-input {
+    width: 60px;
+    text-align: center;
+}
+
+
+
+
+

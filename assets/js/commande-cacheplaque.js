@@ -102,7 +102,58 @@ function handleChoixClick(button, exemplaireMap) {
     target.display.innerHTML = info.outerHTML;
 }
 
+// affichage dynamique du prix
+function affichagePrix() {
+    // on regroupe tous les éléments DOM nécessaires dans un objet pour une meilleure organisation
+    const elements = {
+        // Champ de saisie pour la quantité avant
+        quantiteAvant: document.getElementById('commande_cacheplaque_quantiteAvant'),
+        // Champ de saisie pour la quantité arrière
+        quantiteArriere: document.getElementById('commande_cacheplaque_quantiteArriere'),
+        // Prix unitaire des caches plaque avant, converti en float (ou 0 si non défini ou invalide)
+        prixUnitaireAvant: parseFloat(document.getElementById('prix-unitaire-avant')?.value) || 0,
+        // Prix unitaire des caches plaques arrière, converti en float (ou 0 si non défini ou invalide)
+        prixUnitaireArriere: parseFloat(document.getElementById('prix-unitaire-arriere')?.value) || 0,
+        // Élément qui affichera le prix total des caches plaque avant
+        totalAvant: document.getElementById('prix-avant'),
+        // Élément qui affichera le prix total des caches plaque arrière
+        totalArriere: document.getElementById('prix-arriere'),
+        // Élément qui affichera le prix total global
+        totalGlobal: document.getElementById('prix-total')
+    };
 
+    // on vérifie que tous les éléments nécessaires sont bien présents dans le DOM
+    if (!elements.quantiteAvant || !elements.quantiteArriere || 
+        !elements.totalAvant || !elements.totalArriere || !elements.totalGlobal) return;
+
+    // Fonction qui calcule et met à jour tous les prix
+    const updatePrixTotal = () => {
+        // on récupère la quantité saisie pour les caches plaque avant (ou 0 si vide/invalide)
+        const qAvant = parseInt(elements.quantiteAvant.value) || 0;
+        // on récupère la quantité saisie pour les caches plaque arrière (ou 0 si vide/invalide)
+        const qArriere = parseInt(elements.quantiteArriere.value) || 0;
+
+        // on calcule le total pour les caches plaque avant
+        const totalAvant = qAvant * elements.prixUnitaireAvant;
+        // on calcule le total pour les plaques arrière
+        const totalArriere = qArriere * elements.prixUnitaireArriere;
+        // on calcule le total général (avant + arrière)
+        const total = totalAvant + totalArriere;
+
+        // on met à jour l'affichage des totau avec 2 décimales
+        elements.totalAvant.textContent = `${totalAvant.toFixed(2)} €`;
+        elements.totalArriere.textContent = `${totalArriere.toFixed(2)} €`;
+        elements.totalGlobal.textContent = `${total.toFixed(2)} €`;
+    };
+
+    // écouteur d’événement sur la quantité avant pour recalculer à chaque modification
+    elements.quantiteAvant.addEventListener('input', updatePrixTotal);
+    // écouteur d’événement sur la quantité arrière pour recalculer à chaque modification
+    elements.quantiteArriere.addEventListener('input', updatePrixTotal);
+
+    // Exécute la fonction une première fois au chargement pour afficher les prix initiaux
+    updatePrixTotal();
+}
 
 
 

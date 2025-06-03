@@ -86,20 +86,32 @@ function handleChoixClick(button, exemplaireField, selectedDisplay) {
 
 // affichage dynamique du prix
 function affichagePrix() {
+    // on récupère l'élément correspondant à la quantité de barrettes commandées
     const quantiteInput = document.getElementById('commande_barrette_quantite');
+    // on récupère l'élément contenant le prix unitaire
     const prixUnitaireEl = document.getElementById('prix-unitaire');
+    // on réupère l'élément où sera affiché le prix total
     const prixTotalDisplay = document.getElementById('prix-total');
 
-    if (!quantiteInput || !prixUnitaireEl || !prixTotalDisplay) return;
+    // on vérifie que les éléments essentiels sont bien présents dans le DOM
+    if (!quantiteInput || !prixTotalDisplay) return;
 
+    // on convertit le prix unitaire en nombre flottant (ou 0 si invalide)
     const prixUnitaire = parseFloat(prixUnitaireEl.value);
 
+    // Fonction qui calcule et affiche dynamiquement le prix total
     function updatePrixTotal() {
+        // on récupère la quantité saisie (ou 0 si vide/invalide)
         const quantite = parseInt(quantiteInput.value) || 0;
+        // on Calcule le prix total
         const total = quantite * prixUnitaire;
+        // on affiche le résultat formaté avec 2 décimales et un symbole euro
         prixTotalDisplay.textContent = total.toFixed(2) + ' €';
     }
 
+    // écouteur d'événement pour mettre à jour le prix à chaque changement de la quantité
     quantiteInput.addEventListener('input', updatePrixTotal);
+
+    // Appel initial pour afficher le prix dès le chargement de la page
     updatePrixTotal();
 }

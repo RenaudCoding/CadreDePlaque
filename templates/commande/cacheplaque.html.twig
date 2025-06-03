@@ -2,13 +2,13 @@
 
 {# chargement CSS et JS dédier à cette page #} 
 {% block stylesheets %}
-    {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
     {{ encore_entry_link_tags('commande-cacheplaque') }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
-    {# {{ encore_entry_script_tags('commande-cacheplaque') }} #}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {# {{ encore_entry_script_tags('commande') }} #}
     {{ encore_entry_script_tags('commande-cacheplaque') }}
 {% endblock %}
 
@@ -58,23 +58,23 @@
                 {{ form_widget(formAddPanier.exemplaireAvant) }}
                 {{ form_widget(formAddPanier.exemplaireArriere) }}
                 {{ form_row(formAddPanier.quantiteAvant) }}
-                <p>Prix unitaire : 0.6</p>
+                <p>Prix unitaire : 1</p>
                 {{ form_row(formAddPanier.quantiteArriere) }}
-                <p>Prix unitaire : 0.8</p>
+                <p>Prix unitaire : 2</p>
                 {{ form_row(formAddPanier.validation) }}
                 {{ form_row(formAddPanier.submit) }}
             {{ form_end(formAddPanier) }}
            
             <div>
-                <p>Prix unitaire avant: 0.7</p>
-                <p>Prix unitaire arrière: 0.9</p>
+                <p>Prix unitaire avant: 1</p>
+                <p>Prix unitaire arrière: 2</p>
                 <p>Total Avant : <span id="prix-avant"> €</span></p>
                 <p>Total Arrière : <span id="prix-arriere"> €</span></p>
                 <p>Total : <span id="prix-total"> €</span></p>
 
                 <!-- Exemple de prix unitaire stocké dans un attribut data -->
-                <input type="hidden" id="prix-unitaire-avant" value="0.7">
-                <input type="hidden" id="prix-unitaire-arriere" value="0.9">
+                <input type="hidden" id="prix-unitaire-avant" value="1">
+                <input type="hidden" id="prix-unitaire-arriere" value="2">
 
             </div>
 

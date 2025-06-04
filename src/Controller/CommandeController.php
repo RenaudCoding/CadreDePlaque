@@ -6,6 +6,7 @@ use App\Entity\Panier;
 use App\Entity\Facture;
 use App\Entity\Produit;
 use App\Entity\Commande;
+use App\Form\PanierType;
 use App\Entity\Exemplaire;
 use App\Form\CommandeBarretteType;
 use App\Form\CommandeCacheplaqueType;
@@ -51,7 +52,7 @@ final class CommandeController extends AbstractController
 
     //affichage du panier
     #[Route('/panier', name: 'app_panier')]
-    public function Panier(EntityManagerInterface $entityManager): Response
+    public function Panier(Request $request, EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
             // on récupère la liste des exemplaires de l'utilisateur
@@ -67,12 +68,32 @@ final class CommandeController extends AbstractController
                 'commande' => null,
                 'exemplaire' => $listeExemplairesId
                 ]);
+
+            // création du formulaire avec un tableau associatif
+            // la cle "articles" correspond au champs "articles" du formulaire PanierType qui est un CollectionType
+            $formQuantitePanier = $this->createForm(PanierType::class, ['articles' => $panier]);
+            $formQuantitePanier->handleRequest($request);
+
+            if ($formQuantitePanier->isSubmitted() && $formQuantitePanier->isValid()) {
+
+                // on récupère les données du formulaire dans le champ "articles", on obtient un tableau associatif
+                $articles = $formQuantitePanier->getData()['articles'];
+
+                // pour chaque article dans le tableau associatif
+                foreach ($articles as $article) {
+                    // on persiste
+                    $entityManager->persist($article);
+                }
+                // seul les quantités qui ont été modifiées seront mise à jour
+                $entityManager->flush();
+            }    
         }
         else {
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('commande/panier.html.twig', [
+            'formQuantitePanier' => $formQuantitePanier->createView(),
             'panier' => $panier,
         ]);
     }
@@ -125,8 +146,8 @@ final class CommandeController extends AbstractController
                             $panier->setQuantite($exemplaireQuantite);
                             
                             // on persiste dans la BDD
-                            // $entityManager->persist($panier);
-                            // $entityManager->flush();
+                            $entityManager->persist($panier);
+                            $entityManager->flush();
                         }
                         // si la quantité n'est pas renseignée
                         else { 
@@ -248,14 +269,14 @@ final class CommandeController extends AbstractController
                     $exemplaireAvantQuantite = $formAddPanier->get('quantiteAvant')->getData();
                     // si la quantité est valide
                     if ($exemplaireAvantQuantite > 0) {
-                        // $panierAvant = new Panier;
+                        $panierAvant = new Panier;
                         // on mets les infos récupérées dans le formulaire dans le panier
-                        // $panierAvant->setExemplaire($exemplaireAvantChoisi);
-                        // $panierAvantArriere->setQuantite($exemplaireAvantQuantite);
+                        $panierAvant->setExemplaire($exemplaireAvantChoisi);
+                        $panierAvantArriere->setQuantite($exemplaireAvantQuantite);
 
                         // on persiste dans la BDD
-                        // $entityManager->persist($panierAvantArriere);
-                        // $entityManager->flush();
+                        $entityManager->persist($panierAvantArriere);
+                        $entityManager->flush();
                     }
                     // si la quantité n'est pas renseignée
                     else { 
@@ -269,14 +290,14 @@ final class CommandeController extends AbstractController
                     $exemplaireArriereQuantite = $formAddPanier->get('quantiteArriere')->getData();
                     // si la quantité est valide
                     if($exemplaireArriereQuantite > 0) {
-                        // $panierArriere = new Panier;
+                        $panierArriere = new Panier;
                         // on mets les infos récupérées dans le formulaire dans le panier
-                        // $panierArriere->setExemplaire($exemplaireArriereChoisi);
-                        // $panierArriere->setQuantite($exemplaireArriereQuantite);
+                        $panierArriere->setExemplaire($exemplaireArriereChoisi);
+                        $panierArriere->setQuantite($exemplaireArriereQuantite);
 
                         // on persiste dans la BDD
-                        // $entityManager->persist($panierArriere);
-                        // $entityManager->flush();
+                        $entityManager->persist($panierArriere);
+                        $entityManager->flush();
                         }
                     // si la quantité n'est pas renseignée
                     else { 

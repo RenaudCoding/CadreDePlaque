@@ -10,6 +10,7 @@
     {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
     {# {{ encore_entry_script_tags('commande') }} #}
     {{ encore_entry_script_tags('commande-barrette') }}
+    {{ encore_entry_script_tags('calcul-prix') }}
 {% endblock %}
 
 
@@ -60,7 +61,7 @@
             {{ form_start(formAddPanier) }}
                 <div class="exemplaire-commande">Aucun exemplaire sélectionné</div>
                 {{ form_widget(formAddPanier.exemplaire) }}
-                {{ form_row(formAddPanier.quantite) }}
+                {{ form_row(formAddPanier.quantite, {'attr': {'class': 'quantite-input'}}) }}
                 {{ form_row(formAddPanier.validation) }}
                 {{ form_row(formAddPanier.submit) }}
             {{ form_end(formAddPanier) }}

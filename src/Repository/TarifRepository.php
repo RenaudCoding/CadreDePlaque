@@ -17,17 +17,15 @@ class TarifRepository extends ServiceEntityRepository
         parent::__construct($registry, Tarif::class);
     }
 
-    public function findOneByQuantite(Produit $produit, int $quantite): ?Tarif
+    // récupération des tarifs d'un produit particulier
+    public function findTarifsByProduit(Produit $produit): array
     {
         return $this->createQueryBuilder('t')
             ->where('t.produit = :produit')
-            ->andWhere('t.seuilQuantite <= :quantite')
             ->setParameter('produit', $produit)
-            ->setParameter('quantite', $quantite)
-            ->orderBy('t.seuilQuantite', 'DESC') // seuil classé du plus élevé au moins élevé
-            ->setMaxResults(1) // on récupère uniquement la première ligne donc le seuil le plus élevé
+            ->orderBy('t.seuilQuantite', 'DESC') // tarifs classés suivant le seuil de quantité du plus élevé au moins élevé
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 
 

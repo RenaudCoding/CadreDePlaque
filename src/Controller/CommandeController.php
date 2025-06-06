@@ -337,37 +337,32 @@ final class CommandeController extends AbstractController
         return $this->redirectToRoute('app_panier');
     }
 
+    // grille de tarif de tous les produits en JSON
+    #[Route('/get-all-tarifs', name: 'get_all_tarifs', methods: ['GET'])]
+    public function getAllTarifs(EntityManagerInterface $entityManager): JsonResponse
+    {
+        //tableau vide pour stocker la grille de tarif
+        $result = [];
+        // on récupère tous les produits
+        $produits = $entityManager->getRepository(Produit::class)->findAll();
 
-#[Route('/get-prix', name: 'get_prix', methods: ['GET'])]
-public function getPrix(Request $request, EntityManagerInterface $entityManager): JsonResponse
-{
-    // on récupère l'id du produit
-    $produitId = $request->query->get('produit_id');
-    // on récupère l'entité Produit correspondant
-    $produit = $entityManager->getRepository(Produit::class)->find($produitId);
-    // on récupère la quantité
-    $quantite = (int) $request->query->get('quantite');
-    
-    // si il n'y a pas de produit
-    if (!$produit) {
-        return new JsonResponse(['error' => 'Produit non trouvé'], 404);
+        // pour chaque produit
+        foreach ($produits as $produit) {
+            // on récupère tous les tarifs en utilisant une méthode personnalisée 
+            // la méthode classe les tarifs suivant le seuil de quantité dans l'ordre décroissant
+            // la fonction JS getPrixUnitaire() récupèrera le tarif correspondant au seuil le plus élevé atteint par la quantité
+            // if (quantite >= tarif.seuil)
+            $tarifs = $entityManager->getRepository(Tarif::class)->findTarifsByProduit($produit);
+            // on transforme les objets Tarif récupérés en tableaux pour le JSON en récupérant uniquement les champs nécessaires
+            $result[$produit->getId()] = array_map(fn($tarif) => [
+                'seuil' => $tarif->getSeuilQuantite(),
+                'prix' => $tarif->getPrixUnitaire(),
+            ], $tarifs);
+        }
+        
+        // on renvoi au format JSON
+        return new JsonResponse(['tarifs' => $result]);
     }
-    
-    // On récupère le tarif correspondant au palier le plus élevé <= quantite
-    $tarif = $entityManager->getRepository(Tarif::class)->findOneByQuantite($produit, $quantite);
-
-    // si il n'y a pas de tarif
-    if (!$tarif) {
-        return new JsonResponse(['error' => 'Aucun tarif trouvé'], 404);
-    }
-
-    return new JsonResponse([
-        'prix_unitaire' => $tarif->getPrixUnitaire()
-    ]);
 }
 
-
-
-
-}
 

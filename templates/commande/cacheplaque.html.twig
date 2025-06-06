@@ -57,9 +57,9 @@
             {{ form_start(formAddPanier) }}
                 {{ form_widget(formAddPanier.exemplaireAvant) }}
                 {{ form_widget(formAddPanier.exemplaireArriere) }}
-                {{ form_row(formAddPanier.quantiteAvant) }}
+                {{ form_row(formAddPanier.quantiteAvant, {'attr': {'class': 'quantite-input'}}) }}
                 <p>Prix unitaire : 1</p>
-                {{ form_row(formAddPanier.quantiteArriere) }}
+                {{ form_row(formAddPanier.quantiteArriere, {'attr': {'class': 'quantite-input'}}) }}
                 <p>Prix unitaire : 2</p>
                 {{ form_row(formAddPanier.validation) }}
                 {{ form_row(formAddPanier.submit) }}

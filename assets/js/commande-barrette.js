@@ -3,6 +3,9 @@ console.log("JS choix de l'exemplaire de barrette chargé !");
 // on importe le fichier CSS pour la page de commande de barrette
 import '../styles/commande-barrette.css';
 
+// on importe les fonctions nécessaire au calcul dynamique du prix
+import { chargerTarifsGlobaux, getPrixUnitaire } from './calcul-prix';
+
 // Quand la page est complètement chargée, on lance l'initialisation
 document.addEventListener('DOMContentLoaded', initPage);
 
@@ -63,54 +66,62 @@ function handleChoixClick(button, exemplaireField, container) {
     
     // on affiche la <div class='exemplaire-info'> dans la zone d'affichage
     container.innerHTML = exemplaireDiv.outerHTML;
-    affichagePrix();
     
+    affichagePrix();
 }
 
 // affichage dynamique du prix
 function affichagePrix() {
-        const container = document.querySelector('.exemplaire-commande');
-        const exemplaireInfoEl = container.querySelector('.exemplaire-info');
-        const quantiteInput = document.getElementById('commande_barrette_quantite');
-        const prixTotalDisplay = document.getElementById('prix-total');
-        const prixUnitaireDisplay = document.getElementById('prix-unitaire');
+    // on récupère la <div class="exemplaire-commande"> qui est la zone d'affichage de l'exemplaire sélectionné
+    const container = document.querySelector('.exemplaire-commande');
+    // on récupère dans ce conteneur la <div class="exemplaire-info"> qui contient l'exemplaire choisi
+    // cette div à les atttributs "data-id" et "data-produit"
+    const exemplaireInfoEl = container.querySelector('.exemplaire-info');
+    // on récupère le champ de quantité du formulaire
+    const quantiteInput = document.getElementById('commande_barrette_quantite');
+    // on récupère l'élement qui affiche le prix total
+    const prixTotalDisplay = document.getElementById('prix-total');
+    // on récupère l'élement qui affiche le prix unitaire
+    const prixUnitaireDisplay = document.getElementById('prix-unitaire');
 
-console.log(exemplaireInfoEl, quantiteInput, prixTotalDisplay, prixUnitaireDisplay);
+    // affichage dans la console pour débogage
+    // console.log(exemplaireInfoEl, quantiteInput, prixTotalDisplay, prixUnitaireDisplay);
 
+    // si un des éléments est manquant, on arrête le script
+    if (!exemplaireInfoEl || !quantiteInput || !prixTotalDisplay || !prixUnitaireDisplay) return;
 
+    // on récupère l'id du produit depuis l'attribut "data-produit"
+    const produitId = exemplaireInfoEl.dataset.produit;
+    
+    // mise à jour de l'affichage des prix en fonction de la quantité
+    function updatePrixTotal() {
 
-        if (!exemplaireInfoEl || !quantiteInput || !prixTotalDisplay || !prixUnitaireDisplay) return;
+        // on récupère la quantité entrée, convertie en nombre entier
+        const quantite = parseInt(quantiteInput.value);
 
-        const produitId = exemplaireInfoEl.dataset.produit;
-        
-        function updatePrixTotal() {
-            const quantite = parseInt(quantiteInput.value, 10);
-            if (isNaN(quantite) || quantite <= 0) {
-                prixTotalDisplay.textContent = "0.00 €";
-                prixUnitaireDisplay.textContent = "Prix unitaire : 0.00 €";
-                return;
-            }
-
-            fetch(`/get-prix?produit_id=${produitId}&quantite=${quantite}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.prix_unitaire) {
-                        const total = quantite * data.prix_unitaire;
-                        prixTotalDisplay.textContent = total.toFixed(2) + ' €';
-                        prixUnitaireDisplay.textContent = 'Prix unitaire : ' + data.prix_unitaire.toFixed(2) + ' €';
-                    } else {
-                        prixTotalDisplay.textContent = "Tarif introuvable";
-                        prixUnitaireDisplay.textContent = "Tarif introuvable";
-                    }
-                })
-                .catch(err => {
-                    prixTotalDisplay.textContent = "Erreur serveur";
-                    prixUnitaireDisplay.textContent = "Erreur serveur";
-                    console.error(err);
-                });
+        // Si la quantité est vide ou nulle, les prix sont mis à 0
+        if (isNaN(quantite) || quantite <= 0) {
+            prixTotalDisplay.textContent = "0.00 €";
+            prixUnitaireDisplay.textContent = "Prix unitaire : 0.00 €";
+            return;
         }
 
-        // Lancer le calcul du prix total dès qu'on change la quantité
-        quantiteInput.addEventListener('input', updatePrixTotal);
-        updatePrixTotal(); // Appel initial
+        // on récupère le prix unitaire avec la fonction importée dédiée
+        const prixUnitaire = getPrixUnitaire(produitId, quantite);
+        // calcul du prix total
+        const total = quantite * prixUnitaire;
+
+        // on met à jour l'affichage des prix formatés
+        prixUnitaireDisplay.textContent = `Prix unitaire : ${prixUnitaire.toFixed(2)} €`;
+        prixTotalDisplay.textContent = `${total.toFixed(2)} €`;
+
     }
+
+    // on charge les grilles de tarifs (appel API) puis
+    chargerTarifsGlobaux().then(() => {
+        // on lance le calcul du prix total dès qu'on change la quantité
+        quantiteInput.addEventListener('input', updatePrixTotal);
+        // affichage initial
+        updatePrixTotal();
+    });
+}

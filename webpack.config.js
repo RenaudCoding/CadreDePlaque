@@ -35,6 +35,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('calcul-prix', './assets/js/calcul-prix.js')
     .addEntry('commande-barrette', './assets/js/commande-barrette.js')
     .addEntry('commande-cacheplaque', './assets/js/commande-cacheplaque.js')
     // .addEntry('commande', './assets/js/commande.js') pour le script de commande.js qui gère barrette + cache plaque

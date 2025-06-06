@@ -34,8 +34,8 @@
             </div>
             <div class="liste-exemplaire">
                 {% for exemplaire in exemplaires %}
-                    <div class="exemplaire" data-id="{{ exemplaire.id }}">
-                        <div class="exemplaire-info">
+                    <div class="exemplaire">
+                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
                             {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
                             <div class="barrette">
                                 {%for marquages in exemplaire.marquages %}
@@ -54,21 +54,29 @@
         <section class="commande-barrette">
             <h2>Votre commande de barrettes</h2>
 
+            
+
+
             {{ form_start(formAddPanier) }}
+                <div class="exemplaire-commande">Aucun exemplaire sélectionné</div>
                 {{ form_widget(formAddPanier.exemplaire) }}
                 {{ form_row(formAddPanier.quantite) }}
                 {{ form_row(formAddPanier.validation) }}
                 {{ form_row(formAddPanier.submit) }}
             {{ form_end(formAddPanier) }}
            
-            <div>
+
+            <div id="prix-total">0.00 €</div>
+            <div id="prix-unitaire">Prix unitaire : 0.00 €</div>
+
+            {# <div>
                 <p>Prix unitaire : 0.5</p>
                 <p>Total : <span id="prix-total"> €</span></p>
-
+            </div> #}
                 <!-- Exemple de prix unitaire stocké dans un attribut data -->
-                <input type="hidden" id="prix-unitaire" value="0.5">
+                {# <input type="hidden" id="prix-unitaire" value="0.5"> #}
 
-            </div>
+            
             
         </section>    
     

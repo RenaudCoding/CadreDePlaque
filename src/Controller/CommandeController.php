@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Tarif;
 use App\Entity\Panier;
 use App\Entity\Facture;
 use App\Entity\Produit;
@@ -10,10 +11,12 @@ use App\Form\PanierType;
 use App\Entity\Exemplaire;
 use App\Form\CommandeBarretteType;
 use App\Form\CommandeCacheplaqueType;
+use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class CommandeController extends AbstractController
@@ -50,7 +53,7 @@ final class CommandeController extends AbstractController
         ]);
     }
 
-    //affichage du panier
+    //affichage du panier et validation
     #[Route('/panier', name: 'app_panier')]
     public function Panier(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -117,7 +120,7 @@ final class CommandeController extends AbstractController
                 'user' => $id, 
                 'produit' => $produit], 
                 ['dateCreation' => 'DESC']);
-    
+                
             // création du formulaire
             $formAddPanier = $this->createForm(CommandeBarretteType::class);
             $formAddPanier->handleRequest($request);
@@ -146,8 +149,8 @@ final class CommandeController extends AbstractController
                             $panier->setQuantite($exemplaireQuantite);
                             
                             // on persiste dans la BDD
-                            $entityManager->persist($panier);
-                            $entityManager->flush();
+                            // $entityManager->persist($panier);
+                            // $entityManager->flush();
                         }
                         // si la quantité n'est pas renseignée
                         else { 
@@ -272,10 +275,10 @@ final class CommandeController extends AbstractController
                         $panierAvant = new Panier;
                         // on mets les infos récupérées dans le formulaire dans le panier
                         $panierAvant->setExemplaire($exemplaireAvantChoisi);
-                        $panierAvantArriere->setQuantite($exemplaireAvantQuantite);
+                        $panierAvant->setQuantite($exemplaireAvantQuantite);
 
                         // on persiste dans la BDD
-                        $entityManager->persist($panierAvantArriere);
+                        $entityManager->persist($panierAvant);
                         $entityManager->flush();
                     }
                     // si la quantité n'est pas renseignée
@@ -334,14 +337,36 @@ final class CommandeController extends AbstractController
         return $this->redirectToRoute('app_panier');
     }
 
-    // validation du panier - confirmation des quantités des articles
-    #[Route('/panier/valider', name: 'panier_valider', )]
-    public function validationPanier(Request $request) {
 
-        $quantites = $request->request->all('quantites');
-        dd($quantites);
-
+#[Route('/get-prix', name: 'get_prix', methods: ['GET'])]
+public function getPrix(Request $request, EntityManagerInterface $entityManager): JsonResponse
+{
+    // on récupère l'id du produit
+    $produitId = $request->query->get('produit_id');
+    // on récupère l'entité Produit correspondant
+    $produit = $entityManager->getRepository(Produit::class)->find($produitId);
+    // on récupère la quantité
+    $quantite = (int) $request->query->get('quantite');
+    
+    // si il n'y a pas de produit
+    if (!$produit) {
+        return new JsonResponse(['error' => 'Produit non trouvé'], 404);
     }
+    
+    // On récupère le tarif correspondant au palier le plus élevé <= quantite
+    $tarif = $entityManager->getRepository(Tarif::class)->findOneByQuantite($produit, $quantite);
+
+    // si il n'y a pas de tarif
+    if (!$tarif) {
+        return new JsonResponse(['error' => 'Aucun tarif trouvé'], 404);
+    }
+
+    return new JsonResponse([
+        'prix_unitaire' => $tarif->getPrixUnitaire()
+    ]);
+}
+
+
 
 
 }

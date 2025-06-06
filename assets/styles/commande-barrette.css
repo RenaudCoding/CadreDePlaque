@@ -68,6 +68,14 @@
     
 }
 
+.exemplaire-commande {
+    border: 1px solid rgb(204, 204, 204); 
+    padding: 1em; 
+    margin-bottom: 1em; 
+    height: 110px;
+    color: #666;
+}
+
 
 .load{
 

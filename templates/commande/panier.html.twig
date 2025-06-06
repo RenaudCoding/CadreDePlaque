@@ -32,7 +32,7 @@
                 {# index correspond à l'index du tableaux, field à son contenu (une instance de Panier #}
                 {# index est utilisé pour le slicing dans 'panier'=> $panier #}
                 {% for id, field in formQuantitePanier.articles %}
-                    <div class="article">
+                    <div class="article" data-id="{{ panier[id].id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
                         <div class="article-info">
                             {{ panier[id].id }} {{ panier[id].exemplaire }}
                             <div class="barrette">
@@ -55,6 +55,11 @@
 
                         <div class="article-total">
                             <p>Prix</p>
+                            <span id="prix-total"> €</span></p>
+                            
+                            <input type="hidden" id="prix-unitaire" value="0.5">
+                            <input type="hidden" id="prix-unitaire-avant" value="1">
+                            <input type="hidden" id="prix-unitaire-arriere" value="2">
                         </div>
 
                         <div class="article-supprimer">
@@ -69,6 +74,8 @@
 
             <section class="total-commande">
                 <h2>Total</h2>
+                <span id="prix-total-global"> €</span></p>
+
                 <button form="form-panier" type="submit" class="btn-vert choisir-exemplaire">Valider la commande</button>
            
            

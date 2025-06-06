@@ -18,6 +18,8 @@ function initChoixExemplaire() {
     const buttons = document.querySelectorAll('.choisir-exemplaire');
     // on récupère le champ du formulaire dont l'id est "commande_barrette_exemplaire"
     const exemplaireField = document.querySelector('#commande_barrette_exemplaire');
+    // on récupère la zone ou on affichera l'exemplaire choisi
+    const container = document.querySelector('.exemplaire-commande');
 
     // A servi pour tester l'accès au script
     // si le champ du formulaire n'est pas trouvé, message d'erreur
@@ -26,12 +28,9 @@ function initChoixExemplaire() {
         return;
     }
 
-    // on créer la zone d'affichage des infos de l'exemplaire
-    const selectedDisplay = createSelectedDisplayContainer(exemplaireField);
-
     // pour chaque bouton, on écoute le clic et on appel la fonction d'action suite au clic
     buttons.forEach(button => {
-        button.addEventListener('click', () => handleChoixClick(button, exemplaireField, selectedDisplay));
+        button.addEventListener('click', () => handleChoixClick(button, exemplaireField, container));
     });
 
     // Gestion de la validation du formulaire
@@ -48,70 +47,70 @@ function initChoixExemplaire() {
 
 }
 
-// Création du conteneur qui sera affiché
-function createSelectedDisplayContainer(exemplaireField) {
-    // on créer un conteneur contenant une div
-    const container = document.createElement('div');
-
-    container.style.border = '1px solid #ccc';
-    container.style.padding = '1em';
-    container.style.marginBottom = '1em';
-    container.style.height = '110px';
-    container.innerHTML = '<p style="margin: 0; color: #666;">Aucun exemplaire sélectionné.</p>';
-
-    // on insert ce conteneur au début du formulaire contenant le champ "exemplaireField"
-    exemplaireField.closest('form').prepend(container);
-    
-    // on retourne le conteneur pour qu'il soit visible
-    return container;
-}
-
 // Actions après un clic
-function handleChoixClick(button, exemplaireField, selectedDisplay) {
-    // on retrouve la div avec la class=exemplaire contenant le bouton sur lequel on a cliqué
-    const exemplaireDiv = button.closest('.exemplaire');
-    // on défini une constante "id" à laquelle on affecte la valeur indiquée dans l'attribut "data-id" de la div récupérée
-    const id = exemplaireDiv.dataset.id;
-
+function handleChoixClick(button, exemplaireField, container) {
+    // on retrouve la <div class='exemplaire'> contenant le bouton sur lequel on a cliqué
+    const exemplaire = button.closest('.exemplaire');
+    // on récupère dans cette div la <div class='exemplaire-info'> contenant les attributs 'data-id' et 'data-produit'
+    const exemplaireDiv = exemplaire.querySelector('.exemplaire-info');
+    // on défini une constante "id" à laquelle on affecte la valeur indiquée dans l'attribut 'data-id'
+    const id = exemplaireDiv.dataset.id;;
+    
     // on transmet l'id dans le champ exemplaireField du formulaire
     exemplaireField.value = id;
     // on active la checkbox du formulaire  
     document.getElementById('commande_barrette_validation').disabled = false;
     
-    // on récupère la div avec la class=exemplaire-info
-    const info = exemplaireDiv.querySelector('.exemplaire-info');
-    // on l'affiche dans le conteneur créer dans la fonction
-    selectedDisplay.innerHTML = info.outerHTML;
+    // on affiche la <div class='exemplaire-info'> dans la zone d'affichage
+    container.innerHTML = exemplaireDiv.outerHTML;
+    affichagePrix();
+    
 }
 
 // affichage dynamique du prix
 function affichagePrix() {
-    // on récupère l'élément correspondant à la quantité de barrettes commandées
-    const quantiteInput = document.getElementById('commande_barrette_quantite');
-    // on récupère l'élément contenant le prix unitaire
-    const prixUnitaireEl = document.getElementById('prix-unitaire');
-    // on réupère l'élément où sera affiché le prix total
-    const prixTotalDisplay = document.getElementById('prix-total');
+        const container = document.querySelector('.exemplaire-commande');
+        const exemplaireInfoEl = container.querySelector('.exemplaire-info');
+        const quantiteInput = document.getElementById('commande_barrette_quantite');
+        const prixTotalDisplay = document.getElementById('prix-total');
+        const prixUnitaireDisplay = document.getElementById('prix-unitaire');
 
-    // on vérifie que les éléments essentiels sont bien présents dans le DOM
-    if (!quantiteInput || !prixTotalDisplay) return;
+console.log(exemplaireInfoEl, quantiteInput, prixTotalDisplay, prixUnitaireDisplay);
 
-    // on convertit le prix unitaire en nombre flottant (ou 0 si invalide)
-    const prixUnitaire = parseFloat(prixUnitaireEl.value);
 
-    // Fonction qui calcule et affiche dynamiquement le prix total
-    function updatePrixTotal() {
-        // on récupère la quantité saisie (ou 0 si vide/invalide)
-        const quantite = parseInt(quantiteInput.value) || 0;
-        // on Calcule le prix total
-        const total = quantite * prixUnitaire;
-        // on affiche le résultat formaté avec 2 décimales et un symbole euro
-        prixTotalDisplay.textContent = total.toFixed(2) + ' €';
+
+        if (!exemplaireInfoEl || !quantiteInput || !prixTotalDisplay || !prixUnitaireDisplay) return;
+
+        const produitId = exemplaireInfoEl.dataset.produit;
+        
+        function updatePrixTotal() {
+            const quantite = parseInt(quantiteInput.value, 10);
+            if (isNaN(quantite) || quantite <= 0) {
+                prixTotalDisplay.textContent = "0.00 €";
+                prixUnitaireDisplay.textContent = "Prix unitaire : 0.00 €";
+                return;
+            }
+
+            fetch(`/get-prix?produit_id=${produitId}&quantite=${quantite}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.prix_unitaire) {
+                        const total = quantite * data.prix_unitaire;
+                        prixTotalDisplay.textContent = total.toFixed(2) + ' €';
+                        prixUnitaireDisplay.textContent = 'Prix unitaire : ' + data.prix_unitaire.toFixed(2) + ' €';
+                    } else {
+                        prixTotalDisplay.textContent = "Tarif introuvable";
+                        prixUnitaireDisplay.textContent = "Tarif introuvable";
+                    }
+                })
+                .catch(err => {
+                    prixTotalDisplay.textContent = "Erreur serveur";
+                    prixUnitaireDisplay.textContent = "Erreur serveur";
+                    console.error(err);
+                });
+        }
+
+        // Lancer le calcul du prix total dès qu'on change la quantité
+        quantiteInput.addEventListener('input', updatePrixTotal);
+        updatePrixTotal(); // Appel initial
     }
-
-    // écouteur d'événement pour mettre à jour le prix à chaque changement de la quantité
-    quantiteInput.addEventListener('input', updatePrixTotal);
-
-    // Appel initial pour afficher le prix dès le chargement de la page
-    updatePrixTotal();
-}

@@ -60,23 +60,17 @@
                 {{ form_widget(formAddPanier.exemplaireAvant) }}
                 {{ form_widget(formAddPanier.exemplaireArriere) }}
                 {{ form_row(formAddPanier.quantiteAvant, {'attr': {'class': 'quantite-input'}}) }}
-                <p>Prix unitaire : 1</p>
+                <div id="prix-unitaire-avant">Prix unitaire avant : 0.00 €</div>
                 {{ form_row(formAddPanier.quantiteArriere, {'attr': {'class': 'quantite-input'}}) }}
-                <p>Prix unitaire : 2</p>
+                <div id="prix-unitaire-arriere">Prix unitaire arrière : 0.00 €</div>
                 {{ form_row(formAddPanier.validation) }}
                 {{ form_row(formAddPanier.submit) }}
             {{ form_end(formAddPanier) }}
            
             <div>
-                <p>Prix unitaire avant: 1</p>
-                <p>Prix unitaire arrière: 2</p>
-                <p>Total Avant : <span id="prix-avant"> €</span></p>
-                <p>Total Arrière : <span id="prix-arriere"> €</span></p>
-                <p>Total : <span id="prix-total"> €</span></p>
-
-                <!-- Exemple de prix unitaire stocké dans un attribut data -->
-                <input type="hidden" id="prix-unitaire-avant" value="1">
-                <input type="hidden" id="prix-unitaire-arriere" value="2">
+                <div id="prix-avant">Total Avant : 0.00 €</div>
+                <div id="prix-arriere">Total Arrière : 0.00 €</div>
+                <div id="prix-total">Total : 0.00 €</div>
 
             </div>
 

@@ -102,16 +102,16 @@ function affichagePrix() {
     const exemplaireInfoEl = container.querySelector('.exemplaire-info');
     // on récupère le champ de quantité du formulaire
     const quantiteInput = document.getElementById('commande_barrette_quantite');
-    // on récupère l'élement qui affiche le prix total
-    const prixTotalDisplay = document.getElementById('prix-total');
     // on récupère l'élement qui affiche le prix unitaire
     const prixUnitaireDisplay = document.getElementById('prix-unitaire');
+    // on récupère l'élement qui affiche le prix total
+    const prixTotalDisplay = document.getElementById('prix-total');
 
     // affichage dans la console pour débogage
     // console.log(exemplaireInfoEl, quantiteInput, prixTotalDisplay, prixUnitaireDisplay);
 
     // si un des éléments est manquant, on arrête le script
-    if (!exemplaireInfoEl || !quantiteInput || !prixTotalDisplay || !prixUnitaireDisplay) return;
+    if (!exemplaireInfoEl || !quantiteInput || !prixUnitaireDisplay || !prixTotalDisplay) return;
 
     // on récupère l'id du produit depuis l'attribut "data-produit"
     const produitId = exemplaireInfoEl.dataset.produit;

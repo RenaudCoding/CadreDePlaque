@@ -41,38 +41,3 @@ export function getPrixUnitaire(produitId, quantite) {
     // si aucun seuil n’est atteint (ex: quantite = 0), on retourne 0
     return 0;
 }
-
-export function setupQuantityInputs() {
-    
-        const input = document.querySelector('.quantite-input');
-        const btnIncrease = document.querySelector('.btn-plus');
-        const btnDecrease = document.querySelector('.btn-moins');
-
-        if (!input || !btnIncrease || !btnDecrease) return;
-
-        btnIncrease.addEventListener('click', () => {
-            input.value = parseInt(input.value) + 1;
-            input.dispatchEvent(new Event('change'));
-        });
-
-        btnDecrease.addEventListener('click', () => {
-            const newValue = parseInt(input.value) - 1;
-            if (newValue >= parseInt(input.min || 1)) {
-                input.value = newValue;
-                input.dispatchEvent(new Event('change'));
-            }
-        });
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-

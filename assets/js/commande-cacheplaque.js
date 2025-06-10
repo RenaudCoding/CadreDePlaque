@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', initPage);
 // On appelle les 2 fonctions nécessaires au fonctionnement JS de la page
 function initPage(){
     initChoixExemplaire();
-    affichagePrix();
+    affichagePrixAvant();
+    affichagePrixArriere();
+    affichagePrixTotal()
 }
 
 // Fonction d'initialisation
@@ -82,16 +84,22 @@ function handleChoixClick(button, exemplaireFieldAvant, containerAvant, exemplai
     const submitBtn = document.getElementById('commande_cacheplaque_submit');
 
 
-    //on écoute le champ quantité avant pour activé/desactivé la checkbox en fonction de la quantité indiquée
-    quantiteInputAvant.addEventListener('input', function () {
-        // on récupère la quantité (en base 10 - facultatif car par défaut)
-        const quantite = parseInt(quantiteInputAvant.value, 10);
-        // si la quantité est renseignée et supérieure à 0
-        if (!isNaN(quantite) && quantite > 0) {
+
+    // on écoute les champs de quantité avant et arrière 
+    quantiteInputAvant.addEventListener('input', () => handleCheckSubmit(quantiteInputAvant, quantiteInputArriere));
+    quantiteInputArriere.addEventListener('input', () => handleCheckSubmit(quantiteInputAvant, quantiteInputArriere));
+
+    // fonction de gestion de la checkbox et du bouton submit
+    function handleCheckSubmit() {
+        // on récupère la valeur des champs de quantité avant et arrière
+        const qAvant = parseInt(quantiteInputAvant.value, 10);
+        const qArriere = parseInt(quantiteInputArriere.value, 10);
+
+        // si les quantités avant et arrière existe et l'une d'entre elles est supérieure à 0
+        if ((!isNaN(qAvant) || !isNaN(qArriere)) && (qAvant > 0 || qArriere > 0)) {
                 // on active la checkbox
                 checkbox.disabled = false;        
-        } 
-        //sinon :
+        }
         else {
             // on désactive la checkbox (on s'assure qu'elle est désactivée)
             checkbox.disabled = true;
@@ -100,28 +108,8 @@ function handleChoixClick(button, exemplaireFieldAvant, containerAvant, exemplai
             // on désactive le bouton submit
             submitBtn.disabled = true;    
         }
-    });
+    }
 
-
-    //on écoute le champ quantité arrière pour activé/desactivé la checkbox en fonction de la quantité indiquée
-    quantiteInputArriere.addEventListener('input', function () {
-        // on récupère la quantité (en base 10 - facultatif car par défaut)
-        const quantite = parseInt(quantiteInputArriere.value, 10);
-        // si la quantité est renseignée et supérieure à 0
-        if (!isNaN(quantite) && quantite > 0) {
-                // on active la checkbox
-                checkbox.disabled = false;        
-        } 
-        //sinon :
-        else {
-            // on désactive la checkbox (on s'assure qu'elle est désactivée)
-            checkbox.disabled = true;
-            // on décoche la checkbox (on s'assure qu'elle est décochée)
-            checkbox.checked = false;
-            // on désactive le bouton submit
-            submitBtn.disabled = true;    
-        }
-    });
 
     // on écoute la checkbox et on change l'état du bouton "ajouter au panier" en fonction de l'état de la checkbox
     checkbox.addEventListener('change', function () {
@@ -129,62 +117,273 @@ function handleChoixClick(button, exemplaireFieldAvant, containerAvant, exemplai
         submitBtn.disabled = !this.checked;
     });
 
-    
+    // on s'assure que le prix est à jour si la quantité est déjà renseignée au moment du choix de l'exemplaire
+    affichagePrixAvant();
+    affichagePrixArriere();
+    affichagePrixTotal();
 }   
-/*
-// affichage dynamique du prix
-function affichagePrix() {
-    // on regroupe tous les éléments DOM nécessaires dans un objet pour une meilleure organisation
-    const elements = {
-        // Champ de saisie pour la quantité avant
-        quantiteAvant: document.getElementById('commande_cacheplaque_quantiteAvant'),
-        // Champ de saisie pour la quantité arrière
-        quantiteArriere: document.getElementById('commande_cacheplaque_quantiteArriere'),
-        // Prix unitaire des caches plaque avant, converti en float (ou 0 si non défini ou invalide)
-        prixUnitaireAvant: parseFloat(document.getElementById('prix-unitaire-avant')?.value) || 0,
-        // Prix unitaire des caches plaques arrière, converti en float (ou 0 si non défini ou invalide)
-        prixUnitaireArriere: parseFloat(document.getElementById('prix-unitaire-arriere')?.value) || 0,
-        // Élément qui affichera le prix total des caches plaque avant
-        totalAvant: document.getElementById('prix-avant'),
-        // Élément qui affichera le prix total des caches plaque arrière
-        totalArriere: document.getElementById('prix-arriere'),
-        // Élément qui affichera le prix total global
-        totalGlobal: document.getElementById('prix-total')
-    };
 
-    // on vérifie que tous les éléments nécessaires sont bien présents dans le DOM
-    if (!elements.quantiteAvant || !elements.quantiteArriere || 
-        !elements.totalAvant || !elements.totalArriere || !elements.totalGlobal) return;
 
-    // Fonction qui calcule et met à jour tous les prix
-    const updatePrixTotal = () => {
-        // on récupère la quantité saisie pour les caches plaque avant (ou 0 si vide/invalide)
-        const qAvant = parseInt(elements.quantiteAvant.value) || 0;
-        // on récupère la quantité saisie pour les caches plaque arrière (ou 0 si vide/invalide)
-        const qArriere = parseInt(elements.quantiteArriere.value) || 0;
 
-        // on calcule le total pour les caches plaque avant
-        const totalAvant = qAvant * elements.prixUnitaireAvant;
-        // on calcule le total pour les plaques arrière
-        const totalArriere = qArriere * elements.prixUnitaireArriere;
-        // on calcule le total général (avant + arrière)
-        const total = totalAvant + totalArriere;
 
-        // on met à jour l'affichage des totau avec 2 décimales
-        elements.totalAvant.textContent = `${totalAvant.toFixed(2)} €`;
-        elements.totalArriere.textContent = `${totalArriere.toFixed(2)} €`;
-        elements.totalGlobal.textContent = `${total.toFixed(2)} €`;
-    };
 
-    // écouteur d’événement sur la quantité avant pour recalculer à chaque modification
-    elements.quantiteAvant.addEventListener('input', updatePrixTotal);
-    // écouteur d’événement sur la quantité arrière pour recalculer à chaque modification
-    elements.quantiteArriere.addEventListener('input', updatePrixTotal);
 
-    // Exécute la fonction une première fois au chargement pour afficher les prix initiaux
-    updatePrixTotal();
+
+function affichagePrixAvant() {
+    // on récupère la <div class="exemplaire-commande"> qui est la zone d'affichage de l'exemplaire sélectionné
+    const containerAvant = document.querySelector('.exemplaire-commande-avant');
+    // on récupère dans ce conteneur la <div class="exemplaire-info"> qui contient l'exemplaire choisi
+    // cette div à les atttributs "data-id" et "data-produit"
+    const exemplaireInfoAvant = containerAvant.querySelector('.exemplaire-info');
+    // on récupère le champ de quantité du formulaire
+    const quantiteInputAvant = document.getElementById('commande_cacheplaque_quantiteAvant');
+    // on récupère l'élement qui affiche le prix unitaire
+    const prixUnitaireAvantDisplay = document.getElementById('prix-unitaire-avant');
+    // on récupère l'élement qui affiche le prix total
+    const prixAvantDisplay = document.getElementById('prix-avant');
+
+    // affichage dans la console pour débogage
+    // console.log(exemplaireInfoEl, quantiteInput, prixTotalDisplay, prixUnitaireDisplay);
+
+    // si un des éléments est manquant, on arrête le script
+    if (!exemplaireInfoAvant || !quantiteInputAvant || !prixUnitaireAvantDisplay || !prixAvantDisplay) return;
+
+    // on récupère l'id du produit depuis l'attribut "data-produit"
+    const produitIdAvant = exemplaireInfoAvant.dataset.produit;
+    
+    // mise à jour de l'affichage des prix en fonction de la quantité
+    function updatePrixTotalAvant() {
+
+        // on récupère la quantité entrée, convertie en nombre entier (en base 10 - facultatif car par défaut)
+        const qAvant = parseInt(quantiteInputAvant.value);
+
+        // si la quantité est vide ou nulle, les prix sont mis à 0
+        if (isNaN(qAvant) || qAvant <= 0) {
+            prixUnitaireAvantDisplay.textContent = "Prix unitaire avant : 0.00 €";
+            prixAvantDisplay.textContent = "Total Avant : 0.00 €";
+            return;
+        }
+
+        // on récupère le prix unitaire avec la fonction importée dédiée
+        const prixUnitaireAvant = getPrixUnitaire(produitIdAvant, qAvant);
+        // calcul du prix total
+        const totalAvant = qAvant * prixUnitaireAvant;
+
+        // on met à jour l'affichage des prix formatés
+        prixUnitaireAvantDisplay.textContent = `Prix unitaire avant : ${prixUnitaireAvant.toFixed(2)} €`;
+        prixAvantDisplay.textContent = `Total Avant : ${totalAvant.toFixed(2)} €`;
+
+    }
+
+    // on charge les grilles de tarifs (appel API) puis
+    chargerTarifsGlobaux().then(() => {
+        // on lance le calcul du prix total dès qu'on change la quantité
+        quantiteInputAvant.addEventListener('input', updatePrixTotalAvant);
+        // affichage initial
+        updatePrixTotalAvant();
+        
+    });
 }
-*/
+
+
+function affichagePrixArriere() {
+    // on récupère la <div class="exemplaire-commande"> qui est la zone d'affichage de l'exemplaire sélectionné
+    const containerArriere = document.querySelector('.exemplaire-commande-arriere');
+    // on récupère dans ce conteneur la <div class="exemplaire-info"> qui contient l'exemplaire choisi
+    // cette div à les atttributs "data-id" et "data-produit"
+    const exemplaireInfoArriere = containerArriere.querySelector('.exemplaire-info');
+    // on récupère le champ de quantité du formulaire
+    const quantiteInputArriere = document.getElementById('commande_cacheplaque_quantiteArriere');
+    // on récupère l'élement qui affiche le prix unitaire
+    const prixUnitaireArriereDisplay = document.getElementById('prix-unitaire-arriere');
+    // on récupère l'élement qui affiche le prix total
+    const prixArriereDisplay = document.getElementById('prix-arriere');
+
+    // affichage dans la console pour débogage
+    // console.log(exemplaireInfoEl, quantiteInput, prixTotalDisplay, prixUnitaireDisplay);
+
+    // si un des éléments est manquant, on arrête le script
+    if (!exemplaireInfoArriere || !quantiteInputArriere || !prixUnitaireArriereDisplay || !prixArriereDisplay) return;
+
+    // on récupère l'id du produit depuis l'attribut "data-produit"
+    const produitIdArriere = exemplaireInfoArriere.dataset.produit;
+    
+    // mise à jour de l'affichage des prix en fonction de la quantité
+    function updatePrixTotalArriere() { // on récupère la quantité entrée, convertie en nombre entier (en base 10 - facultatif car par défaut)
+        const qArriere = parseInt(quantiteInputArriere.value);
+
+        // si la quantité est vide ou nulle, les prix sont mis à 0
+        if (isNaN(qArriere) || qArriere <= 0) {
+            prixUnitaireArriereDisplay.textContent = "Prix unitaire arriere : 0.00 €";
+            prixArriereDisplay.textContent = "Total Arriere : 0.00 €";
+            return;
+        }
+
+        // on récupère le prix unitaire avec la fonction importée dédiée
+        const prixUnitaireArriere = getPrixUnitaire(produitIdArriere, qArriere);
+        // calcul du prix total
+        const totalArriere = qArriere * prixUnitaireArriere;
+
+        // on met à jour l'affichage des prix formatés
+        prixUnitaireArriereDisplay.textContent = `Prix unitaire arriere : ${prixUnitaireArriere.toFixed(2)} €`;
+        prixArriereDisplay.textContent = `Total Arriere : ${totalArriere.toFixed(2)} €`;
+
+    }
+
+    // on charge les grilles de tarifs (appel API) puis
+    chargerTarifsGlobaux().then(() => {
+        // on lance le calcul du prix total dès qu'on change la quantité
+        quantiteInputArriere.addEventListener('input', updatePrixTotalArriere);
+        // affichage initial
+        updatePrixTotalArriere();
+        
+    });
+}
+
+
+
+function affichagePrixTotal() {
+
+    // on récupère l'élement qui affiche le total pour l'avant et le total pour l'arrière
+    const prixAvantDisplay = document.getElementById('prix-avant');
+    const prixArriereDisplay = document.getElementById('prix-arriere');
+
+    // on récupère l'élement qui affiche le prix total
+    const prixTotalDisplay = document.getElementById('prix-total');
+    
+    const quantiteInputAvant = document.getElementById('commande_cacheplaque_quantiteAvant');
+    const quantiteInputArriere = document.getElementById('commande_cacheplaque_quantiteArriere');
+
+    if (!prixAvantDisplay || !prixArriereDisplay || !prixTotalDisplay) return;
+
+    // on récupère la valeur saisie pour les caches plaque avant
+    const prixAvant = parseInt(prixAvantDisplay.value);
+    // on récupère la quantité saisie pour les caches plaque arrière
+    const prixArriere = parseInt(prixArriereDisplay.value);
+
+    if (isNaN(prixAvant) || isNaN(prixArriere)) {
+            
+            prixTotalDisplay.textContent = "Total : 0.00 €";
+            return;
+    }
+
+    // on calcul le prix total
+    const prixTotal = prixAvant + prixArriere;
+    // on met à jour l'affichage du prix total
+    prixTotalDisplay.textContent = `${prixTotal.toFixed(2)} €`;
+
+    quantiteInputAvant.addEventListener('input', affichagePrixTotal);
+    quantiteInputArriere.addEventListener('input', affichagePrixTotal);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// affichage dynamique du prix
+// function affichagePrix() {
+
+//         // on récupère les zones ou on affichera l'exemplaire avant et arrière
+//         const containerAvant = document.querySelector('.exemplaire-commande-avant');
+//         const containerArriere = document.querySelector('.exemplaire-commande-arriere');
+//         // on récupère dans ces conteneurs la <div class="exemplaire-info"> qui contient l'exemplaire choisi
+//         // cees div ont les atttributs "data-id" et "data-produit"
+//         const exemplaireInfoAvant = containerAvant.querySelector('.exemplaire-info');
+//         const exemplaireInfoArriere = containerArriere.querySelector('.exemplaire-info');
+
+//         // on récupère les élements correspondant au champ quantité avant et arrière
+//         const quantiteInputAvant = document.getElementById('commande_cacheplaque_quantiteAvant');
+//         const quantiteInputArriere = document.getElementById('commande_cacheplaque_quantiteArriere');
+
+//         // on récupère l'élement qui affiche le prix unitaire avant et arrière
+//         const prixUnitaireAvantDisplay = document.getElementById('prix-unitaire-avant');
+//         const prixUnitaireArriereDisplay = document.getElementById('prix-unitaire-arriere');
+        
+//         // on récupère l'élement qui affiche le total pour l'avant et le total pour l'arrière
+//         const prixAvantDisplay = document.getElementById('prix-avant');
+//         const prixArriereDisplay = document.getElementById('prix-arriere');
+
+//         // on récupère l'élement qui affiche le prix total
+//         const prixTotalDisplay = document.getElementById('prix-total');
+
+//     // affichage dans la console pour débogage
+//     // console.log(exemplaireInfoAvant, exemplaireInfoArriere, quantiteInputAvant, quantiteInputArriere);
+
+//     // si un des éléments est manquant, on arrête le script
+//     if (!exemplaireInfoAvant || !exemplaireInfoArriere ||
+//         !quantiteInputAvant || !quantiteInputArriere ||
+//         !prixUnitaireAvantDisplay || !prixUnitaireArriereDisplay ||
+//         !prixAvantDisplay || !prixArriereDisplay || !prixTotalDisplay) return;
+
+//     // on récupère l'id du produit depuis l'attribut "data-produit"
+//     const produitIdAvant = exemplaireInfoAvant.dataset.produit;
+//     const produitIdArriere = exemplaireInfoArriere.dataset.produit;
+
+//     console.log(produitIdAvant);
+//     console.log(produitIdArriere);
+//     // Fonction qui calcule et met à jour tous les prix
+//     function updatePrixTotal() {
+//         // on récupère la quantité saisie pour les caches plaque avant
+//         const qAvant = parseInt(quantiteInputAvant.value);
+//         // on récupère la quantité saisie pour les caches plaque arrière
+//         const qArriere = parseInt(quantiteInputArriere.value);
+
+//         // si la quantité avant est vide ou nulle, les prix sont mis à 0
+//         if (isNaN(qAvant) || qAvant <= 0) {
+//             prixUnitaireAvantDisplay.textContent = "Prix unitaire avant : 0.00 €";
+//             prixAvantDisplay.textContent = "Total Avant : 0.00 €";
+//             return;
+//         }
+
+//         // si la quantité arrière est vide ou nulle, les prix sont mis à 0
+//         if (isNaN(qArriere) || qArriere <= 0) {
+//             prixUnitaireArriereDisplay.textContent = "Prix unitaire arrière : 0.00 €";
+//             prixArriereDisplay.textContent = "Total Arrière : 0.00 €";
+//             return;
+//         }
+
+//         // on récupère le prix unitaire avec la fonction importée dédiée
+//         const prixUnitaireAvant = getPrixUnitaire(produitIdAvant, qAvant);
+//         const prixUnitaireArriere = getPrixUnitaire(produitIdArriere, qArriere);
+
+//         // on calcule le total pour les caches plaque avant
+//         const totalAvant = qAvant * prixUnitaireAvant;
+//         // on calcule le total pour les plaques arrière
+//         const totalArriere = qArriere * prixUnitaireArriere;
+//         // on calcule le total général (avant + arrière)
+//         const total = totalAvant + totalArriere;
+
+//         // on met à jour l'affichage des totaux avec 2 décimales
+//         prixAvantDisplay.textContent = `${totalAvant.toFixed(2)} €`;
+//         prixArriereDisplay.textContent = `${totalArriere.toFixed(2)} €`;
+//         prixTotalDisplay.textContent = `${total.toFixed(2)} €`;
+//     };
+
+//     // écouteur d’événement sur la quantité avant pour recalculer à chaque modification
+//     quantiteInputAvant.addEventListener('input', updatePrixTotal);
+//     // écouteur d’événement sur la quantité arrière pour recalculer à chaque modification
+//     quantiteInputArriere.addEventListener('input', updatePrixTotal);
+
+//     // Exécute la fonction une première fois au chargement pour afficher les prix initiaux
+//     updatePrixTotal();
+// }
+
 
 
 

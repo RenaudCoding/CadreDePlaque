@@ -26,17 +26,18 @@ class CommandeBarretteType extends AbstractType
             ->add('quantite', IntegerType::class, [
                 'data' => '0',
                 // 'constraints' => [new GreaterThanOrEqual( 0 , null, "Problème de quantité")],
-                'attr' => ['min' => 0]
+                'attr' => ['min' => 0,
+                            'disabled' => true] // on rendra le champ accessible en JS une fois qu'un exemplaire est sélectionné               
             ])
             ->add('validation', CheckboxType::class, [
                 'mapped' => false,
-                'label'    => 'Après vérification, je valide la décoration qui doit être imprimée sur les barettes',
+                'label'    => 'Après vérification, je valide la décoration qui doit être imprimée sur les barrettes',
                 'required' => true, // la case doit être cochée
-                'attr' => ['disabled' => true]
+                'attr' => ['disabled' => true] // on rendra le champ accessible en JS lorsqu'une quantité > 0 est saisie
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Ajouter au panier',
-                'attr' => ['disabled' => true,
+                'attr' => ['disabled' => true, // on rendra le champ accessible en JS une fois que la checkbox est cochée
                             'class' => 'btn-vert']
             ]);
     }

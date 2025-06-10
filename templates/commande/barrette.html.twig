@@ -55,29 +55,23 @@
         <section class="commande-barrette">
             <h2>Votre commande de barrettes</h2>
 
-            
-
 
             {{ form_start(formAddPanier) }}
                 <div class="exemplaire-commande">Aucun exemplaire sélectionné</div>
                 {{ form_widget(formAddPanier.exemplaire) }}
-                {{ form_row(formAddPanier.quantite, {'attr': {'class': 'quantite-input'}}) }}
+                <div class="quantite">
+                    {# <button type="button" class="btn-moins">-</button>  #}
+                    {# Champ quantité du formulaire #}
+                    {{ form_row(formAddPanier.quantite, {'attr': {'class': 'quantite-input'}}) }}
+                    {# <button type="button" class="btn-plus">+</button> #}
+                </div>
+                {# Champ checkbox #}
                 {{ form_row(formAddPanier.validation) }}
                 {{ form_row(formAddPanier.submit) }}
             {{ form_end(formAddPanier) }}
            
-
-            <div id="prix-total">0.00 €</div>
             <div id="prix-unitaire">Prix unitaire : 0.00 €</div>
-
-            {# <div>
-                <p>Prix unitaire : 0.5</p>
-                <p>Total : <span id="prix-total"> €</span></p>
-            </div> #}
-                <!-- Exemple de prix unitaire stocké dans un attribut data -->
-                {# <input type="hidden" id="prix-unitaire" value="0.5"> #}
-
-            
+            <div id="prix-total">Prix Total : 0.00 €</div>   
             
         </section>    
     

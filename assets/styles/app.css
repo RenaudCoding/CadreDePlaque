@@ -3,6 +3,21 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
+
+/* on désactive les fleches dans le champs de saisi type number
+    /* Chrome, Safari, Edge, Opera */
+    /* input::-webkit-outer-spin-button, */
+    /* input::-webkit-inner-spin-button { */
+        /* -webkit-appearance: none; */
+        /* margin: 0; */
+    /* } */
+
+    /* Firefox */
+    /* input[type=number] { */
+        /* appearance: textfield; */
+        /* -moz-appearance: textfield; */
+    /* } */
+
 }
 
 :root{
@@ -87,6 +102,13 @@
     background-color: var(--bleu);
     color: white; 
 }
+
+/* bouton d'action pour input number
+.btn-plus, .btn-moins {
+    padding: 0px 6px;
+    font-size: 1.3em;
+}
+*/
 
 /* pour simuler le visuel d'une barrette  */
 .barrette {

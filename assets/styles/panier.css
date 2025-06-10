@@ -99,13 +99,9 @@
     gap: 5px;
 }
 
-.quantite button {
-    padding: 0px 6px;
-    font-size: 1.3em;
-}
-
 .quantite-input {
-    width: 60px;
+    width: 80px;
+    height: 30px;
     text-align: center;
 }
 

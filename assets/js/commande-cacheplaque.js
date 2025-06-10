@@ -3,9 +3,13 @@ console.log("JS choix de l'exemplaire de cacheplaque chargé !");
 // on importe le fichier CSS pour la page de commande de barrette
 import '../styles/commande-cacheplaque.css';
 
+// on importe les fonctions nécessaire au calcul dynamique du prix
+import { chargerTarifsGlobaux, getPrixUnitaire, setupQuantityInputs } from './calcul-prix';
+
 // Quand la page est complètement chargée, on lance l'initialisation
 document.addEventListener('DOMContentLoaded', initPage);
 
+// On appelle les 2 fonctions nécessaires au fonctionnement JS de la page
 function initPage(){
     initChoixExemplaire();
     affichagePrix();
@@ -19,6 +23,9 @@ function initChoixExemplaire() {
      // On récupère les deux champs cachés du formulaire pour les exemplaires avant et arrière
     const exemplaireFieldAvant = document.querySelector('#commande_cacheplaque_exemplaireAvant');
     const exemplaireFieldArriere = document.querySelector('#commande_cacheplaque_exemplaireArriere');
+    // on récupère les zones ou on affichera l'exemplaire avant et arrière
+    const containerAvant = document.querySelector('.exemplaire-commande-avant');
+    const containerArriere = document.querySelector('.exemplaire-commande-arriere');
 
     // Si aucun des deux champs n'est trouvé, on affiche un message d'avertissement dans la console
     if (!exemplaireFieldAvant && !exemplaireFieldArriere) {
@@ -26,82 +33,105 @@ function initChoixExemplaire() {
         return; // On arrête le script ici
     }
 
-    // On crée les conteneurs d'affichage pour les informations sélectionnées
-    // L'ordre d'appel est inversé car avec prepend(container), les conteneurs s'ajoutent toujours sur le dessus
-    // Avec cet ordre, on a l'exemplaire avant qui s'affiche au dessus de l'exemplaire arrière
-    const displays = {
-        3: exemplaireFieldArriere ? createDisplayContainer(exemplaireFieldArriere, 'arrière') : null,
-        2: exemplaireFieldAvant ? createDisplayContainer(exemplaireFieldAvant, 'avant') : null
-        
-    };
-
-    // Pour chaque bouton de sélection, on ajoute un écouteur d'événement "click"
+    // Pour chaque bouton de sélection, on ajoute un écouteur d'événement et on map
     buttons.forEach(button => {
         button.addEventListener('click', () =>
-            handleChoixClick(button, {
-                2: { field: exemplaireFieldAvant, display: displays[2] },
-                3: { field: exemplaireFieldArriere, display: displays[3] }
-            })
-        );
+            handleChoixClick(button, exemplaireFieldAvant, containerAvant, exemplaireFieldArriere, containerArriere));
     });
 
+}
+
+
+// Gestion du clic sur un bouton de sélection
+function handleChoixClick(button, exemplaireFieldAvant, containerAvant, exemplaireFieldArriere, containerArriere) {
+    // On récupère la div contenant le bouton cliqué (et donc l'exemplaire associé)
+    const exemplaire = button.closest('.exemplaire');
+    // on récupère dans cette div la <div class='exemplaire-info'> contenant les attributs 'data-id' et 'data-produit'
+    const exemplaireDiv = exemplaire.querySelector('.exemplaire-info');
+
+     // On lit les données stockées dans les attributs data-* de la div
+    const id = exemplaireDiv.dataset.id; // ID de l'exemplaire
+    const produit = exemplaireDiv.dataset.produit; // Type de produit (2 ou 3)
+
+    // on récupère les élements correspondant au champ quantité avant et arrière
+    const quantiteInputAvant = document.getElementById('commande_cacheplaque_quantiteAvant');
+    const quantiteInputArriere = document.getElementById('commande_cacheplaque_quantiteArriere');
+
+    if(produit == 2) {
+        // on transmet l'id dans le champ exemplaireField du formulaire
+        exemplaireFieldAvant.value = id;   
+        // on affiche la <div class='exemplaire-info'> dans la zone d'affichage
+        containerAvant.innerHTML = exemplaireDiv.outerHTML;
+        // on active le champ de saisi de la quantité avant
+        quantiteInputAvant.disabled = false;
+    }
+    
+    if(produit == 3) {
+        // on transmet l'id dans le champ exemplaireField du formulaire
+        exemplaireFieldArriere.value = id;   
+        // on affiche la <div class='exemplaire-info'> dans la zone d'affichage
+        containerArriere.innerHTML = exemplaireDiv.outerHTML;
+        // on active le champ de saisi de la quantité arrière
+        quantiteInputArriere.disabled = false;
+    }
+   
     // Gestion de la validation du formulaire
     // on récupère l'élement checkbox
     const checkbox = document.getElementById('commande_cacheplaque_validation');
     // on récupère le bouton de validation du formulaire "ajouter au panier"
     const submitBtn = document.getElementById('commande_cacheplaque_submit');
 
-    // on écoute la checkbox et on change l'état du bonton "ajouter au panier" en fonction de l'état de la checkbox
+
+    //on écoute le champ quantité avant pour activé/desactivé la checkbox en fonction de la quantité indiquée
+    quantiteInputAvant.addEventListener('input', function () {
+        // on récupère la quantité (en base 10 - facultatif car par défaut)
+        const quantite = parseInt(quantiteInputAvant.value, 10);
+        // si la quantité est renseignée et supérieure à 0
+        if (!isNaN(quantite) && quantite > 0) {
+                // on active la checkbox
+                checkbox.disabled = false;        
+        } 
+        //sinon :
+        else {
+            // on désactive la checkbox (on s'assure qu'elle est désactivée)
+            checkbox.disabled = true;
+            // on décoche la checkbox (on s'assure qu'elle est décochée)
+            checkbox.checked = false;
+            // on désactive le bouton submit
+            submitBtn.disabled = true;    
+        }
+    });
+
+
+    //on écoute le champ quantité arrière pour activé/desactivé la checkbox en fonction de la quantité indiquée
+    quantiteInputArriere.addEventListener('input', function () {
+        // on récupère la quantité (en base 10 - facultatif car par défaut)
+        const quantite = parseInt(quantiteInputArriere.value, 10);
+        // si la quantité est renseignée et supérieure à 0
+        if (!isNaN(quantite) && quantite > 0) {
+                // on active la checkbox
+                checkbox.disabled = false;        
+        } 
+        //sinon :
+        else {
+            // on désactive la checkbox (on s'assure qu'elle est désactivée)
+            checkbox.disabled = true;
+            // on décoche la checkbox (on s'assure qu'elle est décochée)
+            checkbox.checked = false;
+            // on désactive le bouton submit
+            submitBtn.disabled = true;    
+        }
+    });
+
+    // on écoute la checkbox et on change l'état du bouton "ajouter au panier" en fonction de l'état de la checkbox
     checkbox.addEventListener('change', function () {
         // le bouton submit est disabled quand la checkbox n'est pas cochée
         submitBtn.disabled = !this.checked;
     });
-}
 
-// Création dynamique du conteneur d’affichage
-function createDisplayContainer(field, typeLabel) {
-    // On crée un nouvel élément div pour afficher l'exemplaire sélectionné
-    const container = document.createElement('div');
-
-    // Style de base du conteneur
-    container.style.border = '1px solid #ccc';
-    container.style.padding = '1em';
-    container.style.marginBottom = '1em';
-    container.style.height = '110px';
-    // Contenu par défaut si aucun exemplaire n'est sélectionné
-    container.innerHTML = `<p style="margin: 0; color: #666;">Aucun exemplaire ${typeLabel} sélectionné.</p>`;
-
-    // On insère le conteneur en haut du formulaire
-    field.closest('form').prepend(container);
-    // On retourne le conteneur
-    return container;
-}
-
-// Gestion du clic sur un bouton de sélection
-function handleChoixClick(button, exemplaireMap) {
-    // On récupère la div contenant le bouton cliqué (et donc l'exemplaire associé)
-    const exemplaireDiv = button.closest('.exemplaire');
-     // On lit les données stockées dans les attributs data-* de la div
-    const id = exemplaireDiv.dataset.id; // ID de l'exemplaire
-    const produit = exemplaireDiv.dataset.produit; // Type de produit (2 ou 3)
- 
-    // On détermine la cible dans la map en fonction du type de produit
-    const target = exemplaireMap[produit];
-    // Si aucune cible trouvée, on arrête (sécurité)
-    if (!target) return;
-
-    // On met à jour la valeur du champ caché avec l'ID sélectionné
-    target.field.value = id;
-    // on active la checkbox du formulaire  
-    document.getElementById('commande_cacheplaque_validation').disabled = false;
-
-    // On récupère la zone contenant les informations d'affichage de l'exemplaire
-    const info = exemplaireDiv.querySelector('.exemplaire-info');
-
-    // On affiche les informations de l'exemplaire sélectionné dans le conteneur prévu
-    target.display.innerHTML = info.outerHTML;
-}
-
+    
+}   
+/*
 // affichage dynamique du prix
 function affichagePrix() {
     // on regroupe tous les éléments DOM nécessaires dans un objet pour une meilleure organisation
@@ -154,7 +184,7 @@ function affichagePrix() {
     // Exécute la fonction une première fois au chargement pour afficher les prix initiaux
     updatePrixTotal();
 }
-
+*/
 
 
 

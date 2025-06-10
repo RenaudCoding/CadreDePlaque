@@ -35,7 +35,7 @@
             </div>
             <div class="liste-exemplaire">
                 {% for exemplaire in exemplaires %}
-                    <div class="exemplaire">
+                    <div class="exemplaire" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
                         <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
                             {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
                             <div class="barrette">

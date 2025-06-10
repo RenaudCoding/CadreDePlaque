@@ -27,7 +27,8 @@ class CommandeCacheplaqueType extends AbstractType
                 'mapped' => false, //car le champ n'existe pas dans l'entité
                 'data' => '0',
                 // 'constraints' => [new GreaterThanOrEqual( 0 , null, "Il faut un nombre positif ou nul")],
-                'attr' => ['min' => 0]
+                'attr' => ['min' => 0,
+                            'disabled' => true] // on rendra le champ accessible en JS lorsqu'une quantité > 0 est saisie]
                 ])
             ->add('exemplaireArriere',HiddenType::class, [
                 'mapped' => false // car en JS on récupère une id et non une entité
@@ -36,7 +37,8 @@ class CommandeCacheplaqueType extends AbstractType
                 'mapped' => false, //car le champ n'existe pas dans l'entité
                 'data' => '0',
                 // 'constraints' => [new GreaterThanOrEqual( 0 , null, "Il faut un nombre positif ou nul")],
-                'attr' => ['min' => 0]
+                'attr' => ['min' => 0,
+                            'disabled' => true] // on rendra le champ accessible en JS lorsqu'une quantité > 0 est saisie]]
                 ])
             ->add('validation', CheckboxType::class, [
                 'mapped' => false,

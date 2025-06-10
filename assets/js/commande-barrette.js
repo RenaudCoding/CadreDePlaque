@@ -40,7 +40,7 @@ function initChoixExemplaire() {
 // Actions après un clic sur un bouton de selection d'un exemplaire
 function handleChoixClick(button, exemplaireField, container) {
 
-    // Gestion du choix de l'exemplaire
+    // Gestion du choix de l'exemplaire et affichage
     // on retrouve la <div class='exemplaire'> contenant le bouton sur lequel on a cliqué
     const exemplaire = button.closest('.exemplaire');
     // on récupère dans cette div la <div class='exemplaire-info'> contenant les attributs 'data-id' et 'data-produit'
@@ -70,8 +70,7 @@ function handleChoixClick(button, exemplaireField, container) {
         // si la quantité est renseignée et supérieure à 0
         if (!isNaN(quantite) && quantite > 0) {
                 // on active la checkbox
-                checkbox.disabled = false;
-                
+                checkbox.disabled = false;        
         } 
         //sinon :
         else {
@@ -80,8 +79,7 @@ function handleChoixClick(button, exemplaireField, container) {
             // on décoche la checkbox (on s'assure qu'elle est décochée)
             checkbox.checked = false;
             // on désactive le bouton submit
-            submitBtn.disabled = true;
-            
+            submitBtn.disabled = true;    
         }
     });
 

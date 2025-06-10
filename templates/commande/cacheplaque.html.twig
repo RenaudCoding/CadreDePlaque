@@ -34,8 +34,8 @@
             </div>
             <div class="liste-exemplaire">
                 {% for exemplaire in exemplaires %}
-                    <div class="exemplaire" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                        <div class="exemplaire-info">
+                    <div class="exemplaire">
+                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
                             {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
                             <div class="cacheplaque">
                                 {%for marquages in exemplaire.marquages %}
@@ -55,6 +55,8 @@
             <h2>Votre commande de caches plaque</h2>
 
             {{ form_start(formAddPanier) }}
+                <div class="exemplaire-commande-avant">Aucun exemplaire sélectionné</div>
+                <div class="exemplaire-commande-arriere">Aucun exemplaire sélectionné</div>
                 {{ form_widget(formAddPanier.exemplaireAvant) }}
                 {{ form_widget(formAddPanier.exemplaireArriere) }}
                 {{ form_row(formAddPanier.quantiteAvant, {'attr': {'class': 'quantite-input'}}) }}

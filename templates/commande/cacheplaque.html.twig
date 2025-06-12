@@ -59,8 +59,10 @@
                 <div class="exemplaire-commande-arriere">Aucun exemplaire sélectionné</div>
                 {{ form_widget(formAddPanier.exemplaireAvant) }}
                 {{ form_widget(formAddPanier.exemplaireArriere) }}
+                {# Champ quantité avant du formulaire #}
                 {{ form_row(formAddPanier.quantiteAvant, {'attr': {'class': 'quantite-input'}}) }}
                 <div id="prix-unitaire-avant">Prix unitaire avant : 0.00 €</div>
+                {# Champ quantité arrière du formulaire #}
                 {{ form_row(formAddPanier.quantiteArriere, {'attr': {'class': 'quantite-input'}}) }}
                 <div id="prix-unitaire-arriere">Prix unitaire arrière : 0.00 €</div>
                 {{ form_row(formAddPanier.validation) }}

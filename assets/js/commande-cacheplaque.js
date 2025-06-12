@@ -1,27 +1,25 @@
-console.log("JS choix de l'exemplaire de cacheplaque chargé !");
+console.log("JS produit cacheplaque chargé !");
 
 // on importe le fichier CSS pour la page de commande de barrette
 import '../styles/commande-cacheplaque.css';
 
 // on importe les fonctions nécessaire au calcul dynamique du prix
-import { chargerTarifsGlobaux, getPrixUnitaire, setupQuantityInputs } from './calcul-prix';
+import { chargerTarifsGlobaux, getPrixUnitaire } from './calcul-prix';
 
 // Quand la page est complètement chargée, on lance l'initialisation
 document.addEventListener('DOMContentLoaded', initPage);
 
 // On appelle les 2 fonctions nécessaires au fonctionnement JS de la page
 function initPage(){
+    chargerTarifsGlobaux(); // on charge les grilles de tarifs (appel API)
     initChoixExemplaire();
     affichagePrixAvant();
     affichagePrixArriere();
-    affichagePrixTotal()
+    affichagePrixTotal();
 }
 
 // Fonction d'initialisation
 function initChoixExemplaire() {
-
-    // on charge les grilles de tarifs (appel API)
-    chargerTarifsGlobaux()
 
     // On récupère tous les boutons permettant de choisir un exemplaire
     const buttons = document.querySelectorAll('.choisir-exemplaire');

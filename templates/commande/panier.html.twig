@@ -32,8 +32,9 @@
                 {# index correspond à l'index du tableaux, field à son contenu (une instance de Panier #}
                 {# index est utilisé pour le slicing dans 'panier'=> $panier #}
                 {% for id, field in formQuantitePanier.articles %}
-                    <div class="article" data-id="{{ panier[id].id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
-                        <div class="article-info">
+                {# -> mettre une condition pour différencier les forfait des autre produits #}
+                    <div class="article"> 
+                        <div class="exemplaire-info" data-id="{{ panier[id].id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
                             {{ panier[id].id }} {{ panier[id].exemplaire }}
                             <div class="barrette">
                                 {% for marquage in panier[id].exemplaire.marquages %}
@@ -44,22 +45,19 @@
 
                         <div class="article-quantite">
                             <p>Quantité</p>
-                            <div class="quantite" data-article-id="{{ panier[id].id }}">
+                            <div class="quantite" {# data-article-id="{{ panier[id].id }}"#}>
                                 {# <button type="button" class="btn-moins">-</button> #}
                                 {# Champ du formulaire #}
                                 {{ form_widget(field.quantite, {'attr': {'class': 'quantite-input'}}) }}
                                 {# <button type="button" class="btn-plus">+</button> #}
                             </div>
-                            {# <small>Prix unitaire</small> #}
+                            <small>Prix unitaire</small>
+                            <small id="prix-unitaire">Chargement...</small>
                         </div>
 
                         <div class="article-total">
                             <p>Prix</p>
-                            <span id="prix-total"> €</span></p>
-                            
-                            <input type="hidden" id="prix-unitaire" value="0.5">
-                            <input type="hidden" id="prix-unitaire-avant" value="1">
-                            <input type="hidden" id="prix-unitaire-arriere" value="2">
+                            <p id="prix-total">Chargement...</p>
                         </div>
 
                         <div class="article-supprimer">
@@ -74,7 +72,7 @@
 
             <section class="total-commande">
                 <h2>Total</h2>
-                <span id="prix-total-global"> €</span></p>
+                <span id="prix-total-panier"> €</span></p>
 
                 <button form="form-panier" type="submit" class="btn-vert choisir-exemplaire">Valider la commande</button>
            

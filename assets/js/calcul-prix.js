@@ -1,4 +1,4 @@
-console.log("JS calcul du prix chargé !");
+console.log("JS nécessaire au calcul des prix chargé !");
 
 // variable qui contiendra les grilles de tarifs
 let tarifsByProduitId = {};
@@ -12,6 +12,7 @@ export function chargerTarifsGlobaux() {
         // on récupère les grilles
         .then(data => {
             tarifsByProduitId = data.tarifs || {};
+            console.log('Tarifs chargés');
         })
         // si la requête échoue (ex: serveur indisponible)
         .catch(err => {

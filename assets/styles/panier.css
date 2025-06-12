@@ -1,14 +1,5 @@
 /* CSS pour la page du panier */
 
-.barrette {
-                    height: 28px;
-                    width: 95%;
-                    margin-top: 8px;
-                    margin-bottom: 8px;
-                    background-color: black;
-                    color: white;
-                }
-
 .fa-xmark:hover {
     color: var(--rouge);
 }
@@ -55,7 +46,7 @@
         padding: 1em;
         margin: 1em 0;
             
-        .article-info {
+        .exemplaire-info {
                 /* display: flex; */
                 width: 60%;
         }

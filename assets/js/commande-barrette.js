@@ -1,16 +1,17 @@
-console.log("JS choix de l'exemplaire de barrette chargé !");
+console.log("JS produit barrette chargé !");
 
 // on importe le fichier CSS pour la page de commande de barrette
 import '../styles/commande-barrette.css';
 
 // on importe les fonctions nécessaire au calcul dynamique du prix
-import { chargerTarifsGlobaux, getPrixUnitaire, setupQuantityInputs } from './calcul-prix';
+import { chargerTarifsGlobaux, getPrixUnitaire } from './calcul-prix';
 
 // Quand la page est complètement chargée, on lance l'initialisation
 document.addEventListener('DOMContentLoaded', initPage);
 
 // On appelle les 2 fonctions nécessaires au fonctionnement JS de la page
 function initPage() {
+    chargerTarifsGlobaux(); // on charge les grilles de tarifs (appel API)
     initChoixExemplaire();
     affichagePrix();
 }
@@ -133,19 +134,16 @@ function affichagePrix() {
         const prixUnitaire = getPrixUnitaire(produitId, quantite);
         // calcul du prix total
         const total = quantite * prixUnitaire;
-
+        
         // on met à jour l'affichage des prix formatés
         prixUnitaireDisplay.textContent = `Prix unitaire : ${prixUnitaire.toFixed(2)} €`;
         prixTotalDisplay.textContent = `Prix Total : ${total.toFixed(2)} €`;
 
     }
+        
+    quantiteInput.addEventListener('input', updatePrixTotal);
+    // affichage initial
+    updatePrixTotal();
 
-    // on charge les grilles de tarifs (appel API) puis
-    chargerTarifsGlobaux().then(() => {
-        // on lance le calcul du prix total dès qu'on change la quantité
-        quantiteInput.addEventListener('input', updatePrixTotal);
-        // affichage initial
-        updatePrixTotal();
-    });
 }
 

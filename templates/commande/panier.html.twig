@@ -34,7 +34,7 @@
                 {% for id, field in formQuantitePanier.articles %}
                 {# -> mettre une condition pour différencier les forfait des autre produits #}
                     <div class="article"> 
-                        <div class="exemplaire-info" data-id="{{ panier[id].id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
+                        <div class="exemplaire-info" data-id="{{ panier[id].exemplaire.id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
                             {{ panier[id].id }} {{ panier[id].exemplaire }}
                             <div class="barrette">
                                 {% for marquage in panier[id].exemplaire.marquages %}
@@ -72,7 +72,7 @@
 
             <section class="total-commande">
                 <h2>Total</h2>
-                <span id="prix-total-panier"> €</span></p>
+                <div id="prix-total-panier">Chargement...</div>
 
                 <button form="form-panier" type="submit" class="btn-vert choisir-exemplaire">Valider la commande</button>
            

@@ -1,0 +1,30 @@
+
+
+.wrapper {
+    background-color: var(--gris);
+}
+
+h1 {
+    padding: 1em;
+}
+
+.container {
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+.produit {
+    background-color: white;
+    width: 30%;
+    height: 400px;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 10px;
+    text-align: center;
+}

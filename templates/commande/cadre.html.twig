@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{# chargement CSS et JS dédier à cette page #} 
+{% block stylesheets %}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {{ encore_entry_link_tags('commande-cacheplaque') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {# {{ encore_entry_script_tags('commande') }} #}
+    {{ encore_entry_script_tags('commande-cacheplaque') }}
+{% endblock %}
+
+
+{% block title %}Commander des Caches plaque{% endblock %}
+
+{% block body %}
+
+
+    <div class="disposition-commande">
+        <section class="choix-decoration">
+            <h2>Cadre de plaque avant</h2>
+
+            
+            
+        </section>
+        <section class="commande-cacheplaque">
+            <h2>Cadre de plaque arrière</h2>
+
+            
+           
+            <div>
+                <div id="prix-avant">Total Avant : 0.00 €</div>
+                <div id="prix-arriere">Total Arrière : 0.00 €</div>
+                <div id="prix-total">Total : 0.00 €</div>
+
+            </div>
+
+
+        </section>    
+    </div>
+
+{% endblock %} 

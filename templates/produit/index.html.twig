@@ -1,16 +1,43 @@
 {% extends 'base.html.twig' %}
 
+{# chargement CSS et JS dédier à cette page #} 
+{% block stylesheets %}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {{ encore_entry_link_tags('produits') }}
+{% endblock %}
+
+
 {% block title %}Liste des produits{% endblock %}
 
 {% block body %}
 
 <h1>Liste des produits</h1>
 
-{% for produit in produits %}
-    <a href="{{ path('show_produit', {'id': produit.id}) }}">{{ produit.nomProduit }}</a>
-    <a href="{{ path('delete_produit', {'id': produit.id}) }}">Supprimer</a><br>
-{% endfor %}
+<div class="container">
+    {% for produit in produits %}
 
-<h2>Ajouter un produit</h2>
-{{ form(formAddProduit) }}
+        <div class="produit">
+            <h2 class="nom">{{ produit.nomProduit }}</h2>
+            <div class"descriptif">
+                {{ produit.descriptif }}
+            </div>
+            {% if produit.id == 4 or produit.id == 5 %}
+                <a class="btn-bleu" href="{{ path('commande_cadre') }}">Commander</a>
+            {% else %}
+                <a class="btn-bleu" href="{{ path('create_exemplaire', {'id': produit.id}) }}">Créer</a>
+            {% endif %}
+        
+        </div>
+
+
+
+    {% endfor %}
+</div>
+
+
+{# href="/create_exemplaire/1" #}
+
+
+{# <h2>Ajouter un produit</h2> #}
+{# {{ form(formAddProduit) }} #}
 {% endblock %}

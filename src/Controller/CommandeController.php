@@ -103,6 +103,36 @@ final class CommandeController extends AbstractController
 
 
 
+    //ajouter des cadres de plaque dans le panier
+    #[Route('/commande/cadre', name: 'commande_cadre')]
+    public function commandeCadre(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if($this->getUser()) {
+
+            // on récupère l'id de l'utilisateur
+            $id = $this->getUser()->getId();
+            // on récupère le produit 'barrette'
+            $produits = $entityManager->getRepository(Produit::class)->findBy(
+                ['nomProduit' => ["cache de plaque d'immatriculation avant", 
+                                    "cache de plaque d'immatriculation arrière"]]);
+          
+            // création du formulaire
+            // $formAddPanier = $this->createForm(CommandeCadreType::class);
+            // $formAddPanier->handleRequest($request);
+
+            // validation du formulaire
+            // if ($formAddPanier->isSubmitted() && $formAddPanier->isValid()) {
+                
+        }
+        
+        return $this->render('commande/cadre.html.twig', [
+            'produits' => $produits
+        ]);
+    }
+
+
+
+
 
     //ajouter un exemplaire de barrette dans le panier
     #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]

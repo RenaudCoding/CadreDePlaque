@@ -40,25 +40,6 @@ final class ProduitController extends AbstractController
         ]);
     }
 
-    // détail d'un produit
-    #[Route('/produit/{id}', name: 'show_produit')]
-    public function showProduits(Produit $produit): Response
-    {
-        return $this->render('produit/show.html.twig', [
-            'produit' => $produit
-        ]);
-    }
-
-    //suppression d'un produit
-    #[Route('/delete_produit/{id}/delete', name: 'delete_produit')]
-    public function deleteProduit(Produit $produit, EntityManagerInterface $entityManager): Response
-    {
-        $entityManager->remove($produit);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_produit');
-
-    }
 
     // détail forfait
     #[Route('/forfait', name: 'app_forfait')]

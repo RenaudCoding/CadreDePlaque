@@ -9,15 +9,17 @@ h1 {
 }
 
 .container {
+    /* background-color: white; */
     width: 100%;
     padding: 1em;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+
 }
 
-.produit {
+.options {
+    display: flex;
+
+}
+.element {
     background-color: white;
     width: 30%;
     height: 400px;
@@ -26,3 +28,10 @@ h1 {
     border-radius: 10px;
     text-align: center;
 }
+
+#exemplaire_bases, #exemplaire_decorations , #exemplaire_marquages {
+    padding: 15px;
+}
+
+
+

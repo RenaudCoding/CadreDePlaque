@@ -3,12 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Base;
-use App\Entity\Exemplaire;
 use App\Entity\Fond;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Exemplaire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BaseType extends AbstractType
 {
@@ -18,12 +19,14 @@ class BaseType extends AbstractType
             ->add('fond', EntityType::class, [
                 'class' => Fond::class,
                 'choice_label' => 'couleurFond',
-            ])
+                'required' => false,
+            ]);
             // ->add('exemplaire', EntityType::class, [
             //     'class' => Exemplaire::class,
             //     'choice_label' => 'id',
             // ])
-        ;
+            
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

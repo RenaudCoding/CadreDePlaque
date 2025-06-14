@@ -1,20 +1,44 @@
 {% extends 'base.html.twig' %}
 
+{# chargement CSS et JS dédier à cette page #} 
+{% block stylesheets %}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {{ encore_entry_link_tags('creation') }}
+{% endblock %}
+
 {% block title %}Création d'un exemplaire{% endblock %}
 
 {% block body %}
 
 <h1>Création d'un exemplaire</h1>
 
-{# {{ form_row(form) }} #}
+<div class="container">
+    {{ form_start(form) }}
 
-{{ form_start(form) }}
+    <div class="formulaire">
+        {{ form_row(form.nomExemplaire) }}
+        <div class="options">
+            <div class="element">
+                <b>Ajouter un fond</b>
+                {{ form_row(form.bases) }}
+            </div>
+            <div class="element">
+                <b>Ajouter un logo</b>
+                {{ form_row(form.decorations) }}
+            </div>
+            <div class="element">
+                <b>Ajouter un texte</b>
+                {{ form_row(form.marquages) }}
+            </div>
+        </div>
+    </div>        
+</div>
 
-    {{ form_row(form.nomExemplaire) }}
-    {{ form_row(form.bases) }}
-    {{ form_row(form.decorations) }}
-    {{ form_row(form.marquages) }}
+    {{ form_end(form) }}
 
-{{ form_end(form) }}
+
+</div>
+
+
 
 {% endblock %}

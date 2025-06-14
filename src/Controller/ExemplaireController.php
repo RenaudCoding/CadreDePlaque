@@ -73,33 +73,43 @@ final class ExemplaireController extends AbstractController
         ]);
     }
 
+private function getClickedForm($bouton) {
 
+            }
 
     //création d'un exemplaire
     #[Route('/create_exemplaire/{id}', name: 'create_exemplaire')]
     public function createExemplaire(Produit $produit, Request $request, EntityManagerInterface $entityManager): Response
     {
         //formulaire de création d'un exemplaire
+        // on créé un nouvel objet exemplaire
         $exemplaire = new Exemplaire;
+        // on y ajouter les nouveaux objets utilisés pour personnaliser l'exemplaire
         $exemplaire->addBasis(new Base());
         $exemplaire->addDecoration(new Decoration());
         $exemplaire->addMarquage(new Marquage());
 
+        //on créé le formulaire
         $formCreateExemplaire = $this->createForm(ExemplaireType::class, $exemplaire);
-
         $formCreateExemplaire->handleRequest($request);
 
         if ($formCreateExemplaire->isSubmitted() && $formCreateExemplaire->isValid()) {
-
+            
+            // on récupère les données qui compose la création de l'exemplaire
             $exemplaire = $formCreateExemplaire->getData();
+            // on rajoute l'ensemble de données nécessaire à référencer l'exemplaire dans la BDD
+            // la date actuel
             $exemplaire->setDateCreation(New DateTime("now"));
+            // l'id de l'utilisateur
             $exemplaire->setUser($this->getUser());
-            $exemplaire->setProduit($produit);   
+            // l'id du produit
+            $exemplaire->setProduit($produit);
+            // l'ensemble de données nécessaire
 
             
-
-            $entityManager->persist($exemplaire);
-            $entityManager->flush();
+            // on enregistre en BDD
+            // $entityManager->persist($exemplaire);
+            // $entityManager->flush();
 
             return $this->redirectToRoute('app_exemplaire');
         }

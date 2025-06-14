@@ -41,6 +41,7 @@ Encore
     // .addEntry('commande', './assets/js/commande.js') pour le script de commande.js qui gère barrette + cache plaque
     .addEntry('panier', './assets/js/panier.js')
     .addEntry('produits', './assets/js/produits.js')
+    .addEntry('creation', './assets/js/creation.js')
 
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

@@ -95,6 +95,8 @@ private function getClickedForm($bouton) {
 
         if ($formCreateExemplaire->isSubmitted() && $formCreateExemplaire->isValid()) {
             
+
+            // dd($formCreateExemplaire);
             // on récupère les données qui compose la création de l'exemplaire
             $exemplaire = $formCreateExemplaire->getData();
             // on rajoute l'ensemble de données nécessaire à référencer l'exemplaire dans la BDD

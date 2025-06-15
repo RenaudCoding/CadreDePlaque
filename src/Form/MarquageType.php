@@ -25,12 +25,11 @@ class MarquageType extends AbstractType
             ->add('typo', EntityType::class, [
                 'class' => Typo::class,
                 'choice_label' => 'nomTypo',
-            ])
+            ]);
             // ->add('exemplaire', EntityType::class, [
             //     'class' => Exemplaire::class,
             //     'choice_label' => 'id',
             // ])
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

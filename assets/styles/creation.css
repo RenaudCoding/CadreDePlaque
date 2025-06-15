@@ -19,18 +19,25 @@ h1 {
     display: flex;
 
 }
-.element {
+
+
+#exemplaire_bases{
     background-color: white;
-    width: 30%;
-    height: 400px;
+}
+
+.element{
+    width: 40%;
+}
+
+#exemplaire_decorations, #exemplaire_marquages {
+    background-color: white;
+    width: 100%;
     padding: 1em;
-    margin: 1em;
-    border-radius: 10px;
     text-align: center;
 }
 
-#exemplaire_bases, #exemplaire_decorations , #exemplaire_marquages {
-    padding: 15px;
+.deco-form, .marquage-form {
+    padding: 1em;
 }
 
 

@@ -24,9 +24,7 @@ class BaseType extends AbstractType
             // ->add('exemplaire', EntityType::class, [
             //     'class' => Exemplaire::class,
             //     'choice_label' => 'id',
-            // ])
-            
-            
+            // ])      
     }
 
     public function configureOptions(OptionsResolver $resolver): void

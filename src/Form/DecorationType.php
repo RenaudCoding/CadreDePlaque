@@ -24,13 +24,11 @@ class DecorationType extends AbstractType
             ])
             ->add('tailleLogo', NumberType::class, [
                 'required'   => false
-            ])
+            ]);
             // ->add('exemplaire', EntityType::class, [
             //     'class' => Exemplaire::class,
             //     'choice_label' => 'id',
             // ])
-            
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

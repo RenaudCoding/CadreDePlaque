@@ -6,6 +6,13 @@
     {{ encore_entry_link_tags('creation') }}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {# {{ encore_entry_script_tags('commande') }} #}
+    {{ encore_entry_script_tags('creation') }}
+{% endblock %}
+
+
 {% block title %}Création d'un exemplaire{% endblock %}
 
 {% block body %}
@@ -17,24 +24,51 @@
 
     <div class="formulaire">
         {{ form_row(form.nomExemplaire) }}
+        <div >
+            <b>Ajouter un fond</b>
+            {{ form_row(form.bases) }}
+        </div>
         <div class="options">
             <div class="element">
-                <b>Ajouter un fond</b>
-                {{ form_row(form.bases) }}
-            </div>
-            <div class="element">
                 <b>Ajouter un logo</b>
-                {{ form_row(form.decorations) }}
+                <div class="decoration">
+                    <div id="exemplaire_decorations"
+                        {# form_widget  Affiche le HTML brut du champ contrairement à form_row() qui ajoute le label et les erreurs #}
+                        {# |e est un filtre Twig qui signifie "escape" (échappement HTML) #}
+                        {# 'html_attr' est le contexte d’échappement spécifique aux attributs HTML #}
+                        {# Cela évite que les guillemets ou chevrons dans le HTML du formulaire cassent l'attribut data-prototype #}
+                        data-prototype="{{ form_widget(form.decorations.vars.prototype)|e('html_attr') }}"
+                        {# Le filtre |length te donne le nombre d’éléments déjà présents #}
+                        data-index="{{ form.decorations|length }}">
+                        {% for decorationForm in form.decorations %}
+                            <div class="deco-form">
+                                {{ form_row(decorationForm) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" id="add-decoration">Ajouter logo</button>
+                </div>
             </div>
             <div class="element">
                 <b>Ajouter un texte</b>
-                {{ form_row(form.marquages) }}
+                <div class="marquage"></div>
+                    <div id="exemplaire_marquages"
+                        data-prototype="{{ form_widget(form.marquages.vars.prototype)|e('html_attr') }}"
+                        data-index="{{ form.marquages|length }}">
+                        {% for marquageForm in form.marquages %}
+                            <div class="deco-form">
+                                {{ form_row(marquageForm) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" id="add-marquage">Ajouter texte</button>
+                </div>
             </div>
         </div>
     </div>        
-</div>
 
     {{ form_end(form) }}
+
 
 
 </div>

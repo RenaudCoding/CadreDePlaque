@@ -31,7 +31,7 @@ final class ExemplaireController extends AbstractController
         ]);
     }
 
-    // liste des exemplaires d'un user
+    // liste des exemplaires d'un user --- obsolete
     #[Route('/exemplaires/user', name: 'user_exemplaire')]
     public function listExemplairesUser(EntityManagerInterface $entityManager): Response
     {
@@ -49,7 +49,29 @@ final class ExemplaireController extends AbstractController
     }
 
 
-    // liste des exemplaires de barrettes d'un user
+
+    // Bibliothèque 
+    #[Route('/bibliotheque/user', name: 'user_bibliotheque')]
+    public function affichageBibliotheque(EntityManagerInterface $entityManager): Response
+    {
+        // liste des exemplaires d'un user
+        if($this->getUser()) {
+            $id = $this->getUser()->getId();
+            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
+            
+        }
+        else {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        return $this->render('bibliotheque/index.html.twig', [
+            'exemplaires' => $exemplaires,
+        ]);
+    }
+
+
+
+    // liste des exemplaires de barrettes d'un user --- obsolete
     #[Route('/exemplaires/user/barrette', name: 'user_exemplaire_barrette')]
     public function listExemplairesBarretteUser(EntityManagerInterface $entityManager): Response
     {
@@ -73,9 +95,7 @@ final class ExemplaireController extends AbstractController
         ]);
     }
 
-private function getClickedForm($bouton) {
 
-            }
 
     //création d'un exemplaire
     #[Route('/create_exemplaire/{id}', name: 'create_exemplaire')]
@@ -109,9 +129,10 @@ private function getClickedForm($bouton) {
             // l'ensemble de données nécessaire
 
             
+            
             // on enregistre en BDD
-            // $entityManager->persist($exemplaire);
-            // $entityManager->flush();
+            $entityManager->persist($exemplaire);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_exemplaire');
         }

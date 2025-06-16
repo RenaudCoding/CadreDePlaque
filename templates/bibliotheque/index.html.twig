@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des exemplaires{% endblock %}
+
+{% block body %}
+
+<h1>Liste des exemplaires</h1>
+
+<h2>Vos barrettes</h2> 
+
+<div class="liste-exemplaire">
+    {% for exemplaire in exemplaires %}
+        {% if exemplaire.produit == 'Barrette' %}
+            <div class="exemplaire">
+                <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
+                    {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
+                    <div class="barrette">
+                        {%for marquages in exemplaire.marquages %}
+                            {{ marquages.texteTypo }}
+                        {% endfor %}
+                    </div>
+                    <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
+                </div>
+                <div class="exemplaire-choix">
+                    <button type="button" class="btn-blanc choisir-exemplaire">Supprimer</button>
+                
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+
+    </tbody>
+</table>
+
+<a href="">Créer un exemplaire</a>
+
+{% endblock %}

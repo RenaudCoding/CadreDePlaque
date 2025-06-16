@@ -143,12 +143,13 @@ final class CommandeController extends AbstractController
             // on récupère l'id de l'utilisateur
             $id = $this->getUser()->getId();
             // on récupère le produit 'barrette'
+            // TODO: rajouter un condition au cas ou le produit n'existe pas !
             $produit = $entityManager->getRepository(Produit::class)->findOneBy(
                 ['nomProduit' => 'barrette']);
             // on récupère les exemplaires de barrette de l'utilisateur    
             $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy([
                 'user' => $id, 
-                'produit' => $produit], 
+                'produit' =>  $produit], 
                 ['dateCreation' => 'DESC']);
                 
             // création du formulaire

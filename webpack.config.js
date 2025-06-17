@@ -42,6 +42,7 @@ Encore
     .addEntry('panier', './assets/js/panier.js')
     .addEntry('produits', './assets/js/produits.js')
     .addEntry('creation', './assets/js/creation.js')
+    .addEntry('bibliotheque', './assets/js/bibliotheque.js')
 
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

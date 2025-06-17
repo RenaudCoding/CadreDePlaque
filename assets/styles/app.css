@@ -103,6 +103,24 @@
     color: white; 
 }
 
+.btn-rouge{
+    display: inline-block;
+    background-color: white;
+    border: 2px solid var(--rouge);
+    margin-top: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition-duration: 0.2s;
+    color: black;              
+}
+.btn-rouge:hover{
+    background-color: var(--rouge);
+    color: white; 
+}
+
+
 /* bouton d'action pour input number
 .btn-plus, .btn-moins {
     padding: 0px 6px;

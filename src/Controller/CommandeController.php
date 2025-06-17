@@ -180,8 +180,8 @@ final class CommandeController extends AbstractController
                             $panier->setQuantite($exemplaireQuantite);
                             
                             // on persiste dans la BDD
-                            // $entityManager->persist($panier);
-                            // $entityManager->flush();
+                            $entityManager->persist($panier);
+                            $entityManager->flush();
                         }
                         // si la quantité n'est pas renseignée
                         else { 

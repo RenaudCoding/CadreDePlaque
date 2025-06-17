@@ -17,8 +17,8 @@
 
 
 <div class="tab">
-  <button class="tablinks" onclick="ongletBibliotheque(event, 'liste-barrette')">Vos barettes</button>
-  <button class="tablinks" onclick="ongletBibliotheque(event, 'cache-plaque')">Vos caches plaque</button>
+  <button class="tablinks active" onclick="ongletBibliotheque(event, 'liste-barrette')">Vos barrettes</button>
+  <button class="tablinks" onclick="ongletBibliotheque(event, 'liste-cacheplaque')">Vos caches plaque</button>
 </div>
 
 <div id="liste-barrette" class="tabcontent">
@@ -35,8 +35,8 @@
                     <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                 </div>
                 <div class="exemplaire-choix">
-                    <button type="button" class="btn-vert choisir-exemplaire">Commander</button>
-                    <button type="button" class="btn-rouge choisir-exemplaire">Supprimer</button>
+                    <a class="btn-vert choisir-exemplaire">Commander</a>
+                    <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
                 
                 </div>
             </div>
@@ -44,51 +44,54 @@
     {% endfor %}
 </div>
 
-<div id="cache-plaque" class="tabcontent">
-    <div id="liste-cacheplaque-avant">
-        {% for exemplaire in exemplaires %}
-            {% if exemplaire.produit == 'Cache plaque avant' %}
-                <div class="exemplaire">
-                    <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                        {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
-                        <div class="barrette">
-                            {%for marquages in exemplaire.marquages %}
-                                {{ marquages.texteTypo }}
-                            {% endfor %}
+<div id="liste-cacheplaque" class="tabcontent">
+    <div id="couple-cacheplaque">
+        <div id="liste-cacheplaque-avant">
+            <h2>Avant</h2>
+            {% for exemplaire in exemplaires %}
+                {% if exemplaire.produit == 'Cache plaque avant' %}
+                    <div class="exemplaire">
+                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
+                            {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
+                            <div class="barrette">
+                                {%for marquages in exemplaire.marquages %}
+                                    {{ marquages.texteTypo }}
+                                {% endfor %}
+                            </div>
+                            <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                         </div>
-                        <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
+                        <div class="exemplaire-choix">
+                            <a class="btn-vert choisir-exemplaire">Commander</a>
+                            <a type="button"  href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
+                        
+                        </div>
                     </div>
-                    <div class="exemplaire-choix">
-                        <button type="button" class="btn-vert choisir-exemplaire">Commander</button>
-                        <button type="button" class="btn-rouge choisir-exemplaire">Supprimer</button>
-                    
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
-    <div id="liste-cacheplaque-arriere">
-        {% for exemplaire in exemplaires %}
-            {% if exemplaire.produit == 'Cache plaque arrière' %}
-                <div class="exemplaire">
-                    <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                        {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
-                        <div class="barrette">
-                            {%for marquages in exemplaire.marquages %}
-                                {{ marquages.texteTypo }}
-                            {% endfor %}
+        <div id="liste-cacheplaque-arriere">
+            <h2>Arriere</h2>
+            {% for exemplaire in exemplaires %}
+                {% if exemplaire.produit == 'Cache plaque arrière' %}
+                    <div class="exemplaire">
+                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
+                            {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
+                            <div class="barrette">
+                                {%for marquages in exemplaire.marquages %}
+                                    {{ marquages.texteTypo }}
+                                {% endfor %}
+                            </div>
+                            <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                         </div>
-                        <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
+                        <div class="exemplaire-choix">
+                            <a type="button" class="btn-vert choisir-exemplaire">Commander</a>
+                            <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
+                        </div>
                     </div>
-                    <div class="exemplaire-choix">
-                        <button type="button" class="btn-vert choisir-exemplaire">Commander</button>
-                        <button type="button" class="btn-rouge choisir-exemplaire">Supprimer</button>
-                    
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 

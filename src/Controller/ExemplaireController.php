@@ -9,7 +9,6 @@ use App\Form\BaseType;
 use App\Entity\Produit;
 use App\Entity\Marquage;
 use App\Entity\Decoration;
-
 use App\Entity\Exemplaire;
 use App\Form\ExemplaireType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,33 +19,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ExemplaireController extends AbstractController
 {
-    // liste des exemplaires
-    #[Route('/exemplaires', name: 'app_exemplaire')]
-    public function listExemplaires(EntityManagerInterface $entityManager): Response
-    {
-        $exemplaires = $entityManager->getRepository(Exemplaire::class)->findAll();
+    // TODO: liste des exemplaires --- obsolete
+    // #[Route('/exemplaires', name: 'app_exemplaire')]
+    // public function listExemplaires(EntityManagerInterface $entityManager): Response
+    // {
+    //     $exemplaires = $entityManager->getRepository(Exemplaire::class)->findAll();
 
-        return $this->render('exemplaire/index.html.twig', [
-            'exemplaires' => $exemplaires,
-        ]);
-    }
+    //     return $this->render('exemplaire/index.html.twig', [
+    //         'exemplaires' => $exemplaires,
+    //     ]);
+    // }
 
-    // liste des exemplaires d'un user --- obsolete
-    #[Route('/exemplaires/user', name: 'user_exemplaire')]
-    public function listExemplairesUser(EntityManagerInterface $entityManager): Response
-    {
-        if($this->getUser()) {
-            $id = $this->getUser()->getId();
-            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
-        }
-        else {
-            return $this->redirectToRoute('app_login');
-        }
+    // TODO: liste des exemplaires d'un user --- obsolete  
+    // #[Route('/exemplaires/user', name: 'user_exemplaire')]
+    // public function listExemplairesUser(EntityManagerInterface $entityManager): Response
+    // {
+    //     if($this->getUser()) {
+    //         $id = $this->getUser()->getId();
+    //         $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
+    //     }
+    //     else {
+    //         return $this->redirectToRoute('app_login');
+    //     }
         
-        return $this->render('exemplaire/index.html.twig', [
-            'exemplaires' => $exemplaires,
-        ]);
-    }
+    //     return $this->render('exemplaire/index.html.twig', [
+    //         'exemplaires' => $exemplaires,
+    //     ]);
+    // }
 
 
 
@@ -71,29 +70,29 @@ final class ExemplaireController extends AbstractController
 
 
 
-    // liste des exemplaires de barrettes d'un user --- obsolete
-    #[Route('/exemplaires/user/barrette', name: 'user_exemplaire_barrette')]
-    public function listExemplairesBarretteUser(EntityManagerInterface $entityManager): Response
-    {
-        if($this->getUser()) {
-            $id = $this->getUser()->getId();
-            // on récupère le produit 'barrette'
-            $produit = $entityManager->getRepository(Produit::class)->findOneBy(
-                ['nomProduit' => 'barrette']);
-            // on récupère les exemplaires de barrette de l'utilisateur    
-            $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy([
-                'user' => $id, 
-                'produit' => $produit], 
-                ['dateCreation' => 'DESC']);
-        }
-        else {
-            return $this->redirectToRoute('app_login');
-        }
+    // TODO: liste des exemplaires de barrettes d'un user --- obsolete
+    // #[Route('/exemplaires/user/barrette', name: 'user_exemplaire_barrette')]
+    // public function listExemplairesBarretteUser(EntityManagerInterface $entityManager): Response
+    // {
+    //     if($this->getUser()) {
+    //         $id = $this->getUser()->getId();
+    //         // on récupère le produit 'barrette'
+    //         $produit = $entityManager->getRepository(Produit::class)->findOneBy(
+    //             ['nomProduit' => 'barrette']);
+    //         // on récupère les exemplaires de barrette de l'utilisateur    
+    //         $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy([
+    //             'user' => $id, 
+    //             'produit' => $produit], 
+    //             ['dateCreation' => 'DESC']);
+    //     }
+    //     else {
+    //         return $this->redirectToRoute('app_login');
+    //     }
         
-        return $this->render('exemplaire/index.html.twig', [
-            'exemplaires' => $exemplaires,
-        ]);
-    }
+    //     return $this->render('exemplaire/index.html.twig', [
+    //         'exemplaires' => $exemplaires,
+    //     ]);
+    // }
 
 
 
@@ -134,7 +133,7 @@ final class ExemplaireController extends AbstractController
             $entityManager->persist($exemplaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_exemplaire');
+            return $this->redirectToRoute('user_bibliotheque');
         }
 
         return $this->render('exemplaire/new.html.twig', [
@@ -143,4 +142,20 @@ final class ExemplaireController extends AbstractController
 
         ]);
     }
+
+    // supprimer un exemplaire
+    #[Route('bibliotheque/user/delete_exemplaire/{id}', name: 'delete_exemplaire', requirements: ['id' => '\d+'])]
+    public function SupprimerExemplaire(Exemplaire $exemplaire, EntityManagerInterface $entityManager) {
+
+        if($this->getUser()) {
+
+        $entityManager->remove($exemplaire);
+        $entityManager->flush();
+
+        }
+
+        return $this->redirectToRoute('user_bibliotheque');
+    }
+
+
 }

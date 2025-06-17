@@ -44,10 +44,8 @@
                         <div class="article-quantite">
                             <p>Quantité</p>
                             <div class="quantite" {# data-article-id="{{ panier[id].id }}"#}>
-                                {# <button type="button" class="btn-moins">-</button> #}
                                 {# Champ du formulaire #}
                                 {{ form_widget(field.quantite, {'attr': {'class': 'quantite-input'}}) }}
-                                {# <button type="button" class="btn-plus">+</button> #}
                             </div>
                             <small>Prix unitaire</small>
                             <small id="prix-unitaire">Chargement...</small>

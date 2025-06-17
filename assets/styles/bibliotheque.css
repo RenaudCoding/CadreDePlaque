@@ -12,22 +12,60 @@ h1 {
     align-items: center;
 }
 
-#liste-barrette{
+
+/* 
+Style de la barre donglets
+*/
+/* style du fond */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* style des boutons */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* boutons over */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* onglet courant */
+.tab button.active {
+  background-color: #ccc;
+}
+
+
+
+#liste-barrette {
     width: 90%;
     overflow-y: auto;
 }
 
-#liste-cacheplaque-avant{
+#liste-cacheplaque {
     width: 90%;
     overflow-y: auto;
+
 }
 
-#liste-cacheplaque-arriere{
-    width: 90%;
+#couple-cacheplaque {
+    display: flex;
+}
+
+#liste-cacheplaque-avant, #liste-cacheplaque-arriere {
+    width: 50%;
     overflow-y: auto;
 }
-
-
 
 .exemplaire {
     display:flex;
@@ -43,3 +81,6 @@ h1 {
     /* display: flex; */
     width: 75%;
 }
+
+
+

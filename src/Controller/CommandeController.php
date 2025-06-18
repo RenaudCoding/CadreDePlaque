@@ -21,17 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class CommandeController extends AbstractController
 {
-    // TODO : liste des commandes --- obsolète
-    // #[Route('/commande', name: 'app_commande')]
-    // public function listeCommandes(EntityManagerInterface $entityManager): Response
-    // {
-    //     $commandes = $entityManager->getRepository(Commande::class)->findAll();
-
-    //     return $this->render('commande/index.html.twig', [
-    //         'commandes' => $commandes,
-    //     ]);
-    // }
-
     // détail d'une commande
     #[Route('/commande/{id}', name: 'show_commande', requirements: ['id' => '\d+'])]
     public function showCommande(Commande $commande): Response
@@ -42,7 +31,7 @@ final class CommandeController extends AbstractController
         ]);
     }
 
-    //liste des factures
+    // liste des factures
     #[Route('/facture', name: 'app_facture')]
     public function listeFactures(EntityManagerInterface $entityManager): Response
     {
@@ -54,7 +43,7 @@ final class CommandeController extends AbstractController
     }
 
     
-    //ajouter des cadres de plaque dans le panier
+    // ajouter des cadres de plaque dans le panier
     #[Route('/commande/cadre', name: 'commande_cadre')]
     public function commandeCadre(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -64,8 +53,8 @@ final class CommandeController extends AbstractController
             $id = $this->getUser()->getId();
             // on récupère le produit 'barrette'
             $produits = $entityManager->getRepository(Produit::class)->findBy(
-                ['nomProduit' => ["cache de plaque d'immatriculation avant", 
-                                    "cache de plaque d'immatriculation arrière"]]);
+                ['nomProduit' => ["cadre de plaque d'immatriculation avant", 
+                                    "cadre de plaque d'immatriculation arrière"]]);
           
             // création du formulaire
             // $formAddPanier = $this->createForm(CommandeCadreType::class);
@@ -82,10 +71,7 @@ final class CommandeController extends AbstractController
     }
 
 
-
-
-
-    //ajouter un exemplaire de barrette dans le panier
+    // ajouter un exemplaire de barrette dans le panier
     #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]
     public function ajoutpPanierBarrette(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -94,7 +80,7 @@ final class CommandeController extends AbstractController
             // on récupère l'id de l'utilisateur
             $id = $this->getUser()->getId();
             // on récupère le produit 'barrette'
-            // TODO: rajouter un condition au cas ou le produit n'existe pas !
+            // TODO: rajouter une condition au cas ou le produit n'existe pas !
             $produit = $entityManager->getRepository(Produit::class)->findOneBy(
                 ['nomProduit' => 'barrette']);
             // on récupère les exemplaires de barrette de l'utilisateur    
@@ -124,13 +110,20 @@ final class CommandeController extends AbstractController
                     {
                         // si la quantité est valide
                         if ($exemplaireQuantite > 0) {
-                            /*
+                            
+                            // on récupère la session
                             $session = $request->getSession();
 
                             // si il n'y a pas de panier dans la session on créé une tableau associatif, on l'initialise
                             if (!$session->get('panier')) {
-                                //on y créé un tableau associatif exemplaire => valeur
-                                $session->set('panier', ['exemplaire'=> []]);
+                                //on y créé un tableau associatif exemplaire => quantité
+                                $session->set('panier', [
+                                    'exemplaire'=> []]);
+
+                                // syntaxe si on veux rajouter des clés => valeurs
+                                // $session->set('panier', [
+                                //     'exemplaire_id'=> $exemplaireId,
+                                //     'quantite' => $exemplaireQuantite]);
                             }
                             // on récupère le panier en session
                             $panierSession = $session->get('panier');
@@ -138,15 +131,18 @@ final class CommandeController extends AbstractController
                             // à la clé $exemplaireId du tableau on associe la valeur $exemplaireQuantite
                             $panierSession['exemplaire'][$exemplaireId] = $exemplaireQuantite;
                             
-                            // on ajoute la pair clé => valeur dans le panier
+                            // on ajoute la paire clé => valeur dans le panier
                             $session->set('panier', $panierSession);
 
-                            dd($panierSession); 
-*/
+                            // supprimer le panier de la session
+                            // $session->remove('panier');                         
+                            dd($session->get('panier'));
+                            
 
-
-
-
+                            //
+                            // Enregistrement en BDD
+                            //
+                            /*
                             $panier = new Panier;
                             // on met l'exemplaire (entité) choisi dans le panier 
                             $panier->setExemplaire($exemplaireChoisi);
@@ -156,6 +152,7 @@ final class CommandeController extends AbstractController
                             // on persiste dans la BDD
                             $entityManager->persist($panier);
                             $entityManager->flush();
+                            */
                         }
                         // si la quantité n'est pas renseignée
                         else { 
@@ -182,7 +179,7 @@ final class CommandeController extends AbstractController
     }
 
 
-    //ajouter des exemplaires de cache plaque dans le panier
+    // ajouter des exemplaires de cache plaque dans le panier
     #[Route('/commande/cacheplaque', name: 'commande_exemplaire_cacheplaque')]
     public function commandeCacheplaque(Request $request, EntityManagerInterface $entityManager): Response
     {

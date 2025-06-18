@@ -30,7 +30,7 @@
                 {# index correspond à l'index du tableaux, field à son contenu (une instance de Panier #}
                 {# index est utilisé pour le slicing dans 'panier'=> $panier #}
                 {% for id, field in formQuantitePanier.articles %}
-                {# -> mettre une condition pour différencier les forfait des autre produits #}
+                {# -> mettre une condition pour différencier les forfaits des autre produits #}
                     <div class="article"> 
                         <div class="exemplaire-info" data-id="{{ panier[id].exemplaire.id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
                             {{ panier[id].id }} {{ panier[id].exemplaire }}
@@ -43,7 +43,7 @@
 
                         <div class="article-quantite">
                             <p>Quantité</p>
-                            <div class="quantite" {# data-article-id="{{ panier[id].id }}"#}>
+                            <div class="quantite">
                                 {# Champ du formulaire #}
                                 {{ form_widget(field.quantite, {'attr': {'class': 'quantite-input'}}) }}
                             </div>
@@ -57,9 +57,9 @@
                         </div>
 
                         <div class="article-supprimer">
-                            <a href="{{ path('panier_supprimer', {'id': panier[id].id}) }}"><i class="fa-solid fa-xmark"></i></a>
+                            <a href="" data-id="{{ id }}"><i class="fa-solid fa-xmark"></i></a>
                         </div>
-
+{# {{ path('panier_supprimer', {'id': panier[id].id}) }} #}
                     </div>
                 {% endfor %}
 

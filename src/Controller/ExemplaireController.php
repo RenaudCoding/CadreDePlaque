@@ -19,37 +19,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ExemplaireController extends AbstractController
 {
-    // TODO: liste des exemplaires --- obsolete
-    // #[Route('/exemplaires', name: 'app_exemplaire')]
-    // public function listExemplaires(EntityManagerInterface $entityManager): Response
-    // {
-    //     $exemplaires = $entityManager->getRepository(Exemplaire::class)->findAll();
 
-    //     return $this->render('exemplaire/index.html.twig', [
-    //         'exemplaires' => $exemplaires,
-    //     ]);
-    // }
-
-    // TODO: liste des exemplaires d'un user --- obsolete  
-    // #[Route('/exemplaires/user', name: 'user_exemplaire')]
-    // public function listExemplairesUser(EntityManagerInterface $entityManager): Response
-    // {
-    //     if($this->getUser()) {
-    //         $id = $this->getUser()->getId();
-    //         $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy(['user' => $id], ['dateCreation' => 'DESC']);
-    //     }
-    //     else {
-    //         return $this->redirectToRoute('app_login');
-    //     }
-        
-    //     return $this->render('exemplaire/index.html.twig', [
-    //         'exemplaires' => $exemplaires,
-    //     ]);
-    // }
-
-
-
-    // Bibliothèque 
+    // bibliothèque 
     #[Route('/bibliotheque/user', name: 'user_bibliotheque')]
     public function affichageBibliotheque(EntityManagerInterface $entityManager): Response
     {
@@ -69,34 +40,7 @@ final class ExemplaireController extends AbstractController
     }
 
 
-
-    // TODO: liste des exemplaires de barrettes d'un user --- obsolete
-    // #[Route('/exemplaires/user/barrette', name: 'user_exemplaire_barrette')]
-    // public function listExemplairesBarretteUser(EntityManagerInterface $entityManager): Response
-    // {
-    //     if($this->getUser()) {
-    //         $id = $this->getUser()->getId();
-    //         // on récupère le produit 'barrette'
-    //         $produit = $entityManager->getRepository(Produit::class)->findOneBy(
-    //             ['nomProduit' => 'barrette']);
-    //         // on récupère les exemplaires de barrette de l'utilisateur    
-    //         $exemplaires = $entityManager->getRepository(Exemplaire::class)->findBy([
-    //             'user' => $id, 
-    //             'produit' => $produit], 
-    //             ['dateCreation' => 'DESC']);
-    //     }
-    //     else {
-    //         return $this->redirectToRoute('app_login');
-    //     }
-        
-    //     return $this->render('exemplaire/index.html.twig', [
-    //         'exemplaires' => $exemplaires,
-    //     ]);
-    // }
-
-
-
-    //création d'un exemplaire
+    // création d'un exemplaire
     #[Route('/create_exemplaire/{id}', name: 'create_exemplaire')]
     public function createExemplaire(Produit $produit, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -114,7 +58,6 @@ final class ExemplaireController extends AbstractController
 
         if ($formCreateExemplaire->isSubmitted() && $formCreateExemplaire->isValid()) {
             
-
             // dd($formCreateExemplaire);
             // on récupère les données qui compose la création de l'exemplaire
             $exemplaire = $formCreateExemplaire->getData();
@@ -125,9 +68,6 @@ final class ExemplaireController extends AbstractController
             $exemplaire->setUser($this->getUser());
             // l'id du produit
             $exemplaire->setProduit($produit);
-            // l'ensemble de données nécessaire
-
-            
             
             // on enregistre en BDD
             $entityManager->persist($exemplaire);
@@ -138,14 +78,12 @@ final class ExemplaireController extends AbstractController
 
         return $this->render('exemplaire/new.html.twig', [
             'form' => $formCreateExemplaire,
-
-
         ]);
     }
 
     // supprimer un exemplaire
     #[Route('bibliotheque/user/delete_exemplaire/{id}', name: 'delete_exemplaire', requirements: ['id' => '\d+'])]
-    public function SupprimerExemplaire(Exemplaire $exemplaire, EntityManagerInterface $entityManager) {
+    public function supprimerExemplaire(Exemplaire $exemplaire, EntityManagerInterface $entityManager) {
 
         if($this->getUser()) {
 
@@ -156,6 +94,5 @@ final class ExemplaireController extends AbstractController
 
         return $this->redirectToRoute('user_bibliotheque');
     }
-
 
 }

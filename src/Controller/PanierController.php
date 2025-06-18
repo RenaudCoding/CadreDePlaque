@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Panier;
 use App\Form\PanierType;
+use App\Entity\Exemplaire;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,29 +15,54 @@ final class PanierController extends AbstractController
 {
     //affichage du panier et validation
     #[Route('/panier', name: 'app_panier')]
-    public function AddToCart(Request $request, EntityManagerInterface $entityManager): Response
+    public function affichagePanier(Request $request, EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
 
-
+            // on récupère la session
             $session = $request->getSession();
-            $panier = $session->get('panier');
-            
-            
-            
-            // on récupère la liste des exemplaires de l'utilisateur
-            $exemplaires = $this->getUser()->getExemplaires();
-            // on récupère les ids de ces exemplaires
-            foreach ($exemplaires as $exemplaire) {
-                $listeExemplairesId[] = $exemplaire->getId();
+
+            // si il y a un panier dans la session
+            if ($session->get('panier')) {
+
+                // on récupère le panier de la session
+                $panierSession = $session->get('panier');
+
+                // pour chaque exemplaire dans le panier renseigné selon l'association exemplaireId => quantite
+                foreach($panierSession['exemplaire'] as $exemplaireId => $quantite){
+
+                    // on récupère l'objet exemplaire correspondant à l'id de l'exemplaire
+                    $exemplaire = $entityManager->getRepository(Exemplaire::class)->find($exemplaireId);
+                    // on créé un nouvel objet panier
+                    $exemplairePanier = new Panier();
+                    // on met l'objet exemplaire et la quantité récupéré dans l'objet panier
+                    $exemplairePanier->setExemplaire($exemplaire);                    
+                    $exemplairePanier->setQuantite($quantite);
+                    // on stock l'objet panier dans un tableau pour l'injecter dans le formulaire PanierType
+                    $panier[] = $exemplairePanier;
+                }
             }
+
+            // dd($objets);
+
+
+            // Récupération du panier client depuis la BDD
+            // on récupère la liste des exemplaires de l'utilisateur
+            // $exemplaires = $this->getUser()->getExemplaires();
+            // on récupère les ids de ces exemplaires
+            // foreach ($exemplaires as $exemplaire) {
+            //     $listeExemplairesId[] = $exemplaire->getId();
+            // }
             
             // on récupère les articles qui n'ont pas encore été commandés par l'utilisateur (id_commande = null)
             // en s'assurant que ces articles sont des exemplaires de l'utilisateur   
-            $panier = $entityManager->getRepository(Panier::class)->findBy([
-                'commande' => null,
-                'exemplaire' => $listeExemplairesId
-                ]);
+            // $panier = $entityManager->getRepository(Panier::class)->findBy([
+            //     'commande' => null,
+            //     'exemplaire' => $listeExemplairesId
+            //     ]);
+            
+            // dd($objets, $panier);
+            
             
             // création du formulaire avec un tableau associatif
             // la cle "articles" correspond au champs "articles" du formulaire PanierType qui est un CollectionType
@@ -50,6 +76,7 @@ final class PanierController extends AbstractController
 
                 // pour chaque article dans le tableau associatif
                 foreach ($articles as $article) {
+                    // TODO: retour du panier validé en session pour la validation de la commande
                     // on persiste
                     $entityManager->persist($article);
                 }

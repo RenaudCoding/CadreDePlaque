@@ -237,6 +237,6 @@ class Exemplaire
 
     public function __toString(): string
     {
-        return $this->nomExemplaire;
+        return $this->id;
     }
 }

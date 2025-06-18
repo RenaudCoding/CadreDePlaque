@@ -21,16 +21,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class CommandeController extends AbstractController
 {
-    //liste des commandes
-    #[Route('/commande', name: 'app_commande')]
-    public function listeCommandes(EntityManagerInterface $entityManager): Response
-    {
-        $commandes = $entityManager->getRepository(Commande::class)->findAll();
+    // TODO : liste des commandes --- obsolète
+    // #[Route('/commande', name: 'app_commande')]
+    // public function listeCommandes(EntityManagerInterface $entityManager): Response
+    // {
+    //     $commandes = $entityManager->getRepository(Commande::class)->findAll();
 
-        return $this->render('commande/index.html.twig', [
-            'commandes' => $commandes,
-        ]);
-    }
+    //     return $this->render('commande/index.html.twig', [
+    //         'commandes' => $commandes,
+    //     ]);
+    // }
 
     // détail d'une commande
     #[Route('/commande/{id}', name: 'show_commande', requirements: ['id' => '\d+'])]
@@ -53,56 +53,7 @@ final class CommandeController extends AbstractController
         ]);
     }
 
-    //affichage du panier et validation
-    #[Route('/panier', name: 'app_panier')]
-    public function Panier(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        if($this->getUser()) {
-            // on récupère la liste des exemplaires de l'utilisateur
-            $exemplaires = $this->getUser()->getExemplaires();
-            // on récupère les ids de ces exemplaires
-            foreach ($exemplaires as $exemplaire) {
-                $listeExemplairesId[] = $exemplaire->getId();
-            }
-            
-            // on récupère les articles qui n'ont pas encore été commandés par l'utilisateur (id_commande = null)
-            // en s'assurant que ces articles sont des exemplaires de l'utilisateur   
-            $panier = $entityManager->getRepository(Panier::class)->findBy([
-                'commande' => null,
-                'exemplaire' => $listeExemplairesId
-                ]);
-
-            // création du formulaire avec un tableau associatif
-            // la cle "articles" correspond au champs "articles" du formulaire PanierType qui est un CollectionType
-            $formQuantitePanier = $this->createForm(PanierType::class, ['articles' => $panier]);
-            $formQuantitePanier->handleRequest($request);
-
-            if ($formQuantitePanier->isSubmitted() && $formQuantitePanier->isValid()) {
-
-                // on récupère les données du formulaire dans le champ "articles", on obtient un tableau associatif
-                $articles = $formQuantitePanier->getData()['articles'];
-
-                // pour chaque article dans le tableau associatif
-                foreach ($articles as $article) {
-                    // on persiste
-                    $entityManager->persist($article);
-                }
-                // seul les quantités qui ont été modifiées seront mise à jour
-                $entityManager->flush();
-            }    
-        }
-        else {
-            return $this->redirectToRoute('app_login');
-        }
-
-        return $this->render('commande/panier.html.twig', [
-            'formQuantitePanier' => $formQuantitePanier->createView(),
-            'panier' => $panier,
-        ]);
-    }
-
-
-
+    
     //ajouter des cadres de plaque dans le panier
     #[Route('/commande/cadre', name: 'commande_cadre')]
     public function commandeCadre(Request $request, EntityManagerInterface $entityManager): Response
@@ -136,7 +87,7 @@ final class CommandeController extends AbstractController
 
     //ajouter un exemplaire de barrette dans le panier
     #[Route('/commande/barrette', name: 'commande_exemplaire_barrette')]
-    public function commandeBarrette(Request $request, EntityManagerInterface $entityManager): Response
+    public function ajoutpPanierBarrette(Request $request, EntityManagerInterface $entityManager): Response
     {
         if($this->getUser()) {
 
@@ -173,6 +124,29 @@ final class CommandeController extends AbstractController
                     {
                         // si la quantité est valide
                         if ($exemplaireQuantite > 0) {
+                            /*
+                            $session = $request->getSession();
+
+                            // si il n'y a pas de panier dans la session on créé une tableau associatif, on l'initialise
+                            if (!$session->get('panier')) {
+                                //on y créé un tableau associatif exemplaire => valeur
+                                $session->set('panier', ['exemplaire'=> []]);
+                            }
+                            // on récupère le panier en session
+                            $panierSession = $session->get('panier');
+
+                            // à la clé $exemplaireId du tableau on associe la valeur $exemplaireQuantite
+                            $panierSession['exemplaire'][$exemplaireId] = $exemplaireQuantite;
+                            
+                            // on ajoute la pair clé => valeur dans le panier
+                            $session->set('panier', $panierSession);
+
+                            dd($panierSession); 
+*/
+
+
+
+
                             $panier = new Panier;
                             // on met l'exemplaire (entité) choisi dans le panier 
                             $panier->setExemplaire($exemplaireChoisi);
@@ -355,18 +329,7 @@ final class CommandeController extends AbstractController
 
     }
 
-    // supprimer un article du panier
-    #[Route('/panier/supprimer/{id}', name: 'panier_supprimer', requirements: ['id' => '\d+'])]
-    public function SupprimerPanier(Panier $article, EntityManagerInterface $entityManager) {
-
-        if($this->getUser()) {
-        
-        $entityManager->remove($article);
-        $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_panier');
-    }
+    
 
     // grille de tarif de tous les produits en JSON
     #[Route('/get-all-tarifs', name: 'get_all_tarifs', methods: ['GET'])]
@@ -393,6 +356,11 @@ final class CommandeController extends AbstractController
         
         // on renvoi au format JSON
         return new JsonResponse(['tarifs' => $result]);
+    }
+
+#[Route('/commande/livraison', name: 'livraison')]
+public function adresseLivraison(EntityManagerInterface $entityManager): Response{
+
     }
 }
 

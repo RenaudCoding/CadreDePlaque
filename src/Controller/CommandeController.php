@@ -136,7 +136,7 @@ final class CommandeController extends AbstractController
 
                             // supprimer le panier de la session
                             // $session->remove('panier');                         
-                            dd($session->get('panier'));
+                            // dd($session->get('panier'));
                             
 
                             //
@@ -267,21 +267,50 @@ final class CommandeController extends AbstractController
                 //
                 // Traitement du formulaire après validation
                 //
-
                 // on traite la partie "avant" du formulaire validée précedemment
                 if($validationAvant) {
                     // on récupère la quantité de l'exemplaire avant
                     $exemplaireAvantQuantite = $formAddPanier->get('quantiteAvant')->getData();
                     // si la quantité est valide
                     if ($exemplaireAvantQuantite > 0) {
-                        $panierAvant = new Panier;
+
+                        // on récupère la session
+                            $session = $request->getSession();
+
+                            // si il n'y a pas de panier dans la session on créé une tableau associatif, on l'initialise
+                            if (!$session->get('panier')) {
+                                //on y créé un tableau associatif exemplaire => quantité
+                                $session->set('panier', [
+                                    'exemplaire'=> []]);
+
+                                // syntaxe si on veux rajouter des clés => valeurs
+                                // $session->set('panier', [
+                                //     'exemplaire_id'=> $exemplaireId,
+                                //     'quantite' => $exemplaireQuantite]);
+                            }
+                            // on récupère le panier en session
+                            $panierSession = $session->get('panier');
+
+                            // à la clé $exemplaireId du tableau on associe la valeur $exemplaireQuantite
+                            $panierSession['exemplaire'][$exemplaireAvantId] = $exemplaireAvantQuantite;
+                            
+                            // on ajoute la paire clé => valeur dans le panier
+                            $session->set('panier', $panierSession);
+
+                            // supprimer le panier de la session
+                            // $session->remove('panier');                         
+                            // dd($session->get('panier'));
+
+                        //
+                        // mise en BDD
+                        // $panierAvant = new Panier;
                         // on mets les infos récupérées dans le formulaire dans le panier
-                        $panierAvant->setExemplaire($exemplaireAvantChoisi);
-                        $panierAvant->setQuantite($exemplaireAvantQuantite);
+                        // $panierAvant->setExemplaire($exemplaireAvantChoisi);
+                        // $panierAvant->setQuantite($exemplaireAvantQuantite);
 
                         // on persiste dans la BDD
-                        $entityManager->persist($panierAvant);
-                        $entityManager->flush();
+                        // $entityManager->persist($panierAvant);
+                        // $entityManager->flush();
                     }
                     // si la quantité n'est pas renseignée
                     else { 
@@ -295,14 +324,44 @@ final class CommandeController extends AbstractController
                     $exemplaireArriereQuantite = $formAddPanier->get('quantiteArriere')->getData();
                     // si la quantité est valide
                     if($exemplaireArriereQuantite > 0) {
-                        $panierArriere = new Panier;
+
+                        // on récupère la session
+                        $session = $request->getSession();
+
+                        // si il n'y a pas de panier dans la session on créé une tableau associatif, on l'initialise
+                        if (!$session->get('panier')) {
+                            //on y créé un tableau associatif exemplaire => quantité
+                            $session->set('panier', [
+                                'exemplaire'=> []]);
+
+                            // syntaxe si on veux rajouter des clés => valeurs
+                            // $session->set('panier', [
+                            //     'exemplaire_id'=> $exemplaireId,
+                            //     'quantite' => $exemplaireQuantite]);
+                        }
+                        // on récupère le panier en session
+                        $panierSession = $session->get('panier');
+
+                        // à la clé $exemplaireId du tableau on associe la valeur $exemplaireQuantite
+                        $panierSession['exemplaire'][$exemplaireArriereId] = $exemplaireArriereQuantite;
+                        
+                        // on ajoute la paire clé => valeur dans le panier
+                        $session->set('panier', $panierSession);
+
+                        // supprimer le panier de la session
+                        // $session->remove('panier');                         
+                        // dd($session->get('panier'));
+
+                        //
+                        //mise en BDD
+                        // $panierArriere = new Panier;
                         // on mets les infos récupérées dans le formulaire dans le panier
-                        $panierArriere->setExemplaire($exemplaireArriereChoisi);
-                        $panierArriere->setQuantite($exemplaireArriereQuantite);
+                        // $panierArriere->setExemplaire($exemplaireArriereChoisi);
+                        // $panierArriere->setQuantite($exemplaireArriereQuantite);
 
                         // on persiste dans la BDD
-                        $entityManager->persist($panierArriere);
-                        $entityManager->flush();
+                        // $entityManager->persist($panierArriere);
+                        // $entityManager->flush();
                         }
                     // si la quantité n'est pas renseignée
                     else { 

@@ -43,7 +43,9 @@ final class PanierController extends AbstractController
                 }
             }
 
-            // dd($objets);
+            else { 
+                throw $this->createAccessDeniedException("Panier vide");
+            }
 
 
             // Récupération du panier client depuis la BDD
@@ -61,8 +63,6 @@ final class PanierController extends AbstractController
             //     'exemplaire' => $listeExemplairesId
             //     ]);
             
-            // dd($objets, $panier);
-            
             
             // création du formulaire avec un tableau associatif
             // la cle "articles" correspond au champs "articles" du formulaire PanierType qui est un CollectionType
@@ -74,14 +74,31 @@ final class PanierController extends AbstractController
                 // on récupère les données du formulaire dans le champ "articles", on obtient un tableau associatif
                 $articles = $formQuantitePanier->getData()['articles'];
 
+                
                 // pour chaque article dans le tableau associatif
                 foreach ($articles as $article) {
-                    // TODO: retour du panier validé en session pour la validation de la commande
+                    
+                    // on récupère l'id de l'article (exemplaire)
+                    $articleId = $article->getExemplaire()->getId();
+                    // on récupère la quantité renseignée de l'article
+                    $articleQuantite = $article->getQuantite();
+
+                    // à la clé $exemplaireId du tableau on associe la valeur $exemplaireQuantite
+                    $panierSession['exemplaire'][$articleId] = $articleQuantite;
+                    
+                    // on ajoute la paire clé => valeur dans le panier
+                    $session->set('panier', $panierSession);
+
+                    // mise en BDD
                     // on persiste
-                    $entityManager->persist($article);
+                    // $entityManager->persist($article);
+
                 }
+
+                // mise en BDD
                 // seul les quantités qui ont été modifiées seront mise à jour
-                $entityManager->flush();
+                // $entityManager->flush();
+                dd($panierSession);
             }    
         }
         else {

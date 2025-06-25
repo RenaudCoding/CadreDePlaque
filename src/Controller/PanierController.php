@@ -113,12 +113,30 @@ final class PanierController extends AbstractController
 
     // supprimer un article du panier
     #[Route('/panier/supprimer/{id}', name: 'panier_supprimer', requirements: ['id' => '\d+'])]
-    public function supprimerPanier(Panier $article, EntityManagerInterface $entityManager) {
+    public function supprimerPanier(Exemplaire $exemplaire, EntityManagerInterface $entityManager, Request $request) {
 
         if($this->getUser()) {
         
-        $entityManager->remove($article);
-        $entityManager->flush();
+            // on récupère l'id de l'exemplaiare
+            $exemplaireId = $exemplaire->getId();
+            
+            // on récupère la session
+            $session = $request->getSession();
+
+            // on récupère le panier en session
+            $panierSession = $session->get('panier');
+
+            // on retire l'exemplaire du panier
+            unset($panierSession['exemplaire'][$exemplaireId]);
+
+            // on remet le panier en session
+            $session->set('panier', $panierSession);
+            
+            //
+            // mise en BBD
+            // $entityManager->remove($article);
+            // $entityManager->flush();
+
         }
 
         return $this->redirectToRoute('app_panier');

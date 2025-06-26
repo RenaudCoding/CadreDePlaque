@@ -82,7 +82,7 @@ final class PanierController extends AbstractController
             }    
 
             // on retourne le panier avec le formulaire des quantités
-            return $this->render('commande/panier.html.twig', [
+            return $this->render('panier/index.html.twig', [
             'formQuantitePanier' => $formQuantitePanier->createView(),
             'panier' => $panier,
             ]);

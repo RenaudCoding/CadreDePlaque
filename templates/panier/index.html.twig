@@ -1,20 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PanierController!{% endblock %}
+
+{# chargement CSS et JS dédier à cette page #} 
+{% block stylesheets %}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {{ encore_entry_link_tags('panier') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
+    {{ encore_entry_script_tags('panier') }}
+{% endblock %}
+
+{% block title %}Votre panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="disposition-panier">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp/www/Renaud_Laenger/CadreDePlaque/src/Controller/PanierController.php</code></li>
-        <li>Your template at <code>C:/wamp/www/Renaud_Laenger/CadreDePlaque/templates/panier/index.html.twig</code></li>
-    </ul>
+    <div class="recap-panier">
+        <h2>Votre panier</h2>
+        <div class="panier">
+
+            {% if panier %}
+            
+            <section class="liste-article">
+                {{ form_start(formQuantitePanier, {'attr': {'id': 'form-panier'}}) }}
+
+                {# Boucle sur tous les champs enfants de formQuantitePanier.articles #}
+                {# articles contient une liste de tableaux associatifs #}
+                {# index correspond à l'index du tableaux, field à son contenu (une instance de Panier #}
+                {# index est utilisé pour le slicing dans 'panier'=> $panier #}
+                {% for id, field in formQuantitePanier.articles %}
+                {# -> mettre une condition pour différencier les forfaits des autre produits #}
+                    <div class="article"> 
+                        <div class="exemplaire-info" data-id="{{ panier[id].exemplaire.id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
+                            {{ panier[id].id }} {{ panier[id].exemplaire }}
+                            <div class="barrette">
+                                {% for marquage in panier[id].exemplaire.marquages %}
+                                    {{ marquage.texteTypo }}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="article-quantite">
+                            <p>Quantité</p>
+                            <div class="quantite">
+                                {# Champ du formulaire #}
+                                {{ form_widget(field.quantite, {'attr': {'class': 'quantite-input'}}) }}
+                            </div>
+                            <small>Prix unitaire</small>
+                            <small id="prix-unitaire">Chargement...</small>
+                        </div>
+
+                        <div class="article-total">
+                            <p>Prix</p>
+                            <p id="prix-total">Chargement...</p>
+                        </div>
+
+                        <div class="article-supprimer">
+                            <a href="{{ path('panier_supprimer', {'id':panier[id].exemplaire.id}) }}"><i class="fa-solid fa-xmark"></i></a>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+                {{ form_end(formQuantitePanier) }}
+            </section>
+           
+            <section class="total-commande">
+                <h2>Total</h2>
+                <div id="prix-total-panier">Chargement...</div>
+
+                <button form="form-panier" type="submit" class="btn-vert choisir-exemplaire">Valider la commande</button>
+            </section>
+
+            {% else %}
+            <p> Votre panier est vide </p>
+            {% endif %}
+
+        </div>
+            
+    </div>
 </div>
+
+
 {% endblock %}

@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }} {# on conserve ce qui a été charg dans base.html.twig #}
+    {{ parent() }} {# on conserve ce qui a été chargé dans base.html.twig #}
     {{ encore_entry_script_tags('panier') }}
 {% endblock %}
 
@@ -22,6 +22,8 @@
         <h2>Votre panier</h2>
         <div class="panier">
 
+            {% if panier %}
+            
             <section class="liste-article">
                 {{ form_start(formQuantitePanier, {'attr': {'id': 'form-panier'}}) }}
 
@@ -61,19 +63,23 @@
                         </div>
 
                     </div>
+
                 {% endfor %}
 
                 {{ form_end(formQuantitePanier) }}
             </section>
-
+           
             <section class="total-commande">
                 <h2>Total</h2>
                 <div id="prix-total-panier">Chargement...</div>
 
                 <button form="form-panier" type="submit" class="btn-vert choisir-exemplaire">Valider la commande</button>
-           
-           
             </section>
+
+            {% else %}
+            <p> Votre panier est vide </p>
+            {% endif %}
+
         </div>
             
     </div>

@@ -60,10 +60,8 @@
                 <div class="exemplaire-commande">Aucun exemplaire sélectionné</div>
                 {{ form_widget(formAddPanier.exemplaire) }}
                 <div class="quantite">
-                    {# <button type="button" class="btn-moins">-</button>  #}
                     {# Champ quantité du formulaire #}
                     {{ form_row(formAddPanier.quantite, {'attr': {'class': 'quantite-input'}}) }}
-                    {# <button type="button" class="btn-plus">+</button> #}
                 </div>
                 {# Champ checkbox #}
                 {{ form_row(formAddPanier.validation) }}

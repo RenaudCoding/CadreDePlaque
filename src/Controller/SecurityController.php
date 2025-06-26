@@ -59,7 +59,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-     // pour le changement de mail
+     // pour le changement de mot de passe
      #[Route(path: '/changePassword', name: 'change_password')]
      public function changePassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
      {

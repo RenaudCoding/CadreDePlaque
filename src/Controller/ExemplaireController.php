@@ -86,7 +86,7 @@ final class ExemplaireController extends AbstractController
     public function supprimerExemplaire(Exemplaire $exemplaire, EntityManagerInterface $entityManager) {
 
         if($this->getUser()) {
-
+        // TODO: vérifier si l'exemplaire est présent dans le panier et prévenir si c'est le cas
         $entityManager->remove($exemplaire);
         $entityManager->flush();
 

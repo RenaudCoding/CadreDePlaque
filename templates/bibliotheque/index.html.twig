@@ -11,17 +11,17 @@
 {% block body %}
 
 <h1>Liste des exemplaires</h1>
-
-<section class="disposition-bibliotheque">
-
-
-
 <div class="tab">
   <button class="tablinks active" onclick="ongletBibliotheque(event, 'liste-barrette')">Vos barrettes</button>
   <button class="tablinks" onclick="ongletBibliotheque(event, 'liste-cacheplaque')">Vos caches plaque</button>
 </div>
+<section class="disposition-bibliotheque">
 
-<div id="liste-barrette" class="tabcontent">
+
+
+
+
+<div id="liste-barrette" class="tabcontent" style="display: block;">
     {% for exemplaire in exemplaires %}
         {% if exemplaire.produit == 'Barrette' %}
             <div class="exemplaire">
@@ -35,7 +35,7 @@
                     <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                 </div>
                 <div class="exemplaire-choix">
-                    <a class="btn-vert choisir-exemplaire">Commander</a>
+                    <a type="button" href="{{ path('commande_exemplaire_barrette', {'id' : exemplaire.id}) }}" class="btn-vert choisir-exemplaire">Commander</a>
                     <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
                 
                 </div>
@@ -44,7 +44,7 @@
     {% endfor %}
 </div>
 
-<div id="liste-cacheplaque" class="tabcontent">
+<div id="liste-cacheplaque" class="tabcontent" style="display: none;">
     <div id="couple-cacheplaque">
         <div id="liste-cacheplaque-avant">
             <h2>Avant</h2>
@@ -61,8 +61,8 @@
                             <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                         </div>
                         <div class="exemplaire-choix">
-                            <a class="btn-vert choisir-exemplaire">Commander</a>
-                            <a type="button"  href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
+                            <a type="button" href="{{ path('commande_exemplaire_cacheplaque', {'id' : exemplaire.id}) }}" class="btn-vert choisir-exemplaire">Commander</a>
+                            <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
                         
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                             <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                         </div>
                         <div class="exemplaire-choix">
-                            <a type="button" class="btn-vert choisir-exemplaire">Commander</a>
+                            <a type="button" href="{{ path('commande_exemplaire_cacheplaque', {'id' : exemplaire.id}) }}" class="btn-vert choisir-exemplaire">Commander</a>
                             <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
                         </div>
                     </div>

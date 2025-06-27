@@ -21,7 +21,7 @@ class ExemplaireType extends AbstractType
     {
         $builder
             ->add('nomExemplaire', TextType::class, [
-                'required'   => false
+                'required' => false
             ])
             // ->add('dateCreation', null, [
             //     'widget' => 'single_text',

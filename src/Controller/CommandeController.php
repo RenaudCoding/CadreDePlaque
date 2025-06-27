@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Tarif;
 use App\Entity\Facture;
 use App\Entity\Produit;
 use App\Entity\Commande;
+use App\Form\LivraisonType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,8 +67,59 @@ final class CommandeController extends AbstractController
     }
 
     #[Route('/commande/livraison', name: 'livraison')]
-    public function adresseLivraison(EntityManagerInterface $entityManager): Response{
-        // TODO: formulaire adresse de livraison
+    public function adresseLivraison(EntityManagerInterface $entityManager, Request $request): Response{
+        // TODO: récap des articles commandés
+
+        //on créé le formulaire
+        $formLivraison = $this->createForm(LivraisonType::class);
+        $formLivraison->handleRequest($request);
+
+        if ($formLivraison->isSubmitted() && $formLivraison->isValid()) {
+            
+            // on récupère les données qui compose la création de l'exemplaire
+            $commande = $formLivraison->getData();
+            // dd($commande);
+            // on récupère la session
+            $session = $request->getSession();
+
+            // si il n'y a pas de panier dans la session on créé une tableau associatif, on l'initialise
+            if (!$session->get('livraison')) {
+                //on y créé un tableau associatif exemplaire => quantité
+                $session->set('livraison', []);
+                
+                // syntaxe si on veux rajouter des clés => valeurs
+                // $session->set('panier', [
+                //     'exemplaire_id'=> $exemplaireId,
+                //     'quantite' => $exemplaireQuantite]);
+            }
+
+            // on récupère le tableau associatif de l'adresse de livraison en session
+            $livraison = $session->get('livraison');
+            // on rempli le tableau avec les données de livraison
+            $livraison['nom'] = $commande->getNom();
+            $livraison['prenom'] = $commande->getPrenom();
+            $livraison['adresse'] = $commande->getAdresse();
+            $livraison['cp'] = $commande->getCp();
+            $livraison['ville'] = $commande->getVille();
+
+            // on remts le tableau rempli dans la session
+            $session->set('livraison', $livraison);
+
+            dd($session);
+
+            // à la clé $exemplaireId du tableau on associe la valeur $exemplaireQuantite
+            // $panierSession['exemplaire'][$exemplaireId] = $exemplaireQuantite;
+            
+            // on ajoute la paire clé => valeur dans le panier
+            // $session->set('panier', $panierSession);
+
+        
+
+        }
+
+        return $this->render('commande/livraison.html.twig', [
+            'formLivraison' => $formLivraison,
+        ]);
         }
     }
 

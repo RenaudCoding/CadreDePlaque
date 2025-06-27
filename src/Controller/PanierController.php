@@ -78,6 +78,8 @@ final class PanierController extends AbstractController
                     // on ajoute la paire clé => valeur dans le panier
                     $session->set('panier', $panierSession);
 
+                    return $this->redirectToRoute('livraison');
+
                 }
             }    
 

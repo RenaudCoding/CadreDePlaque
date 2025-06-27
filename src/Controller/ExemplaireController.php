@@ -76,6 +76,7 @@ final class ExemplaireController extends AbstractController
 
         return $this->render('exemplaire/new.html.twig', [
             'form' => $formCreateExemplaire,
+            'produit' => $produit
         ]);
     }
 
@@ -106,7 +107,7 @@ final class ExemplaireController extends AbstractController
                 if($id == $exemplaireId) {
                     // message flash et refresh page
                     $this->addFlash(
-                    'notice',
+                    'alert',
                     'Cet exemplaire est dans votre panier, vous ne pouvez pas le supprimer');
                     return $this->redirectToRoute('user_bibliotheque');
                 }

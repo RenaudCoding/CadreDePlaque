@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Base;
-use App\Entity\Logo;
-use App\Form\BaseType;
 use App\Entity\Produit;
 use App\Entity\Marquage;
 use App\Entity\Decoration;
@@ -21,7 +19,7 @@ final class ExemplaireController extends AbstractController
 {
 
     // bibliothèque 
-    #[Route('/bibliotheque/user', name: 'user_bibliotheque')]
+    #[Route('/bibliotheque', name: 'user_bibliotheque')]
     public function affichageBibliotheque(EntityManagerInterface $entityManager): Response
     {
         // liste des exemplaires d'un user
@@ -82,13 +80,41 @@ final class ExemplaireController extends AbstractController
     }
 
     // supprimer un exemplaire
-    #[Route('bibliotheque/user/delete_exemplaire/{id}', name: 'delete_exemplaire', requirements: ['id' => '\d+'])]
-    public function supprimerExemplaire(Exemplaire $exemplaire, EntityManagerInterface $entityManager) {
+    #[Route('bibliotheque/delete_exemplaire/{id}', name: 'delete_exemplaire', requirements: ['id' => '\d+'])]
+    public function supprimerExemplaire(Exemplaire $exemplaire, EntityManagerInterface $entityManager, Request $request) {
 
         if($this->getUser()) {
-        // TODO: vérifier si l'exemplaire est présent dans le panier et prévenir si c'est le cas
-        $entityManager->remove($exemplaire);
-        $entityManager->flush();
+
+            // on récupère l'id de l'exemplaire
+            $id = $exemplaire->getId();
+            
+            // on récupère la session
+            $session = $request->getSession();
+
+            // si il n'y a pas de panier dans la session on créé une tableau associatif, on l'initialise
+            if (!$session->get('panier')) {
+                //on y créé un tableau associatif exemplaire => quantité
+                $session->set('panier', [
+                    'exemplaire'=> []]);
+            }
+            // on récupère le panier en session
+            $panierSession = $session->get('panier');
+          
+            // pour chaque exemplaire présent dans le panier
+            foreach($panierSession['exemplaire'] as $exemplaireId => $quantite) {
+                // si l'id de l'exemplaire à supprimer correspond à l'id d'un exemplaire dans le panier
+                if($id == $exemplaireId) {
+                    // message flash et refresh page
+                    $this->addFlash(
+                    'notice',
+                    'Cet exemplaire est dans votre panier, vous ne pouvez pas le supprimer');
+                    return $this->redirectToRoute('user_bibliotheque');
+                }
+            }
+
+            // on supprime l'exemplaire
+            $entityManager->remove($exemplaire);
+            $entityManager->flush();
 
         }
 

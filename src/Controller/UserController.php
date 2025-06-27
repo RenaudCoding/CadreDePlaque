@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class UserController extends AbstractController
 {
-    // liste des utilisateurs
+    // TODO: obsolete --- liste des utilisateurs + vue user/index
     #[Route('/user', name: 'app_user')]
     public function index(EntityManagerInterface $entityManager): Response
     {

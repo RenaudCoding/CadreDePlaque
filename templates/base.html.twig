@@ -48,7 +48,13 @@
             <div class="ligne">
             </div>
         </header>
-
+        {% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
         <div class="wrapper">
             {% block body %}{% endblock %}
         </div>

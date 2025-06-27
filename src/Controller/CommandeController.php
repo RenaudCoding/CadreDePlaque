@@ -66,7 +66,7 @@ final class CommandeController extends AbstractController
 
     #[Route('/commande/livraison', name: 'livraison')]
     public function adresseLivraison(EntityManagerInterface $entityManager): Response{
-
+        // TODO: formulaire adresse de livraison
         }
     }
 

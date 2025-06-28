@@ -128,23 +128,32 @@
 */
 
 /* pour simuler le visuel d'une barrette  */
-.barrette {
-                    height: 28px;
-                    width: 95%;
-                    margin-top: 8px;
-                    margin-bottom: 8px;
-                    background-color: black;
-                    color: white;
-                }
+/* .barrette { */
+                    /* height: 28px; */
+                    /* width: 100%; */
+                    /* margin-top: 8px; */
+                    /* margin-bottom: 8px; */
+                    /* background-color: black; */
+                    /* color: white; */
+                    /* img{ */
+                        /* max-width: 100%; */
+                        /* max-height: auto; */
+                    /* } */
+                /* } */
 
 /* pour simuler le visuel d'une barrette  */
 .cacheplaque {
-                    height: 28px;
-                    width: 95%;
-                    margin-top: 8px;
-                    margin-bottom: 8px;
-                    background-color: black;
-                    color: white;
+                    /* height: 28px; */
+                    width: 100%;
+                    /* margin-top: 8px; */
+                    /* margin-bottom: 8px; */
+                    /* background-color: black; */
+                    /* color: white; */
+                    img{
+                        max-width: 100%;
+                        max-height: auto;
+                    }
+                    
                 }
 
 

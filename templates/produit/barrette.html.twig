@@ -36,15 +36,16 @@
             <div class="liste-exemplaire">
                 {% for exemplaire in exemplaires %}
                     <div class="exemplaire">
-                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                            {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
-                            <div class="barrette">
-                                {%for marquages in exemplaire.marquages %}
+                        <figure class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
+                           {# {{ exemplaire.nomExemplaire }} #}
+                            {# <figure class="barrette"> #}
+                                <img src="{{ asset('img/barette_default.jpg') }}" alt="logo">
+                                <figcaption> ID : {{ exemplaire.id }} - Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
+                                {# {%for marquages in exemplaire.marquages %}
                                     {{ marquages.texteTypo }}
-                                {% endfor %}
-                            </div>
-                            <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
-                        </div>
+                                {% endfor %} #}
+                            {# </figure> #}
+                        </figure>
                         <div class="exemplaire-choix">
                             <button type="button" class="btn-blanc choisir-exemplaire">Choisir cette décoration</button>
                         </div>

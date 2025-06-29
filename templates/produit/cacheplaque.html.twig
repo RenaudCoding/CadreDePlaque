@@ -35,15 +35,20 @@
             <div class="liste-exemplaire">
                 {% for exemplaire in exemplaires %}
                     <div class="exemplaire">
-                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                            {{ exemplaire.id }}
-                            <div class="cacheplaque">
-                                {%for marquages in exemplaire.marquages %}
-                                    {{ marquages.texteTypo }}
-                                {% endfor %}
-                            </div>
-                            <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
-                        </div>
+                        <figure class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
+                            {# affichage de l'image de l'exemplaire #}
+                            <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                                {# note de syntaxe #}
+                                {# concatenation URL dans simple-quoted string #}                            
+                                {# <img src="{{ asset('img/' ~exemplaire.urlExemplaire) }}" alt="logo"> #}
+                                {# string interpolation dans double-quoted string #}
+                                {# <img src="{{ asset("img/#{exemplaire.urlExemplaire}") }}" alt="logo"> #}
+                            <figcaption> ID : {{ exemplaire.id }} - Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
+                            {# {%for marquages in exemplaire.marquages %}
+                                {{ marquages.texteTypo }}
+                            {% endfor %} #}
+                            {# <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p> #}
+                        </figure>
                         <div class="exemplaire-choix">
                             <button type="button" class="btn-blanc choisir-exemplaire">Choisir cette décoration</button>
                         </div>

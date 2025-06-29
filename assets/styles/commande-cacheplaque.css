@@ -22,41 +22,55 @@
     width: 45%;
     display: flex;
     flex-direction: column;
-        .choix-menu{
-            width: 100%;
-            padding: 1em;
-            display: flex;
-            justify-content: space-between;
-            .choix-menu-option{
-                text-align: center;
-            }
-        }
-        .liste-exemplaire{
-            overflow-y: auto;
-            flex-grow: 1; /*prend l’espace restant */
-            justify-items: center;
-            .exemplaire {
-                display:flex;
-                background-color: white;
-                border-radius: 10px;
-                height: 110px;
-                width: 95%;
-                padding: 1em;
-                margin: 1em 0;
-                .exemplaire-info {
-                    /* display: flex; */
-                    width: 75%;
-                }
-                .exemplaire-choix {
-                    width:25%;
-                    text-align: center;
-                    align-self: center;
-                    
-                }
-            }
-        }
-    }
+}
 
+.choix-menu{
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    .choix-menu-option{
+        text-align: center;
+    }
+}
+
+.liste-exemplaire{
+    overflow-y: auto;
+    flex-grow: 1; /*prend l’espace restant */
+    justify-items: center;
+}
+
+.exemplaire {
+    display:flex;
+    background-color: white;
+    border-radius: 10px;
+    height: 120px;
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0;
+    justify-content: space-between;
+    .exemplaire-info {
+        display: flex;
+        width: 75%;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        
+    }
+    .exemplaire-choix {
+        width:20%;
+        text-align: center;
+        align-self: center;
+        
+    }
+}
+
+
+img {
+    max-width: max-content;
+    max-height: 100%;
+    /* align-self: center; */
+}
 
 
 .commande-cacheplaque {
@@ -70,11 +84,20 @@
 
 .exemplaire-commande-avant, 
 .exemplaire-commande-arriere {
-    border: 1px solid rgb(204, 204, 204); 
+    display: flex;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 10px;
     padding: 1em; 
     margin-bottom: 1em; 
     height: 110px;
-    color: #666;
+    /* color: #666; */
+    .exemplaire-info {
+        display: flex;
+        /* align-self: center; */
+        /* width: 75%;           */
+        flex-direction: column;
+        justify-content: space-evenly;       
+    }
 }
 
 

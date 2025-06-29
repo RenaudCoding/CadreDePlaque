@@ -48,7 +48,7 @@
     width: 100%;
     padding: 1em;
     margin: 1em 0;
-    justify-content: space-around;
+    justify-content: space-between;
     .exemplaire-info {
         display: flex;
         /* align-self: center; */
@@ -70,7 +70,7 @@
 
 img {
     max-width: 100%;
-    max-height: max-content;
+    /* max-height: 100%; */
 }
 
 .commande-barrette {

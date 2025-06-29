@@ -66,10 +66,22 @@ final class ExemplaireController extends AbstractController
             $exemplaire->setUser($this->getUser());
             // l'id du produit
             $exemplaire->setProduit($produit);
+            // l'url de l'image par defaut d'un exemplaire selon le produit
+            switch ($produit->getId()) {
+                case 1:
+                    $exemplaire->setUrlExemplaire('img/exemplaires/barette_default.jpg');
+                    break;
+                case 2:
+                    $exemplaire->setUrlExemplaire('img/exemplaires/cache_avant_default.jpg');
+                    break;
+                case 3:
+                $exemplaire->setUrlExemplaire('img/exemplaires/cache_arriere_default.jpg');
+                break;
+            }
             
             // on enregistre en BDD
-            $entityManager->persist($exemplaire);
-            $entityManager->flush();
+            // $entityManager->persist($exemplaire);
+            // $entityManager->flush();
 
             return $this->redirectToRoute('user_bibliotheque');
         }

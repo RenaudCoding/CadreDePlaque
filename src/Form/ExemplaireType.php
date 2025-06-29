@@ -20,9 +20,9 @@ class ExemplaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomExemplaire', TextType::class, [
-                'required' => false
-            ])
+            // ->add('urlExemplaire', TextType::class, [
+                // 'required' => false
+            // ])
             // ->add('dateCreation', null, [
             //     'widget' => 'single_text',
             // ])

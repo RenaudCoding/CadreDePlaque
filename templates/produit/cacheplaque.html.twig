@@ -36,7 +36,7 @@
                 {% for exemplaire in exemplaires %}
                     <div class="exemplaire">
                         <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                            {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
+                            {{ exemplaire.id }}
                             <div class="cacheplaque">
                                 {%for marquages in exemplaire.marquages %}
                                     {{ marquages.texteTypo }}

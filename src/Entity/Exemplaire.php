@@ -48,8 +48,8 @@ class Exemplaire
     #[ORM\JoinColumn(nullable: false)]
     private ?Produit $produit = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $nomExemplaire = null;
+    #[ORM\Column(length: 255)]
+    private ?string $urlExemplaire = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateCreation = null;
@@ -211,14 +211,14 @@ class Exemplaire
         return $this;
     }
 
-    public function getNomExemplaire(): ?string
+    public function getUrlExemplaire(): ?string
     {
-        return $this->nomExemplaire;
+        return $this->urlExemplaire;
     }
 
-    public function setNomExemplaire(string $nomExemplaire): static
+    public function setUrlExemplaire(string $urlExemplaire): static
     {
-        $this->nomExemplaire = $nomExemplaire;
+        $this->urlExemplaire = $urlExemplaire;
 
         return $this;
     }

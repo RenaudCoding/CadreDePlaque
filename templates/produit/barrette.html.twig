@@ -37,14 +37,17 @@
                 {% for exemplaire in exemplaires %}
                     <div class="exemplaire">
                         <figure class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                           {# {{ exemplaire.nomExemplaire }} #}
-                            {# <figure class="barrette"> #}
-                                <img src="{{ asset('img/barette_default.jpg') }}" alt="logo">
-                                <figcaption> ID : {{ exemplaire.id }} - Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
-                                {# {%for marquages in exemplaire.marquages %}
-                                    {{ marquages.texteTypo }}
-                                {% endfor %} #}
-                            {# </figure> #}
+                            {# affichage de l'image de l'exemplaire #}
+                            <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                                {# note de syntaxe #}
+                                {# concatenation URL dans simple-quoted string #}                            
+                                {# <img src="{{ asset('img/' ~exemplaire.urlExemplaire) }}" alt="logo"> #}
+                                {# string interpolation dans double-quoted string #}
+                                {# <img src="{{ asset("img/#{exemplaire.urlExemplaire}") }}" alt="logo"> #}
+                            <figcaption> ID : {{ exemplaire.id }} - Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
+                            {# {%for marquages in exemplaire.marquages %}
+                                {{ marquages.texteTypo }}
+                            {% endfor %} #}
                         </figure>
                         <div class="exemplaire-choix">
                             <button type="button" class="btn-blanc choisir-exemplaire">Choisir cette décoration</button>

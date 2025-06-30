@@ -49,6 +49,13 @@
         .exemplaire-info {
                 /* display: flex; */
                 width: 60%;
+                .barrette {
+                display: flex;
+                /* align-self: center; */
+                width: 75%;          
+                flex-direction: column;
+                justify-content: space-evenly;       
+            }
         }
         .article-quantite {
             display: flex;

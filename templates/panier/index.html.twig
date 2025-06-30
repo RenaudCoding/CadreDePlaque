@@ -37,9 +37,10 @@
                         <div class="exemplaire-info" data-id="{{ panier[id].exemplaire.id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
                             {{ panier[id].id }} {{ panier[id].exemplaire }}
                             <div class="barrette">
-                                {% for marquage in panier[id].exemplaire.marquages %}
+                                <img src="{{ asset(panier[id].exemplaire.urlExemplaire) }}" alt="logo">
+                                {# {% for marquage in panier[id].exemplaire.marquages %}
                                     {{ marquage.texteTypo }}
-                                {% endfor %}
+                                {% endfor %} #}
                             </div>
                         </div>
 

@@ -26,13 +26,13 @@
         {% if exemplaire.produit == 'Barrette' %}
             <div class="exemplaire">
                 <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                    <p>ID : {{ exemplaire.id }} Nom : {{ exemplaire.nomExemplaire }} </p>  
-                    {# <div class="barrette"> #}
-                        <img src="{{ asset('img/cropped-logo-cadre-de-plaque_1.png') }}" alt="logo">
+                    <p>ID : {{ exemplaire.id }} </p>  
+                    <figure class="barrette">
+                        <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
                         {# {%for marquages in exemplaire.marquages %} #}
                             {# {{ marquages.texteTypo }} #}
                         {# {% endfor %} #}
-                    {# </div> #}
+                    </figure>
                     <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                 </div>
                 <div class="exemplaire-choix">
@@ -53,11 +53,12 @@
                 {% if exemplaire.produit == 'Cache plaque avant' %}
                     <div class="exemplaire">
                         <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                            {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
-                            <div class="barrette">
-                                {%for marquages in exemplaire.marquages %}
+                            {{ exemplaire.id }}
+                            <div class="cache-avant">
+                                <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                                {# {%for marquages in exemplaire.marquages %}
                                     {{ marquages.texteTypo }}
-                                {% endfor %}
+                                {% endfor %} #}
                             </div>
                             <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                         </div>
@@ -77,11 +78,12 @@
                 {% if exemplaire.produit == 'Cache plaque arrière' %}
                     <div class="exemplaire">
                         <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                            {{ exemplaire.id }} {{ exemplaire.nomExemplaire }}
-                            <div class="barrette">
-                                {%for marquages in exemplaire.marquages %}
+                            {{ exemplaire.id }}
+                            <div class="cache-arriere">
+                                <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                                {# {%for marquages in exemplaire.marquages %}
                                     {{ marquages.texteTypo }}
-                                {% endfor %}
+                                {% endfor %} #}
                             </div>
                             <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
                         </div>

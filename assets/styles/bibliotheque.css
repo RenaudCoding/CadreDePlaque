@@ -75,6 +75,27 @@ Style de la barre donglets
     width: 95%;
     padding: 1em;
     margin: 1em 0;
+    .barrette {
+        display: flex;
+        /* align-self: center; */
+        width: 75%;          
+        flex-direction: column;
+        justify-content: space-evenly;       
+    }
+    .cache-avant {
+        display: flex;
+        /* align-self: center; */
+        width: 75%;          
+        flex-direction: column;
+        justify-content: space-evenly;       
+    }
+    .cache-arriere {
+        display: flex;
+        /* align-self: center; */
+        width: 75%;          
+        flex-direction: column;
+        justify-content: space-evenly;       
+    }
 }
     
 .exemplaire-info {

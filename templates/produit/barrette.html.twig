@@ -38,13 +38,13 @@
                     <div class="exemplaire">
                         <figure class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
                             {# affichage de l'image de l'exemplaire #}
-                            <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                            <img class="visuel" src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
                                 {# note de syntaxe #}
                                 {# concatenation URL dans simple-quoted string #}                            
                                 {# <img src="{{ asset('img/' ~exemplaire.urlExemplaire) }}" alt="logo"> #}
                                 {# string interpolation dans double-quoted string #}
                                 {# <img src="{{ asset("img/#{exemplaire.urlExemplaire}") }}" alt="logo"> #}
-                            <figcaption> ID : {{ exemplaire.id }} - Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
+                            <figcation> ID : {{ exemplaire.id }} - Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcation>
                             {# {%for marquages in exemplaire.marquages %}
                                 {{ marquages.texteTypo }}
                             {% endfor %} #}
@@ -74,9 +74,7 @@
            
             <div id="prix-unitaire">Prix unitaire : 0.00 €</div>
             <div id="prix-total">Prix Total : 0.00 €</div>   
-            
         </section>    
-    
     </div>
 
 {% endblock %} 

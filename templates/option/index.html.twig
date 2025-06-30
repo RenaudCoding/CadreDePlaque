@@ -7,16 +7,11 @@
 
 <h1>Liste des options</h1>
 
-"{{ asset('img/exemplaires/barette_default.jpg') }}"
+"{{ asset('img/Exo_Simpsons.pdf') }}"
 <h2>Liste des fonds</h2>
-
+ <img src="{{ asset('img/Exo_Simpsons.pdf') }}" alt="logo">
 {% for fond in fonds %}
-    {{ fond.couleurFond }}
-    <img src="{{ asset('img/' ~fond.urlFond) }}" alt="logo">
-    <img src="{{ asset("img/#{fond.urlFond}") }}" alt="logo">
-    
-    {# {{ fond.urlFond }} #}
-    <br>
+    {{ fond.couleurFond }}<br>
 {% endfor %}
 {# {{ asset('public/images/' ~ boutique.getImage()) }} #}
 

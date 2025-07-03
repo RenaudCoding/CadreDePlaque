@@ -25,19 +25,16 @@
     {% for exemplaire in exemplaires %}
         {% if exemplaire.produit == 'Barrette' %}
             <div class="exemplaire">
-                <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                    <p>ID : {{ exemplaire.id }} </p>  
-                    <figure class="barrette">
-                        <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                <figure class="exemplaire-info barrette" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}"> 
+                        <img class="visuel" src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                        <figcaption> ID : {{ exemplaire.id }} Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
                         {# {%for marquages in exemplaire.marquages %} #}
                             {# {{ marquages.texteTypo }} #}
                         {# {% endfor %} #}
-                    </figure>
-                    <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
-                </div>
+                </figure>
                 <div class="exemplaire-choix">
-                    <a type="button" href="{{ path('commande_exemplaire_barrette', {'id' : exemplaire.id}) }}" class="btn-vert choisir-exemplaire">Commander</a>
-                    <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
+                    <a type="button" href="{{ path('commande_exemplaire_barrette', {'id' : exemplaire.id}) }}" class="btn-vert">Commander</a>
+                    <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge">Supprimer</a>
                 
                 </div>
             </div>
@@ -52,19 +49,17 @@
             {% for exemplaire in exemplaires %}
                 {% if exemplaire.produit == 'Cache plaque avant' %}
                     <div class="exemplaire">
-                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                            {{ exemplaire.id }}
-                            <div class="cache-avant">
-                                <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                        <figure class="exemplaire-info cache-avant" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
+                                <img class="visuel avant" src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                                <figcaption> ID : {{ exemplaire.id }} Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
                                 {# {%for marquages in exemplaire.marquages %}
                                     {{ marquages.texteTypo }}
                                 {% endfor %} #}
-                            </div>
-                            <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
-                        </div>
+                            
+                        </figure>
                         <div class="exemplaire-choix">
-                            <a type="button" href="{{ path('commande_exemplaire_cacheplaque', {'id' : exemplaire.id}) }}" class="btn-vert choisir-exemplaire">Commander</a>
-                            <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
+                            <a type="button" href="{{ path('commande_exemplaire_cacheplaque', {'id' : exemplaire.id}) }}" class="btn-vert">Commander</a>
+                            <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge">Supprimer</a>
                         
                         </div>
                     </div>
@@ -77,19 +72,16 @@
             {% for exemplaire in exemplaires %}
                 {% if exemplaire.produit == 'Cache plaque arrière' %}
                     <div class="exemplaire">
-                        <div class="exemplaire-info" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
-                            {{ exemplaire.id }}
-                            <div class="cache-arriere">
-                                <img src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                        <figure class="exemplaire-info cache-arriere" data-id="{{ exemplaire.id }}" data-produit="{{ exemplaire.produit.id }}">
+                                <img class="visuel arriere" src="{{ asset(exemplaire.urlExemplaire) }}" alt="logo">
+                                <figcaption> ID : {{ exemplaire.id }} Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</figcaption>
                                 {# {%for marquages in exemplaire.marquages %}
                                     {{ marquages.texteTypo }}
                                 {% endfor %} #}
-                            </div>
-                            <p> Créer le {{ exemplaire.dateCreation | date("d/m/Y") }}</p>
-                        </div>
+                        </figure>
                         <div class="exemplaire-choix">
-                            <a type="button" href="{{ path('commande_exemplaire_cacheplaque', {'id' : exemplaire.id}) }}" class="btn-vert choisir-exemplaire">Commander</a>
-                            <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge choisir-exemplaire">Supprimer</a>
+                            <a type="button" href="{{ path('commande_exemplaire_cacheplaque', {'id' : exemplaire.id}) }}" class="btn-vert">Commander</a>
+                            <a type="button" href="{{ path('delete_exemplaire', {'id' : exemplaire.id}) }}" class="btn-rouge">Supprimer</a>
                         </div>
                     </div>
                 {% endif %}

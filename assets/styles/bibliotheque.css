@@ -8,7 +8,7 @@ h1 {
     background-color: var(--gris);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 }
 
@@ -60,10 +60,11 @@ Style de la barre donglets
 
 #couple-cacheplaque {
     display: flex;
+    justify-content: space-between;
 }
 
 #liste-cacheplaque-avant, #liste-cacheplaque-arriere {
-    width: 50%;
+    width: 49%;
     overflow-y: auto;
 }
 
@@ -71,37 +72,58 @@ Style de la barre donglets
     display:flex;
     background-color: white;
     border-radius: 10px;
-    height: 110px;
+    height: 130px;
     width: 95%;
     padding: 1em;
     margin: 1em 0;
-    .barrette {
-        display: flex;
-        /* align-self: center; */
-        width: 75%;          
-        flex-direction: column;
-        justify-content: space-evenly;       
-    }
-    .cache-avant {
-        display: flex;
-        /* align-self: center; */
-        width: 75%;          
-        flex-direction: column;
-        justify-content: space-evenly;       
-    }
-    .cache-arriere {
-        display: flex;
-        /* align-self: center; */
-        width: 75%;          
-        flex-direction: column;
-        justify-content: space-evenly;       
-    }
+    justify-content: space-between;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
 }
+.barrette {
+    display: flex;
+    /* align-self: center; */
+    width: 75%;          
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+    
+.cache-avant {
+    display: flex;
+    /* align-self: center; */
+    width: 72.72%;          
+    flex-direction: column;
+    justify-content: space-evenly;       
+}
+.cache-arriere {
+    display: flex;
+    /* align-self: center; */
+    width: 75%;          
+    flex-direction: column;
+    justify-content: space-evenly;       
+}
+
     
 .exemplaire-info {
     /* display: flex; */
     width: 75%;
 }
 
+.visuel {
+    max-width: 90%;
+    /* max-height: 100%; */
+    object-fit: scale-down;
+}
+.avant {
+    max-height: 72.72%;
+}
+.arriere {
+    max-height: 90%;
+}   
 
 
+.exemplaire-choix {
+    width: 20%;
+    text-align: center;
+    align-self: center;
+    
+}

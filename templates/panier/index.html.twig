@@ -35,14 +35,16 @@
                 {# -> mettre une condition pour différencier les forfaits des autre produits #}
                     <div class="article"> 
                         <div class="exemplaire-info" data-id="{{ panier[id].exemplaire.id }}" data-produit="{{ panier[id].exemplaire.produit.id }}">
-                            {{ panier[id].id }} {{ panier[id].exemplaire }}
-                            <div class="barrette">
-                                <img src="{{ asset(panier[id].exemplaire.urlExemplaire) }}" alt="logo">
-                                {# {% for marquage in panier[id].exemplaire.marquages %}
-                                    {{ marquage.texteTypo }}
-                                {% endfor %} #}
-                            </div>
+                            <strong>{{ panier[id].exemplaire.produit.nomProduit }}</strong>
+                            <p> ID : {{ panier[id].exemplaire.id }}</p>
                         </div>
+ 
+                        <figure class="exemplaire-image">
+                            <img class="visuel" src="{{ asset(panier[id].exemplaire.urlExemplaire) }}" alt="logo">
+                            {# {% for marquage in panier[id].exemplaire.marquages %}
+                                {{ marquage.texteTypo }}
+                            {% endfor %} #}
+                        </figure>
 
                         <div class="article-quantite">
                             <p>Quantité</p>

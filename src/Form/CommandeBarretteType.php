@@ -24,6 +24,7 @@ class CommandeBarretteType extends AbstractType
                 'mapped' => false // car en JS on récupère une id et non une entité
                 ])
             ->add('quantite', IntegerType::class, [
+                'label' => false,
                 'data' => '0',
                 // 'constraints' => [new GreaterThanOrEqual( 0 , null, "Problème de quantité")],
                 'attr' => ['min' => 0,
@@ -31,7 +32,7 @@ class CommandeBarretteType extends AbstractType
             ])
             ->add('validation', CheckboxType::class, [
                 'mapped' => false,
-                'label'    => 'Après vérification, je valide la décoration qui doit être imprimée sur les barrettes',
+                'label'  => 'Après vérification, je valide la décoration qui doit être imprimée sur les barrettes',
                 'required' => true, // la case doit être cochée
                 'attr' => ['disabled' => true] // on rendra le champ accessible en JS lorsqu'une quantité > 0 est saisie
             ])

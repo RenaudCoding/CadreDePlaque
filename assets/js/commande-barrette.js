@@ -125,8 +125,8 @@ function affichagePrix() {
 
         // si la quantité est vide ou nulle, les prix sont mis à 0
         if (isNaN(quantite) || quantite <= 0) {
-            prixUnitaireDisplay.textContent = "Prix unitaire : 0.00 €";
-            prixTotalDisplay.textContent = "Prix Total : 0.00 €";
+            prixUnitaireDisplay.textContent = "0.00 CHF/pièce";
+            prixTotalDisplay.textContent = "Total : 0.00 €";
             return;
         }
 
@@ -136,8 +136,8 @@ function affichagePrix() {
         const total = quantite * prixUnitaire;
         
         // on met à jour l'affichage des prix formatés
-        prixUnitaireDisplay.textContent = `Prix unitaire : ${prixUnitaire.toFixed(2)} €`;
-        prixTotalDisplay.textContent = `Prix Total : ${total.toFixed(2)} €`;
+        prixUnitaireDisplay.textContent = `${prixUnitaire.toFixed(2)} CHF/pièce`;
+        prixTotalDisplay.textContent = `TOTAL : ${total.toFixed(2)} €`;
 
     }
         

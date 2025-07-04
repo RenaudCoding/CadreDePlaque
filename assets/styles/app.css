@@ -212,12 +212,16 @@ body {
                 /* ceci est le titre*/
                 h1{
                     width: 70%;
-                    /* height: fit-content; */
-                    margin: 200px;
+                    height: fit-content;
+                    padding: 16px;
+                    margin: 150px;
                     color: white;
                     font-style: italic;
                     font-size: 4em;
-                    /*backdrop-filter: blur(2px);  pour mettre le fond d'ecran en "fondu" */
+                    /* glassmorphisme */
+                    background: rgba(255, 255, 255, 0.2);
+                    border-radius: 16px;
+                    backdrop-filter: blur(15px);
                 }
                 /* ceci est les 4 types de services */
                 .produits{
@@ -249,9 +253,7 @@ body {
             }
         }
 
-        
 
-    
         /* pour la page de profil */
         #profil{
             width: 100%;

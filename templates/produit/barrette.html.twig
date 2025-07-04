@@ -60,20 +60,33 @@
             <h2>Votre commande de barrettes</h2>
 
 
-            {{ form_start(formAddPanier) }}
+            {{ form_start(formAddPanier, {'attr': {'class': 'formulaire'}}) }}
                 <div class="exemplaire-commande">Aucun exemplaire sélectionné</div>
                 {{ form_widget(formAddPanier.exemplaire) }}
-                <div class="quantite">
-                    {# Champ quantité du formulaire #}
-                    {{ form_row(formAddPanier.quantite, {'attr': {'class': 'quantite-input'}}) }}
-                </div>
-                {# Champ checkbox #}
-                {{ form_row(formAddPanier.validation) }}
-                {{ form_row(formAddPanier.submit) }}
+                <div class="bottom">
+                    <div class="grille">
+                        <p>grille de tarifs</p>
+                    </div>
+                    <div class="info">
+                        <div class="donnees">
+                            <div class="quantite">
+                                <strong>Quantité :</strong>
+                                {# Champ quantité du formulaire #}
+                                {{ form_row(formAddPanier.quantite, {'attr': {'class': 'quantite-input'}}) }}
+                            </div>
+                            <div class="prix">
+                                <strong>Prix : </strong>
+                                <strong id="prix-unitaire">0.00 CHF/pièce</strong> 
+                            </div>
+                        </div>
+                        <strong id="prix-total">TOTAL : 0.00 €</strong> 
+                        {# Champ checkbox #}
+                        {{ form_row(formAddPanier.validation) }}
+                        {{ form_row(formAddPanier.submit) }}
+                    </div>
+                </div> 
+            
             {{ form_end(formAddPanier) }}
-           
-            <div id="prix-unitaire">Prix unitaire : 0.00 €</div>
-            <div id="prix-total">Prix Total : 0.00 €</div>   
         </section>    
     </div>
 
